@@ -3,13 +3,10 @@ function LinearAnimation(scene,node){
 	this.scene = scene;
 	this.node = node;
 	this.currTime = 0;
-	this.initTime = 0;
 
 	this.x = 0;
 	this.y = 0;
 	this.z = 0;
-
-	this.controlState = 0;
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -21,117 +18,64 @@ LinearAnimation.prototype.set= function(controlPoint1, controlPoint2, controlPoi
 	this.controlPoint2 = controlPoint2;
 	this.controlPoint3 = controlPoint3;
 
+	this.vectors = []
+	this.vectors[0] = new Vector(controlPoint2.x - controlPoint1.x, controlPoint2.y - controlPoint1.y, controlPoint2.z - controlPoint1.z);
+	this.vectors[1] = new Vector(controlPoint3.x - controlPoint2.x, controlPoint3.y - controlPoint2.y, controlPoint3.z - controlPoint2.z);
+	this.dist = this.vector1.length() + this.vector2.length();
+	this.velocity = this.dist/time;
+	this.times = [];
+	for(var i = 0; i z this.vectors.length; i++){
+		if(i==0)
+			this.times[i] = this.vectors[i].length()/this.velocity;
+		else
+			this.times[i] = this.times[i-1] + this.vectors[i].length()/this.velocity;
+	}
 
-	
+	this.time = time;
 
-	this.route = [];
-	this.route['CP2time'] = 
-
-	this.route['CP2dist'] = Math.sqrt(Math.pow(controlPoint2.x, 2)+Math.pow(controlPoint2.y, 2)+Math.pow(controlPoint2.z, 2));
-	this.route['CP3dist'] = Math.sqrt(Math.pow((controlPoint3.x - controlPoint2.x), 2) + Math.pow((controlPoint3.y - controlPoint2.y), 2) + Math.pow((controlPoint3.z - controlPoint2.z), 2));
-	this.route['time'] = time;
-	this.rout['dist'] = this.route.CP2dist + this.route.CP3dist;   
-	
 	this.node = node;
 	
 	this.scene.nodes[this.node.id] = this;
 }
 
 LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
-	switch(this.controlState){
-		case 0:
-
-			break;
-		case 1:
-			if (this.x == this.controlPoint2.x){
-				if (this.y == this.controlPoint2.y){
-					if (this.z != this.controlPoint2.z){
-						//incrementar z
-					}
-				}
-				else if (this.z == this.controlPoint2.z){
-					//incrementar y
-				}
-				else{
-					//incrementar y e z
-				}
-			}
-			else if (this.y == this.controlPoint2.y){
-				if (this.z == this.controlPoint2.z){
-					//incrementar x
-				}
-				else{
-					//incrementar x e z
-				}
-			}
-			else if (this.z == this.controlPoint2.z){
-				//incrementar x e y
-			}
-			else{
-				//incrementar x, y, z
-			}
-			if (this.x == this.controlPoint2.x && this.y == this.controlPoint2.y && this.z == this.controlPoint2.z){
-				controlState = 2;
-			}
-			break;
-		case 2:
-			if (this.x == this.controlPoint3.x)
-			{
-				if (this.y == this.controlPoint3.y)
-				{
-					if (this.z != this.controlPoint3.z)
-					{
-						//incrementar z
-					}
-				}
-				else if (this.z == this.controlPoint3.z)
-				{
-					//incrementar y
-				}
-				else
-				{
-					//incrementar y e z
-				}
-			}
-			else if (this.y == this.controlPoint3.y)
-			{
-				if (this.z == this.controlPoint3.z)
-				{
-					//incrementar x
-				}
-				else
-				{
-					//incrementar x e z
-				}
-			}
-			else if (this.z == this.controlPoint3.z)
-			{
-				//incrementar x e y
-			}
-			else
-			{
-				//incrementar x, y, z
-			}
-
-			if (this.x == this.controlPoint3.x && this.y == this.controlPoint3.y && this.z == this.controlPoint3.z)
-			{
-				controlState = 3;
-			}
-			break;
-		case 3:
-			console.log("Animation ended\n");
-			//this.endAnimation();
-			break;
+	this.
+	if(this.initTime == undefined){
+		this.initTime = currTime;
 	}
-
-	
-	//aplicar as transformações consoante as alterações feitas previamente
-	
+	var time = currTime - this.initTime 
+	if(time <= this.time){
+		var i = 0
+		this.applieTransformations(time, i, Vector.fromArray(controlPoint1),0, this.times[i]);
+	}else{
+		console.log("Animation on node id=" + this.node.id + " ended");
+	}	
 	
 	//Fazer display do nó
 	this.node.display(parentTexture, parentMaterial, currTime);
 }
 
+
+
+LinearAnimation.prototype.applieTransformations(time, i, previousVector, routeTime, nextRouteTime){
+	var routeVector = this.vectors[i];
+	var t = 0;
+	if(time > routeTime && time < nextRouteTime)
+		t = (time - routeTime)/(nextRouteTime - routeTime);
+	else if(time >= nextRouteTime)
+		t = 1;
+	var newVector = routeVector.multiply(t).add(previousVector)
+	
+	if(t==0 || i >= this.vectors.length - 1){
+		var translation = newVector.toArray();
+		var rotation = newVector.toAngles();
+
+		this.rotate(rotation['theta'], 0,1,0);
+		this.scene.translate(transformation[0], transformation[1], transformation[2]);
+	}else{
+		this.applieTransformations(time, i+1, newVector, this.vectors[i+1], nextRouteTime, this.times[i+1]);
+	}
+}
 
 LinearAnimation.prototype.end= function(){
 	this.scene.nodes[this.node.id]=this.node;
