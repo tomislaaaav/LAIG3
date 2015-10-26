@@ -68,7 +68,7 @@ LinearAnimation.prototype.applieTransformations(time, i, previousVector, routeTi
 	
 	if(t==0 || i >= this.vectors.length - 1){
 		var translation = newVector.toArray();
-		var rotation = newVector.toAngles();
+		var rotation = routeVector.toAngles();
 
 		this.rotate(rotation['theta'], 0,1,0);
 		this.scene.translate(transformation[0], transformation[1], transformation[2]);
