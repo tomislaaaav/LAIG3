@@ -14,7 +14,7 @@ function getUrlVars() {
     return vars;
 }	 
 
-serialInclude(['../lib/CGF.js', 'MyScene.js', 'MySceneGraph.js', 'data/MyMaterial.js', 'data/MyNode.js', 'data/MyRotation.js', 'data/MyScale.js', 'data/MyTexture.js', 'data/MyTranslation.js', 'primitives/MyCylinder.js', 'primitives/MyRectangle.js', 'primitives/MySphere.js', 'primitives/MyTriangle.js', 'data/MyLightsInterface.js', 'data/MyLight.js','dependencies/',
+serialInclude(['../lib/CGF.js', 'MyScene.js', 'MySceneGraph.js', 'data/MyMaterial.js', 'data/MyNode.js', 'data/MyRotation.js', 'data/MyScale.js', 'data/MyTexture.js', 'data/MyTranslation.js', 'primitives/MyCylinder.js', 'primitives/MyRectangle.js', 'primitives/MySphere.js', 'primitives/MyTriangle.js', 'data/MyLightsInterface.js', 'data/MyLight.js', 'data/Animation.js', 'data/LinearAnimation.js','dependencies/vector.js',
 
 /**
  * Standard main function. Creates a CGFapplication and sets in it a scene and an interface.
