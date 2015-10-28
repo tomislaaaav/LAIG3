@@ -41,8 +41,7 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 	this.scene.pushMatrix();
 	var time = currTime - this.initTime 
 	if(time <= this.time){
-		var i = 0;
-		this.applyTransformations(time, i, Vector.fromArray(this.controlPoint1),0, this.times[i]);
+		this.applyTransformations(time, 0, Vector.fromArray(this.controlPoint1),0, this.times[0]);
 	}else{
 		var i = 0;
 		this.applyTransformations(time, i, Vector.fromArray(this.controlPoint1),0, this.times[i]);
@@ -66,14 +65,12 @@ LinearAnimation.prototype.applyTransformations= function(time, i, previousVector
 		t = 1;
 	var newVector = routeVector.multiply(t).add(previousVector);
 	
-	if(t==0 || i >= this.vectors.length - 1){
+	if(t < 1 || i >= this.vectors.length - 1){
 		var translation = newVector.toArray();
-		var vecY = Vector.fromArray([0,1,0])
-		var rotation = routeVector.toAngles();
-
+		var tan =routeVector.x/routeVector.z;
+		var rotation = Math.atan2(routeVector.x,routeVector.z);
 		this.scene.translate(translation[0], translation[1], translation[2]);
-		this.scene.rotate(Math.PI/2 - rotation['theta'], 0,1,0);		
-
+		this.scene.rotate(rotation, 0,1,0);		
 		return;
 	}else{
 		this.applyTransformations(time, i+1, newVector, nextRouteTime, this.times[i+1]);
