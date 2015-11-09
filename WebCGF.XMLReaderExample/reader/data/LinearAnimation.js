@@ -10,15 +10,21 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 
-LinearAnimation.prototype.set= function(controlPoint1, controlPoint2, controlPoint3, time){
-	this.controlPoint1 = controlPoint1;
-	this.controlPoint2 = controlPoint2;
-	this.controlPoint3 = controlPoint3;
+LinearAnimation.prototype.set= function(controlPoints, time){
+	this.controlPoints = controlPoints;
+
 
 	this.vectors = []
-	this.vectors[0] = new Vector(controlPoint2[0] - controlPoint1[0], controlPoint2[1] - controlPoint1[1], controlPoint2[2] - controlPoint1[2]);
-	this.vectors[1] = new Vector(controlPoint3[0] - controlPoint2[0], controlPoint3[1] - controlPoint2[1], controlPoint3[2] - controlPoint2[2]);
-	this.dist = this.vectors[0].length() + this.vectors[1].length();
+	
+	for(var i = 0; i < this.controlPoints.length-1; i++){
+		this.vectors[i] = new Vector(this.controlPoints[i+1][0]-this.controlPoints[i][0], this.controlPoints[i+1][1]-this.controlPoints[i][1],this.controlPoints[i+1][2]-this.controlPoints[i][2]);
+	}
+	
+	this.dist = 0;
+	for(var i = 0; i < this.vectors.length; i++){
+		this.dist += this.vectors[i].length();
+	}
+	
 	this.velocity = this.dist/(time*1e3);
 	this.times = [];
 	for(var i = 0; i < this.vectors.length; i++){
@@ -41,15 +47,12 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 	this.scene.pushMatrix();
 	var time = currTime - this.initTime 
 	if(time <= this.time){
-		this.applyTransformations(time, 0, Vector.fromArray(this.controlPoint1),0, this.times[0]);
+		this.applyTransformations(time, 0, Vector.fromArray(this.controlPoints[0]),0, this.times[0]);
 	}else{
-		var i = 0;
-		this.applyTransformations(time, i, Vector.fromArray(this.controlPoint1),0, this.times[i]);
-//		console.log("Animation in node id = " + this.node.id + " ended");
+		var i = this.vectors.length-1;
+		this.applyTransformations(time, i, Vector.fromArray(this.controlPoints[i]),0, this.times[i]);
 	}	
 
-	
-	//Fazer display do nó
 	this.node.display(parentTexture, parentMaterial, currTime);
 	this.scene.popMatrix();
 };
