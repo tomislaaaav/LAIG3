@@ -67,7 +67,6 @@ LinearAnimation.prototype.applyTransformations= function(time, i, previousVector
 	
 	if(t < 1 || i >= this.vectors.length - 1){
 		var translation = newVector.toArray();
-		var tan =routeVector.x/routeVector.z;
 		var rotation = Math.atan2(routeVector.x,routeVector.z);
 		this.scene.translate(translation[0], translation[1], translation[2]);
 		this.scene.rotate(rotation, 0,1,0);		
