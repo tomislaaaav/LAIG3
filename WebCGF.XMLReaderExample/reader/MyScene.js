@@ -95,7 +95,7 @@ MyScene.prototype.onGraphLoaded = function ()
 	console.log("Interface loaded");
 
 	var animation = new LinearAnimation(this,this.nodes['cadeira']);
-	animation.set([0,0,0], [0,10,0] , [10,0,0], 10);
+	animation.set( [[0,0,0], [0,10,0] , [10,0,0] ], 10);
 
 };
 
