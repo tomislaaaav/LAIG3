@@ -94,6 +94,9 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
+	var animation = new LinearAnimation(this,this.nodes['cadeira']);
+	animation.set([0,0,0], [0,10,0] , [10,0,0], 10);
+
 };
 
 /**
@@ -132,8 +135,9 @@ MyScene.prototype.display = function () {
 		for(var i = 0; i < this.lights.length; i++){
 			this.lights[i].update();	
 		}
-
-		this.nodes[this.rootID].display();
+		
+		var d = new Date();
+		this.nodes[this.rootID].display(null, null, d.getTime());
     }; 
 
     this.shader.unbind();

@@ -42,7 +42,7 @@ function MyRotation(scene, axis, degree) {
  			vecEixo.push(0,0,1);
  			break;
  		default:
- 			this.scene.console.log("Eixo errado\n");
+ 			this.scene.console.error("Eixo errado\n");
  			break;
  	}
 
