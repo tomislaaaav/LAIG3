@@ -104,7 +104,6 @@ MyScene.prototype.onGraphLoaded = function ()
  */
 MyScene.prototype.display = function () {
     // ---- BEGIN Background, camera and axis setup
-    this.shader.bind();
     
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -140,7 +139,6 @@ MyScene.prototype.display = function () {
 		this.nodes[this.rootID].display(null, null, d.getTime());
     }; 
 
-    this.shader.unbind();
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
