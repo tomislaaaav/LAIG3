@@ -1,6 +1,7 @@
-function Animation(scene,node){
+function Animation(scene,id,node){
 	Object.call(this);
 	this.scene = scene;
+	this.id = id;
 	this.node = node;
 }
 
