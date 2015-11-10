@@ -1,9 +1,6 @@
 function LinearAnimation(scene,node){
 	Animation.call(this,scene, node);
 	this.initTime = null;
-	this.x = 0;
-	this.y = 0;
-	this.z = 0;
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);

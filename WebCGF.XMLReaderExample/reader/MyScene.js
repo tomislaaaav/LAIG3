@@ -94,8 +94,8 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
-	var animation = new LinearAnimation(this,this.nodes['cadeira']);
-	animation.set( [[0,0,0], [0,10,0] , [10,0,0] ], 10);
+	var animation = new CircularAnimation(this,this.nodes['cadeira']);
+	animation.set([0,0,0],10,0,360,10);
 
 };
 
