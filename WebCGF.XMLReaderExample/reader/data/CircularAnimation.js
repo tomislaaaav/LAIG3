@@ -50,9 +50,7 @@ CircularAnimation.prototype.applyRotation= function(time){
     this.scene.rotate(rotation,0,1,0);
 	
 	this.scene.translate(this.radius,0,0);
-	
-    var translToOrigin = this.center.multiply(-1).toArray();
-    this.scene.translate(translToOrigin[0],translToOrigin[1],translToOrigin[2]);
+
 };
 
 CircularAnimation.prototype.end= function(){
