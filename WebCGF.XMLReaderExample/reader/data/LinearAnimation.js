@@ -1,13 +1,8 @@
-function LinearAnimation(scene,id,node){
+function LinearAnimation(scene,id,node,controlPoints, time){
 	Animation.call(this,scene,id,node);
 	this.initTime = null;
-}
-
-LinearAnimation.prototype = Object.create(Animation.prototype);
-LinearAnimation.prototype.constructor = LinearAnimation;
 
 
-LinearAnimation.prototype.set= function(controlPoints, time){
 	this.controlPoints = controlPoints;
 
 
@@ -36,6 +31,10 @@ LinearAnimation.prototype.set= function(controlPoints, time){
 	this.scene.nodes[this.node.id] = this;
 }
 
+LinearAnimation.prototype = Object.create(Animation.prototype);
+LinearAnimation.prototype.constructor = LinearAnimation;
+
+
 LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
 	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);
 	if(this.initTime == null){
@@ -54,7 +53,9 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 	this.scene.popMatrix();
 };
 
-
+LinearAnimation.prototype.apply= function(){
+	Animation.prototype.apply.call(this);
+};
 
 LinearAnimation.prototype.applyTransformations= function(time, i, previousVector, routeTime, nextRouteTime){
 	var routeVector = this.vectors[i];
