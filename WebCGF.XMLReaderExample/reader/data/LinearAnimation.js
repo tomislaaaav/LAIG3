@@ -1,5 +1,5 @@
-function LinearAnimation(scene,node){
-	Animation.call(this,scene, node);
+function LinearAnimation(scene,id,node){
+	Animation.call(this,scene,id,node);
 	this.initTime = null;
 }
 

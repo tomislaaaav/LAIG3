@@ -1,5 +1,5 @@
-function CircularAnimation(scene,node){
-	Animation.call(this,scene, node);
+function CircularAnimation(scene,id,node){
+	Animation.call(this,scene,id,node);
 	this.initTime = null;
 	this.x = 0;
 	this.y = 0;
