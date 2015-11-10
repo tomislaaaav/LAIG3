@@ -1,13 +1,8 @@
-function LinearAnimation(scene,id,node){
+function LinearAnimation(scene,id,node,controlPoints, time){
 	Animation.call(this,scene,id,node);
 	this.initTime = null;
-}
-
-LinearAnimation.prototype = Object.create(Animation.prototype);
-LinearAnimation.prototype.constructor = LinearAnimation;
 
 
-LinearAnimation.prototype.set= function(controlPoints, time){
 	this.controlPoints = controlPoints;
 
 
@@ -35,6 +30,10 @@ LinearAnimation.prototype.set= function(controlPoints, time){
 	
 	this.scene.nodes[this.node.id] = this;
 }
+
+LinearAnimation.prototype = Object.create(Animation.prototype);
+LinearAnimation.prototype.constructor = LinearAnimation;
+
 
 LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
 	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);

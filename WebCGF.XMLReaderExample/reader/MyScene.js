@@ -98,8 +98,7 @@ MyScene.prototype.onGraphLoaded = function ()
 
 	this.plane = new Plane(this, "plane1",20,20);
 
-	var animation = new CircularAnimation(this,'testCirAnim',this.nodes['cadeira']);
-	animation.set([0,0,0],10,0,360,10);
+	var animation = new CircularAnimation(this,'testCirAnim',this.nodes['cadeira'],[0,0,0],10,0,360,10);
 	animation.apply();
 	
 };
