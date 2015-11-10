@@ -94,11 +94,14 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
-	var animation = new CircularAnimation(this,this.nodes['cadeira']);
-	animation.set([0,0,0],10,0,360,10);
+	
 
 	this.plane = new Plane(this, "plane1",20,20);
-	console.log("");
+
+	var animation = new CircularAnimation(this,this.nodes['cadeira']);
+	animation.set([0,0,0],10,0,360,10);
+	
+	console.log("123");
 
 };
 
@@ -139,8 +142,8 @@ MyScene.prototype.display = function () {
 		}
 		
 		var d = new Date();
-		this.nodes[this.rootID].display(null, null, d.getTime());
-		//this.plane.display(null, null, d.getTime());
+		//this.nodes[this.rootID].display(null, null, d.getTime());
+		this.plane.display(null, null, d.getTime());
     }; 
 	
 	

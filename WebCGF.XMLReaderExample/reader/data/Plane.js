@@ -14,19 +14,22 @@ function Plane(scene,id,divsU,divsV){
     var partsV = 1;
 	var controlPoints = [
                             [
-                                [-0.5,-0.5,0,1],
-                                [-0.5,0.5,0,1]
+                                [0.5,0,-0.5,1],
+                                [0.5,0,0.5,1]
                             ],
 
                             [
-                                [0.5,-0.5,0,1],
-                                [0.5,0.5,0,1]
+                                [-0.5,0,-0.5,1],
+                                [-0.5,0,0.5,1]
                             ]
 
 	                       ];
     var nurbsSurface = new CGFnurbsSurface(partsU,partsV, knotsU,knotsV, controlPoints);
+	getSurfacePoint = function(u, v) {
+		return nurbsSurface.getPoint(u, v);
+	};
 
-    this.nurbsObject = new CGFnurbsObject(scene, nurbsSurface, divsU,divsV);
+    this.nurbsObject = new CGFnurbsObject(scene, getSurfacePoint, divsU,divsV);
     
 }
 
