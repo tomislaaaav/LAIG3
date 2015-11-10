@@ -132,6 +132,8 @@
 	<ANIMATIONS>
 
 		<ANIMATION id="cadeira" span="10" type="circular" center="5 5 5" radius="5" startang="20" rotang="10" />
+
+		<ANIMATION id="mesa" span="10" type="circular" center="5 5 5" radius="5" startang="20" rotang="10" />
 	
 	</ANIMATIONS>
 
