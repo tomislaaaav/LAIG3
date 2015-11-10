@@ -11,3 +11,8 @@ Animation.prototype.constructor = Animation;
 Animation.prototype.display= function(parentTexture, parentMaterial, currTime){
 
 };
+
+
+Animation.prototype.apply= function(){
+	this.scene.nodes[this.node.id] = this;
+};

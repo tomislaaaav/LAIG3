@@ -19,8 +19,12 @@ CircularAnimation.prototype.set= function(center,radius, alphaInit, alpha, time)
 
     this.angularVelocity = this.alpha/this.time;
 
-	this.scene.nodes[this.node.id] = this;
+	
 }
+
+CircularAnimation.prototype.apply= function(){
+	Animation.prototype.apply.call(this);
+};
 
 CircularAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
 	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);

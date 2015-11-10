@@ -54,7 +54,9 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 	this.scene.popMatrix();
 };
 
-
+LinearAnimation.prototype.apply= function(){
+	Animation.prototype.apply.call(this);
+};
 
 LinearAnimation.prototype.applyTransformations= function(time, i, previousVector, routeTime, nextRouteTime){
 	var routeVector = this.vectors[i];
