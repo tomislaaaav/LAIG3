@@ -129,6 +129,12 @@
 
 	</MATERIALS>
 
+	<ANIMATIONS>
+
+		<ANIMATION id="cadeira" span="10" type="circular" center="5 5 5" radius="5" startang="20" rotang="10" />
+	
+	</ANIMATIONS>
+
 
 	<LEAVES>
 
@@ -137,6 +143,10 @@
 	    <LEAF id="cyl" type="cylinder" args="1.0 1.0 1.0 10 10" /> 
 	    <LEAF id="sphere" type="sphere" args="1 50 50" />
 	    <LEAF id="tri" type="triangle" args="0 0 0 1 0 0 0.5 0 1" />
+	    <LEAF id="pla" type="plane" parts="5" />
+	    <LEAF id="pat" type="patch" order="3" partsU="10" partsV="10" />
+	    <LEAF id="veh" type="vehicle" />
+	    <LEAF id="ter" type="terrain" texture="chao" heightmap="chao" />
 
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
