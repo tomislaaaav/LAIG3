@@ -452,11 +452,16 @@ MySceneGraph.prototype.parseNode = function(node) {
     var material = this.parseNodeMaterial(node);
     var texture = this.parseNodeTexture(node);
     var animationRef = node.getElementsByTagName('animationref');
-    if (animationRef == null)
-        continue;
-    else {
-        var animationRefID = animationRef[0].id;
+    var animationRefID;
+
+    if (animationRef[0] == null)
+        animationRefID = "null";
+    else animationrefID = this.reader.getString(animationRef[0], 'id', true);
+
+    if (animationRefID == null) {
+        animationRefID = "null";
     }
+
     var i = 2;
     var transformations = [];
     while (node.children[i].tagName != 'DESCENDANTS' && i < node.children.length) {
@@ -606,7 +611,7 @@ MySceneGraph.prototype.parsePatch = function(node) {
     var controlPoints = [];
 
     if (controlPoint.length != ((order + 1) * (order + 1)) ) {
-        console.log("There aren't " ((order + 1) * (order + 1)) " Control Points in node " + node.id + ".\n";
+        console.log("There aren't " + ( (order + 1) * (order + 1) ) + " Control Points in node " + node.id + ".\n");
         return;
     }
 
