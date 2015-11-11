@@ -46,6 +46,8 @@ MySceneGraph.prototype.onXMLReady = function()
     error = this.parseMaterials(rootElement);
     console.log("Materials loaded");
     error = this.parseLeaves(rootElement);
+    console.log("Animations loaded");
+    error = this.parseAnimations(rootElement);
     console.log("Leaves loaded");
     error = this.parseNodeList(rootElement);
     console.log("Nodes loaded");
@@ -139,7 +141,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
     
     this.ambientLight = this.parseRGBA(illumination[0], 'ambient', 'ILLUMINATION');
     this.backgroundLight = this.parseRGBA(illumination[0], 'background', 'ILLUMINATION');
-
 }
 ;
 
@@ -306,6 +307,11 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
         case 'plane':
             this.leaves[id] = this.parsePlane(leafNode[i]);
             break;
+        case 'patch':
+            this.leaves[id] = this.parsePatch(leafNode[i]);
+            break;
+        case 'vehicle':
+            this.leaves[id] = this.parseVehicle(leafNode[i]);
         default:
             return "invalid 'type' element in 'LEAF' id= " + id + ".";
         }
@@ -345,6 +351,95 @@ MySceneGraph.prototype.parseNodeList = function(rootElement) {
 }
 ;
 
+MySceneGraph.prototype.parseAnimations = function(rootElement) {
+
+    var animationsElement = rootElement.getElementsByTagName('ANIMATIONS');
+    if (animationsElement == null )
+        return this.onXMLError("No 'ANIMATIONS' are present.\n");
+    if (animationsElement.length != 1) {
+        console.log("either zero or more than one 'ANIMATIONS' element found.");
+        return;
+    }
+    
+    var animationNode = animationsElement[0].getElementsByTagName('ANIMATION');
+    var numberAnimations = animationNode.length;
+    if (numberAnimations < 1) {
+        console.log("There is no 'ANIMATION'.\n");
+        return;
+    }
+    
+    this.animations = [];
+    
+    for (var i = 0; i < numberAnimations; i++) {
+        var id = this.reader.getString(animationNode[i], 'id', true);
+
+        var span = this.reader.getFloat(animationNode[i], 'span', true);
+
+        var type = this.reader.getString(animationNode[i], 'type', true);
+
+        if (type == "linear") {
+            this.parseLinearAnimation(i, animationNode, id, span);
+        }
+        else if (type == "circular") {   
+            this.parseCircularAnimation(i, animationNode, id, span);
+        }
+        else return "There is no animation for type: " + type + ".\n";     
+    }
+};
+
+MySceneGraph.prototype.parseLinearAnimation = function(i, animationNode, id, span) {
+
+    var controlPoint = animationNode[i].getElementsByTagName('CONTROLPOINT');
+
+    var controlPoints = [];
+
+    if (controlPoint.length < 2)
+        return "Animation id: " + id + " only has " + controlPoint.length + " control points. It needs at least 2.\n";
+
+    for (var j = 0; j < controlPoint.length; j++) {
+        var x = this.reader.getFloat(controlPoint[j], 'x', true);
+
+        var y = this.reader.getFloat(controlPoint[j], 'y', true);
+
+        var z = this.reader.getFloat(controlPoint[j], 'z', true);
+
+        var vector = new Vector(x,y,z);
+        controlPoints.push(vector);
+    }
+
+    var newLinearAnimation = new LinearAnimation(this.scene, id, node, controlPoints, span); // VER node, não sei se é node
+
+    this.animations[id] = newLinearAnimation;
+};
+
+MySceneGraph.prototype.parseCircularAnimation = function(i, animationNode, id, span) {
+
+    var center = this.reader.getString(animationNode[i], 'center', true);
+    var coords = center.trim().split(/\s+/);
+
+    if (coords.length != 3)
+        return this.onXMLError("There aren't 3 arguments for the tag 'CENTER' on 'ANIMATION' id: " + id + ".\n")
+
+    var centerX = parseFloat(coords[0]);
+
+    var centerY = parseFloat(coords[1]);
+
+    var centerZ = parseFloat(coords[2]);
+
+    var radius = this.reader.getFloat(animationNode[i], 'radius', true);
+
+    var startang = this.reader.getFloat(animationNode[i], 'startang', true);
+
+    var rotang = this.reader.getFloat(animationNode[i], 'rotang', true);
+
+    var newCircularAnimation = new CircularAnimation(this.scene, id); //VER NOS, não é o id
+
+    var centerArray = [centerX, centerY, centerZ];
+    //newCircularAnimation.set(centerArray, radius, startang, rotang, span); //nao fazer set, 
+
+    this.animations[id] = newCircularAnimation;
+};
+
 /**
  * Parses a single node and their descendants.
  * @param {MyNode} node - The current parsing node
@@ -356,6 +451,12 @@ MySceneGraph.prototype.parseNode = function(node) {
     
     var material = this.parseNodeMaterial(node);
     var texture = this.parseNodeTexture(node);
+    var animationRef = node.getElementsByTagName('animationref');
+    if (animationRef == null)
+        continue;
+    else {
+        var animationRefID = animationRef[0].id;
+    }
     var i = 2;
     var transformations = [];
     while (node.children[i].tagName != 'DESCENDANTS' && i < node.children.length) {
@@ -375,7 +476,7 @@ MySceneGraph.prototype.parseNode = function(node) {
         descendants[j] = descendElem[j].id;
     }
     
-    return new MyNode(this.scene,node.id,material,texture,transformations,descendants);
+    return new MyNode(this.scene,node.id,material,texture,transformations,descendants, animationRefID);
 };
 
 /**
@@ -480,16 +581,56 @@ MySceneGraph.prototype.parseSphere = function(node) {
     return new MySphere(this.scene,parseFloat(coords[0]),parseInt(coords[1]),parseInt(coords[2]));
 };
 
-
 /**
  * Parses the leaf plane.
  * @param {MyNode} node - The current parsing node
  * @return Plane
  */
 MySceneGraph.prototype.parsePlane = function(node) {
+    var parts = this.reader.getInteger(node, 'parts', true);
+    return new Plane(this.scene,node.id, parts, parts);
+};
+
+/**
+ * Parses the leaf patch.
+ * @param {MyNode} node - The current parsing node
+ * @return Patch
+ */
+MySceneGraph.prototype.parsePatch = function(node) {
+    var order = this.reader.getInteger(node, 'order', true);
     var partsU = this.reader.getInteger(node, 'partsU', true);
-    var partsI = this.reader.getInteger(node, 'parstI', true);
-    return new Plane(this.scene,node.id, partsU,partsI);
+    var partsV = this.reader.getInteger(node, 'partsV', true);
+
+    var controlPoint = node.getElementsByTagName('controlpoint');
+
+    var controlPoints = [];
+
+    if (controlPoint.length != ((order + 1) * (order + 1)) ) {
+        console.log("There aren't " ((order + 1) * (order + 1)) " Control Points in node " + node.id + ".\n";
+        return;
+    }
+
+    for (var i = 0; i < (order+1)*(order+1); i++) {
+        var x = this.reader.getFloat(controlPoint[j], 'x', true);
+
+        var y = this.reader.getFloat(controlPoint[j], 'y', true);
+
+        var z = this.reader.getFloat(controlPoint[j], 'z', true);
+
+        var vector = new Vector(x,y,z);
+        controlPoints.push(vector);
+    }
+
+    return new Patch(this.scene,node.id, order, partsU,partsV, controlPoints);
+};
+
+/**
+ * Parses the leaf vehicle, hard coded.
+ * @param {MyNode} node - The current parsing node
+ * @return Vehicle
+ */
+MySceneGraph.prototype.parsePatch = function(node) {
+    return new Vehicle(this.scene, node.id);
 };
 
 /**
