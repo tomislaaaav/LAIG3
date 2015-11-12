@@ -1,5 +1,5 @@
-function LinearAnimation(scene,id,node,controlPoints, time){
-	Animation.call(this,scene,id,node);
+function LinearAnimation(scene,id,controlPoints, time){
+	Animation.call(this,scene,id);
 	this.initTime = null;
 
 
@@ -40,7 +40,6 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 	if(this.initTime == null){
 		this.initTime = currTime;
 	}
-	this.scene.pushMatrix();
 	var time = currTime - this.initTime 
 	if(time <= this.time){
 		this.applyTransformations(time, 0, Vector.fromArray(this.controlPoints[0]),0, this.times[0]);
@@ -48,9 +47,6 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 		var i = this.vectors.length-1;
 		this.applyTransformations(time, i, Vector.fromArray(this.controlPoints[i]),0, this.times[i]);
 	}	
-
-	this.node.display(parentTexture, parentMaterial, currTime);
-	this.scene.popMatrix();
 };
 
 LinearAnimation.prototype.apply= function(){

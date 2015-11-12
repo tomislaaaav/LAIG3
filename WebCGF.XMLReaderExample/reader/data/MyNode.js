@@ -7,7 +7,7 @@
  * @param {MyTransformation} transformations - the transformations the node suffers
  * @param {MyNode} descendants - the descendants the node has
  */
-function MyNode(scene,id, material, texture, transformations, descendants, animID) {
+function MyNode(scene,id, material, texture, transformations, descendants, animation) {
  	CGFobject.call(this,scene);
 	this.id= id;
 	this.material=material;
@@ -15,7 +15,7 @@ function MyNode(scene,id, material, texture, transformations, descendants, animI
 
 	this.descendants=descendants;
 	this.transformations=transformations;
-	this.animID = animID;
+	this.animation = animation;
  };
 
 /**
@@ -73,6 +73,11 @@ MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
  	{
  		this.transformations[i].apply();
  	}
+
+	if(this.animation != null){
+		this.animation.display(currentTexture,currentMaterial,currTime);
+	}
+
  	for(var i = 0; i < this.descendants.length; i++)
  	{
  		if (this.scene.nodes[this.descendants[i]] == null)

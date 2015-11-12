@@ -46,11 +46,12 @@ MySceneGraph.prototype.onXMLReady = function()
     error = this.parseMaterials(rootElement);
     console.log("Materials loaded");
     error = this.parseLeaves(rootElement);
-    console.log("Animations loaded");
-    error = this.parseAnimations(rootElement);
     console.log("Leaves loaded");
+    error = this.parseAnimations(rootElement);
+    console.log("Animations loaded");
     error = this.parseNodeList(rootElement);
     console.log("Nodes loaded");
+
     
     if (error != null ) {
         this.onXMLError(error);
@@ -352,93 +353,77 @@ MySceneGraph.prototype.parseNodeList = function(rootElement) {
 ;
 
 MySceneGraph.prototype.parseAnimations = function(rootElement) {
-
     var animationsElement = rootElement.getElementsByTagName('ANIMATIONS');
     if (animationsElement == null )
-        return this.onXMLError("No 'ANIMATIONS' are present.\n");
+        return "No 'ANIMATIONS' are present.";
     if (animationsElement.length != 1) {
-        console.log("either zero or more than one 'ANIMATIONS' element found.");
-        return;
+        return "either zero or more than one 'ANIMATIONS' element found.";
     }
     
     var animationNode = animationsElement[0].getElementsByTagName('ANIMATION');
     var numberAnimations = animationNode.length;
     if (numberAnimations < 1) {
-        console.log("There is no 'ANIMATION'.\n");
-        return;
+        return "There is no 'ANIMATION'.\n";
     }
     
     this.animations = [];
     
     for (var i = 0; i < numberAnimations; i++) {
         var id = this.reader.getString(animationNode[i], 'id', true);
-
-        var span = this.reader.getFloat(animationNode[i], 'span', true);
-
         var type = this.reader.getString(animationNode[i], 'type', true);
 
-        if (type == "linear") {
-            this.parseLinearAnimation(i, animationNode, id, span);
+        switch(type){
+            case "line":
+                this.animations[id] = this.parseLinearAnimation(i, animationNode[i], id);
+                break;
+            case "circular":
+                this.animations[id] = this.parseCircularAnimation(i, animationNode[i], id);
+                break;
+            default:
+                return this.onXMLError("Invalid 'type' element in 'LEAF' id= " + id + ".");
+                break;
         }
-        else if (type == "circular") {   
-            this.parseCircularAnimation(i, animationNode, id, span);
-        }
-        else return "There is no animation for type: " + type + ".\n";     
     }
 };
 
-MySceneGraph.prototype.parseLinearAnimation = function(i, animationNode, id, span) {
-
-    var controlPoint = animationNode[i].getElementsByTagName('CONTROLPOINT');
-
+MySceneGraph.prototype.parseLinearAnimation = function(i, node, id) {
+    var time = this.reader.getFloat(node, 'span', true);
+    
+    var controlPoint = node.getElementsByTagName('CONTROLPOINT');
     var controlPoints = [];
-
     if (controlPoint.length < 2)
-        return "Animation id: " + id + " only has " + controlPoint.length + " control points. It needs at least 2.\n";
-
+        return this.onXMLError("Animation id: " + id + " only has " + controlPoint.length + " control points. It needs at least 2.\n");
     for (var j = 0; j < controlPoint.length; j++) {
-        var x = this.reader.getFloat(controlPoint[j], 'x', true);
-
-        var y = this.reader.getFloat(controlPoint[j], 'y', true);
-
-        var z = this.reader.getFloat(controlPoint[j], 'z', true);
-
-        var vector = new Vector(x,y,z);
-        controlPoints.push(vector);
+        controlPoints.push(this.parseControlPoint(controlPoint[j]));
     }
 
-    var newLinearAnimation = new LinearAnimation(this.scene, id, node, controlPoints, span); // VER node, não sei se é node
-
-    this.animations[id] = newLinearAnimation;
+    return new LinearAnimation(this.scene, id, controlPoints, time); 
 };
 
-MySceneGraph.prototype.parseCircularAnimation = function(i, animationNode, id, span) {
+MySceneGraph.prototype.parseCircularAnimation = function(i, node, id) {
+    var center = this.parseCoords(node,'center',"ANIMATION");
+    var radius = this.reader.getFloat(node, 'radius', true);
+    var alphaInit = this.reader.getFloat(node, 'startang', true);
+    var alpha = this.reader.getFloat(node, 'rotang', true);
+    var time = this.reader.getFloat(node, 'span', true);
+    
+    return new CircularAnimation(this.scene, id, center, radius, alphaInit, alpha, time);
+};
 
-    var center = this.reader.getString(animationNode[i], 'center', true);
+MySceneGraph.prototype.parseCoords= function(node, tag, nodeName){
+    var center = this.reader.getString(node, tag, true);
     var coords = center.trim().split(/\s+/);
 
     if (coords.length != 3)
-        return this.onXMLError("There aren't 3 arguments for the tag 'CENTER' on 'ANIMATION' id: " + id + ".\n")
+        return this.onXMLError("There aren't 3 arguments for the tag " + tag + " on '"+nodeName+"' id: " + id + ".\n");
 
-    var centerX = parseFloat(coords[0]);
+    var x = parseFloat(coords[0]);
 
-    var centerY = parseFloat(coords[1]);
+    var y = parseFloat(coords[1]);
 
-    var centerZ = parseFloat(coords[2]);
-
-    var radius = this.reader.getFloat(animationNode[i], 'radius', true);
-
-    var startang = this.reader.getFloat(animationNode[i], 'startang', true);
-
-    var rotang = this.reader.getFloat(animationNode[i], 'rotang', true);
-
-    var newCircularAnimation = new CircularAnimation(this.scene, id); //VER NOS, não é o id
-
-    var centerArray = [centerX, centerY, centerZ];
-    //newCircularAnimation.set(centerArray, radius, startang, rotang, span); //nao fazer set, 
-
-    this.animations[id] = newCircularAnimation;
-};
+    var z = parseFloat(coords[2]);
+    return [x,y,z];
+}
 
 /**
  * Parses a single node and their descendants.
@@ -451,18 +436,22 @@ MySceneGraph.prototype.parseNode = function(node) {
     
     var material = this.parseNodeMaterial(node);
     var texture = this.parseNodeTexture(node);
-    var animationRef = node.getElementsByTagName('animationref');
-    var animationRefID;
+    var animationRef = node.getElementsByTagName('ANIMATIONREF');
+    var animation;
 
     if (animationRef[0] == null)
-        animationRefID = "null";
-    else animationrefID = this.reader.getString(animationRef[0], 'id', true);
-
-    if (animationRefID == null) {
-        animationRefID = "null";
+        animation = null;
+    else{ 
+        animation = this.animations[this.reader.getString(animationRef[0], 'id', true)];
+        if(animation == null)
+            return this.onXMLError("'ANIMATIONREF' id = "+animationRef+" doesn't exist!");
     }
 
     var i = 2;
+    
+    if(animation != null)
+        i++;
+
     var transformations = [];
     while (node.children[i].tagName != 'DESCENDANTS' && i < node.children.length) {
         transformations[i - 2] = this.parseTransformation(node.children[i]);
@@ -481,7 +470,7 @@ MySceneGraph.prototype.parseNode = function(node) {
         descendants[j] = descendElem[j].id;
     }
     
-    return new MyNode(this.scene,node.id,material,texture,transformations,descendants, animationRefID);
+    return new MyNode(this.scene,node.id,material,texture,transformations,descendants, animation);
 };
 
 /**
@@ -613,12 +602,14 @@ MySceneGraph.prototype.parsePatch = function(node) {
     var controlPoints = [];
 
     if (controlPoint.length != (orderU+1)*(orderV+1) )
-        return onXMLError("Number of elements 'CONTROLPOINT' inside 'LEAF'' id= " +node.id+ " expected to be "+ (orderU+1)*(orderV+1) + ".Found " + controlPoint.length +" .\n");
+        return this.onXMLError("Number of elements 'CONTROLPOINT' inside 'LEAF'' id= " +node.id+ " expected to be "+ (orderU+1)*(orderV+1) + ".Found " + controlPoint.length +".");
 
     for (var i = 0; i < orderU+1; i++) {
         var U =[]
-        for(var j = 0; j < orderV+1; j++)
-            U.push(parseControlPoint(controlPoint[i+j]));
+        for(var j = 0; j < orderV+1; j++){
+            U.push(parseControlPoint(controlPoint[i+j]).push(1));
+        }
+
         controlPoints.push(U);
     }   
 
@@ -629,9 +620,9 @@ MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
     var x = this.reader.getFloat(controlPoint, 'x', true);
     var y = this.reader.getFloat(controlPoint, 'y', true);
     var z = this.reader.getFloat(controlPoint, 'z', true);
-    var a = this.reader.getFloat(controlPoint, 'a', true);
+    
 
-    return new [x,y,z,a];
+    return new [x,y,z];
 };
 
 
@@ -640,8 +631,9 @@ MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
  * @param {MyNode} node - The current parsing node
  * @return Vehicle
  */
-MySceneGraph.prototype.parsePatch = function(node) {
-    return new Vehicle(this.scene, node.id);
+MySceneGraph.prototype.parseVehicle = function(node) {
+    return null;
+    //return new Vehicle(this.scene, node.id);
 };
 
 /**

@@ -1,5 +1,5 @@
-function CircularAnimation(scene, id, node, center, radius, alphaInit, alpha, time){
-	Animation.call(this,scene,id,node);
+function CircularAnimation(scene, id, center, radius, alphaInit, alpha, time){
+	Animation.call(this,scene,id);
 	this.initTime = null;
 	
 	this.center = Vector.fromArray(center);
@@ -24,7 +24,6 @@ CircularAnimation.prototype.display= function(parentTexture, parentMaterial, cur
 	if(this.initTime == null){
 		this.initTime = currTime;
 	}
-	this.scene.pushMatrix();
 	var time = currTime - this.initTime 
 	if(time <= this.time){
 		this.applyRotation(time);
@@ -32,8 +31,6 @@ CircularAnimation.prototype.display= function(parentTexture, parentMaterial, cur
 		this.applyRotation(this.time);
 	}	
 
-	this.node.display(parentTexture, parentMaterial, currTime);
-	this.scene.popMatrix();
 };
 
 
