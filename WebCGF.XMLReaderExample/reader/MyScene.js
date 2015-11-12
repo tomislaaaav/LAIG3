@@ -98,36 +98,9 @@ MyScene.prototype.onGraphLoaded = function ()
 
 	this.plane = new Plane(this, "plane1",20,20);
 
-	this.patch = new Patch(this, "patch1",2,3,20,20,
-					 [	// U = 0
-						[ // V = 0..3;
-							 [ -1.5, -1.5, 0.0, 1 ],
-							 [ -2.0, -2.0, 2.0, 1 ],
-							 [ -2.0,  2.0, 2.0, 1 ],
-							 [ -1.5,  1.5, 0.0, 1 ]
-							
-						],
-						// U = 1
-						[ // V = 0..3
-							 [ 0, 0, 3.0, 1 ],
-							 [ 0, -2.0, 3.0, 5 ],
-							 [ 0,  2.0, 3.0, 5 ],
-							 [ 0,  0, 3.0, 1 ]							 
-						],
-						// U = 2
-						[ // V = 0..3							 
-							 [ 1.5, -1.5, 0.0, 1 ],
-							 [ 2.0, -2.0, 2.0, 1 ],
-							 [ 2.0,  2.0, 2.0, 1 ],
-							 [ 1.5,  1.5, 0.0, 1 ]
-						]
-					]);
-
-	var animation = new CircularAnimation(this,this.nodes['cadeira']);
-	animation.set([0,0,0],10,0,360,10);
+	var animation = new CircularAnimation(this,'testCirAnim',this.nodes['cadeira'],[0,0,0],10,0,360,10);
+	animation.apply();
 	
-	console.log("123");
-
 };
 
 /**
@@ -168,10 +141,7 @@ MyScene.prototype.display = function () {
 		
 		var d = new Date();
 		this.nodes[this.rootID].display(null, null, d.getTime());
-		//this.plane.display(null, null, d.getTime());
-		/*this.textures.concrete.bind();
-		this.patch.display(null, null, d.getTime());
-		this.textures.concrete.unbind();*/
+		this.plane.display(null, null, d.getTime());
     }; 
 	
 	

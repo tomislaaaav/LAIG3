@@ -1,26 +1,22 @@
-function CircularAnimation(scene,node){
-	Animation.call(this,scene, node);
+function CircularAnimation(scene, id, node, center, radius, alphaInit, alpha, time){
+	Animation.call(this,scene,id,node);
 	this.initTime = null;
-	this.x = 0;
-	this.y = 0;
-	this.z = 0;
-}
-
-CircularAnimation.prototype = Object.create(Animation.prototype);
-CircularAnimation.prototype.constructor = CircularAnimation;
-
-
-CircularAnimation.prototype.set= function(center,radius, alphaInit, alpha, time){    
-    this.center = Vector.fromArray(center);
+	
+	this.center = Vector.fromArray(center);
     this.radius = radius;
     this.alphaInit = alphaInit*Math.PI/180;
     this.alpha = alpha*Math.PI/180;
 	this.time = time*1e3;
 
     this.angularVelocity = this.alpha/this.time;
-
-	this.scene.nodes[this.node.id] = this;
 }
+
+CircularAnimation.prototype = Object.create(Animation.prototype);
+CircularAnimation.prototype.constructor = CircularAnimation;
+
+CircularAnimation.prototype.apply= function(){
+	Animation.prototype.apply.call(this);
+};
 
 CircularAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
 	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);

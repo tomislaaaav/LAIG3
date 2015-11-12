@@ -303,6 +303,9 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
         case 'triangle':
             this.leaves[id] = this.parseTriangle(leafNode[i]);
             break;
+        case 'plane':
+            this.leaves[id] = this.parsePlane(leafNode[i]);
+            break;
         default:
             return "invalid 'type' element in 'LEAF' id= " + id + ".";
         }
@@ -373,8 +376,7 @@ MySceneGraph.prototype.parseNode = function(node) {
     }
     
     return new MyNode(this.scene,node.id,material,texture,transformations,descendants);
-}
-;
+};
 
 /**
  * Parses the material the node has.
@@ -424,8 +426,7 @@ MySceneGraph.prototype.parseNodeTexture = function(node) {
         return texture;
         break;
     }
-}
-;
+};
 
 /**
  * Parses the leaf rectangle.
@@ -438,8 +439,7 @@ MySceneGraph.prototype.parseRectangle = function(node) {
     if (coords.length != 4)
         return this.onXMLError("number of arguments different of 4 in element args in 'LEAF' id= " + node.id);
     return new MyRectangle(this.scene,parseFloat(coords[0]),parseFloat(coords[1]),parseFloat(coords[2]),parseFloat(coords[3]));
-}
-;
+};
 
 /**
  * Parses the leaf triangle.
@@ -452,8 +452,7 @@ MySceneGraph.prototype.parseTriangle = function(node) {
     if (coords.length != 9)
         return this.onXMLError("number of arguments different of 9 in element args in 'LEAF' id= " + node.id);
     return new MyTriangle(this.scene,parseFloat(coords[0]),parseFloat(coords[1]),parseFloat(coords[2]),parseFloat(coords[3]),parseFloat(coords[4]),parseFloat(coords[5]),parseFloat(coords[6]),parseFloat(coords[7]),parseFloat(coords[8]));
-}
-;
+};
 
 /**
  * Parses the leaf cylinder.
@@ -466,8 +465,7 @@ MySceneGraph.prototype.parseCylinder = function(node) {
     if (coords.length != 5)
         return this.onXMLError("number of arguments different of 5 in element args in 'LEAF' id= " + node.id);
     return new MyCylinder(this.scene,parseFloat(coords[0]),parseFloat(coords[1]),parseFloat(coords[2]),parseInt(coords[3]),parseInt(coords[4]));
-}
-;
+};
 
 /**
  * Parses the leaf cylinder.
@@ -480,8 +478,19 @@ MySceneGraph.prototype.parseSphere = function(node) {
     if (coords.length != 3)
         return this.onXMLError("number of arguments different of 3 in element args in 'LEAF' id= " + node.id);
     return new MySphere(this.scene,parseFloat(coords[0]),parseInt(coords[1]),parseInt(coords[2]));
-}
-;
+};
+
+
+/**
+ * Parses the leaf plane.
+ * @param {MyNode} node - The current parsing node
+ * @return Plane
+ */
+MySceneGraph.prototype.parsePlane = function(node) {
+    var partsU = this.reader.getInteger(node, 'partsU', true);
+    var partsI = this.reader.getInteger(node, 'parstI', true);
+    return new Plane(this.scene,node.id, partsU,partsI);
+};
 
 /**
  * Parses a transformation.
