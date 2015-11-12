@@ -39,3 +39,10 @@ Plane.prototype.constructor = Plane;
 Plane.prototype.display= function(parentTexture, parentMaterial, currTime){
     this.nurbsObject.display();
 };
+
+/**
+ * Scales the texCoords according to the s and t amplification factor.
+ */
+Plane.prototype.scaleTexCoords = function(ampS, ampT) {
+    this.updateTexCoordsGLBuffers();
+};
