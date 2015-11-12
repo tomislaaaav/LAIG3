@@ -602,32 +602,38 @@ MySceneGraph.prototype.parsePlane = function(node) {
  * @return Patch
  */
 MySceneGraph.prototype.parsePatch = function(node) {
-    var order = this.reader.getInteger(node, 'order', true);
+    var orderU = this.reader.getInteger(node, 'orderU', true);
+    var orderV = this.reader.getInteger(node, 'orderV', true);
+
     var partsU = this.reader.getInteger(node, 'partsU', true);
     var partsV = this.reader.getInteger(node, 'partsV', true);
 
-    var controlPoint = node.getElementsByTagName('controlpoint');
+    var controlPoint = node.getElementsByTagName('CONTROLPOINT');
 
     var controlPoints = [];
 
-    if (controlPoint.length != ((order + 1) * (order + 1)) ) {
-        console.log("There aren't " + ( (order + 1) * (order + 1) ) + " Control Points in node " + node.id + ".\n");
-        return;
-    }
+    if (controlPoint.length != (orderU+1)*(orderV+1) )
+        return onXMLError("Number of elements 'CONTROLPOINT' inside 'LEAF'' id= " +node.id+ " expected to be "+ (orderU+1)*(orderV+1) + ".Found " + controlPoint.length +" .\n");
 
-    for (var i = 0; i < (order+1)*(order+1); i++) {
-        var x = this.reader.getFloat(controlPoint[j], 'x', true);
-
-        var y = this.reader.getFloat(controlPoint[j], 'y', true);
-
-        var z = this.reader.getFloat(controlPoint[j], 'z', true);
-
-        var vector = new Vector(x,y,z);
-        controlPoints.push(vector);
-    }
+    for (var i = 0; i < orderU+1; i++) {
+        var U =[]
+        for(var j = 0; j < orderV+1; j++)
+            U.push(parseControlPoint(controlPoint[i+j]));
+        controlPoints.push(U);
+    }   
 
     return new Patch(this.scene,node.id, order, partsU,partsV, controlPoints);
 };
+
+MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
+    var x = this.reader.getFloat(controlPoint, 'x', true);
+    var y = this.reader.getFloat(controlPoint, 'y', true);
+    var z = this.reader.getFloat(controlPoint, 'z', true);
+    var a = this.reader.getFloat(controlPoint, 'a', true);
+
+    return new [x,y,z,a];
+};
+
 
 /**
  * Parses the leaf vehicle, hard coded.
