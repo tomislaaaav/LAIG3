@@ -314,7 +314,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
         case 'vehicle':
             this.leaves[id] = this.parseVehicle(leafNode[i]);
         default:
-            return "invalid 'type' element in 'LEAF' id= " + id + ".";
+            return this.onXMLError("invalid 'type' element in 'LEAF' id= " + id + ".");
         }
         console.log("'LEAF' id=" + id + " loaded.");
     }
