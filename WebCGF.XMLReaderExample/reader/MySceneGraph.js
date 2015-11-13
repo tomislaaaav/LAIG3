@@ -373,14 +373,14 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
         var type = this.reader.getString(animationNode[i], 'type', true);
 
         switch(type){
-            case "line":
+            case "linear":
                 this.animations[id] = this.parseLinearAnimation(i, animationNode[i], id);
                 break;
             case "circular":
                 this.animations[id] = this.parseCircularAnimation(i, animationNode[i], id);
                 break;
             default:
-                return this.onXMLError("Invalid 'type' element in 'LEAF' id= " + id + ".");
+                return this.onXMLError("Invalid 'type' element in 'ANIMATION' id= " + id + ".");
                 break;
         }
     }
@@ -622,7 +622,7 @@ MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
     var z = this.reader.getFloat(controlPoint, 'z', true);
     
 
-    return new [x,y,z];
+    return [x,y,z];
 };
 
 

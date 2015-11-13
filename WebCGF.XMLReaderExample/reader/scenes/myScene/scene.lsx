@@ -130,15 +130,13 @@
 	</MATERIALS>
 
 	<ANIMATIONS>
-
 		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 0" radius="10" startang="0" rotang="360" />
 		<ANIMATION id="mesa" span="10" type="linear">
 			<CONTROLPOINT x="0" y="0" z="0"/>
 			<CONTROLPOINT x="0" y="10" z="0"/>
 			<CONTROLPOINT x="10" y="0" z="0"/>
-		<ANIMATION/>
+		</ANIMATION>
 
-	
 	</ANIMATIONS>
 
 
@@ -486,7 +484,7 @@
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
-            <ANIMATIONREF id="mesa">
+            <ANIMATIONREF id="mesa"/>
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->

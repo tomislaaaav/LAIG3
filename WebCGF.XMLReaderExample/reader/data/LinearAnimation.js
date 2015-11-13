@@ -26,9 +26,7 @@ function LinearAnimation(scene,id,controlPoints, time){
 			this.times[i] = this.times[i-1] + this.vectors[i].length()/this.velocity;
 	}
 
-	this.time = time * 1e3;
-	
-	this.scene.nodes[this.node.id] = this;
+	this.time = time * 1e3;	
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
