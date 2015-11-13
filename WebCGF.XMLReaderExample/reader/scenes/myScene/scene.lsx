@@ -130,9 +130,13 @@
 	</MATERIALS>
 
 	<ANIMATIONS>
+		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 0" radius="10" startang="0" rotang="360" />
+		<ANIMATION id="mesa" span="10" type="linear">
+			<CONTROLPOINT x="0" y="0" z="0"/>
+			<CONTROLPOINT x="0" y="10" z="0"/>
+			<CONTROLPOINT x="10" y="0" z="0"/>
+		</ANIMATION>
 
-		<ANIMATION id="cadeira" span="10" type="circular" center="5 5 5" radius="5" startang="20" rotang="10" />
-	
 	</ANIMATIONS>
 
 
@@ -143,9 +147,6 @@
 	    <LEAF id="cyl" type="cylinder" args="1.0 1.0 1.0 10 10" /> 
 	    <LEAF id="sphere" type="sphere" args="1 50 50" />
 	    <LEAF id="tri" type="triangle" args="0 0 0 1 0 0 0.5 0 1" />
-	    <LEAF id="pla" type="plane" parts="5" />
-	    <LEAF id="pat" type="patch" order="3" partsU="10" partsV="10" />
-	    <LEAF id="veh" type="vehicle" />
 	    <LEAF id="ter" type="terrain" texture="chao" heightmap="chao" />
 
 	    <!-- Parameters of the above primitives:                                                         -->
@@ -483,6 +484,7 @@
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
+            <ANIMATIONREF id="mesa"/>
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -909,6 +911,8 @@
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
+
+	        <ANIMATIONREF id="cadeira"/>
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
