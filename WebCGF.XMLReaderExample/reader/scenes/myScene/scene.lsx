@@ -136,6 +136,10 @@
 			<CONTROLPOINT x="0" y="10" z="0"/>
 			<CONTROLPOINT x="10" y="0" z="0"/>
 		</ANIMATION>
+		<ANIMATION id="compCadeira" type="composed">
+			<SUBANIMATION id="mesa" time="0"/>
+			<SUBANIMATION id="cadeira" time="0"/>
+		</ANIMATION>
 
 	</ANIMATIONS>
 
