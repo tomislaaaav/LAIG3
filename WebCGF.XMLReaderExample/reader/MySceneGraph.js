@@ -607,14 +607,22 @@ MySceneGraph.prototype.parsePatch = function(node) {
     for (var i = 0; i < orderU+1; i++) {
         var U =[]
         for(var j = 0; j < orderV+1; j++){
-            U.push(parseControlPoint(controlPoint[i+j]).push(1));
+            var cp = this.parsePatchControlPoint(controlPoint[i*(orderV+1)+j]); 
+            U.push(cp);
         }
-
         controlPoints.push(U);
     }   
 
-    return new Patch(this.scene,node.id, order, partsU,partsV, controlPoints);
+    return new Patch(this.scene,node.id, orderU, orderV, partsU,partsV, controlPoints);
 };
+
+MySceneGraph.prototype.parsePatchControlPoint = function(controlPoint) {
+    var a = this.reader.getFloat(controlPoint, 'a', true);    
+    var cp = this.parseControlPoint(controlPoint);
+    cp.push(a);
+    return cp;
+};
+
 
 MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
     var x = this.reader.getFloat(controlPoint, 'x', true);

@@ -147,7 +147,24 @@
 	    <LEAF id="cyl" type="cylinder" args="1.0 1.0 1.0 10 10" /> 
 	    <LEAF id="sphere" type="sphere" args="1 50 50" />
 	    <LEAF id="tri" type="triangle" args="0 0 0 1 0 0 0.5 0 1" />
-	    <LEAF id="ter" type="terrain" texture="chao" heightmap="chao" />
+	    <!--<LEAF id="ter" type="terrain" texture="chao" heightmap="chao" />--> 
+	    <LEAF id="plane" type="plane" parts="20"/>
+	    <LEAF id="patch" type="patch" orderU="2" orderV="3" partsU="20" partsV="20" >
+	    		<CONTROLPOINT x="-1.5" y="-1.5" z="0.0" a="1" />
+				<CONTROLPOINT x="-2.0" y="-2.0" z="2.0" a="1" />
+				<CONTROLPOINT x="-2.0" y="2.0" z="2.0" a="1" />
+				<CONTROLPOINT x="-1.5" y="1.5" z="0.0" a="1" />							
+
+				<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
+				<CONTROLPOINT x="0" y="-2.0" z="3.0" a="5" />							
+				<CONTROLPOINT x="0" y="2.0" z="3.0" a="5" />							
+				<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
+					 					 
+				<CONTROLPOINT x="1.5" y="-1.5" z="0.0" a="1" />							
+				<CONTROLPOINT x="2.0" y="-2.0" z="2.0" a="1" />							
+				<CONTROLPOINT x="2.0" y="2.0" z="2.0" a="1" />							
+				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
+	    </LEAF>
 
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
@@ -196,7 +213,6 @@
 	            <DESCENDANT id="left wall" />
 
 	            <DESCENDANT id="front wall" />
-
 
 	        </DESCENDANTS>
 
