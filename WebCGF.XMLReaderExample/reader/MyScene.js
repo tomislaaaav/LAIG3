@@ -43,7 +43,7 @@ MyScene.prototype.init = function (application) {
  * Creates the camera.
  */
 MyScene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(40, 25, 40), vec3.fromValues(0, 0, 0));
 };
 
 /**
