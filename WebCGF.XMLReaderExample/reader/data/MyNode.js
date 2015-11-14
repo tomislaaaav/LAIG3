@@ -75,7 +75,7 @@ MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
  	}
 
 	if(this.animation != null){
-		this.animation.display(currentTexture,currentMaterial,currTime);
+		this.animation.apply(currTime);
 	}
 
  	for(var i = 0; i < this.descendants.length; i++)

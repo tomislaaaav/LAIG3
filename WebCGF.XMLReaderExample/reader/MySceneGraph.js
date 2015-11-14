@@ -374,10 +374,13 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 
         switch(type){
             case "linear":
-                this.animations[id] = this.parseLinearAnimation(i, animationNode[i], id);
+                this.animations[id] = this.parseLinearAnimation(animationNode[i], id);
                 break;
             case "circular":
-                this.animations[id] = this.parseCircularAnimation(i, animationNode[i], id);
+                this.animations[id] = this.parseCircularAnimation(animationNode[i], id);
+                break;
+            case "composed":
+                this.animations[id] = this.parseComposedAnimation(animationNode[i], id);
                 break;
             default:
                 return this.onXMLError("Invalid 'type' element in 'ANIMATION' id= " + id + ".");
@@ -386,21 +389,45 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
     }
 };
 
-MySceneGraph.prototype.parseLinearAnimation = function(i, node, id) {
+MySceneGraph.prototype.parseLinearAnimation = function(node, id) {
     var time = this.reader.getFloat(node, 'span', true);
     
     var controlPoint = node.getElementsByTagName('CONTROLPOINT');
     var controlPoints = [];
     if (controlPoint.length < 2)
         return this.onXMLError("Animation id: " + id + " only has " + controlPoint.length + " control points. It needs at least 2.\n");
-    for (var j = 0; j < controlPoint.length; j++) {
-        controlPoints.push(this.parseControlPoint(controlPoint[j]));
+    for (var i = 0; i < controlPoint.length; i++) {
+        controlPoints.push(this.parseControlPoint(controlPoint[i]));
     }
 
     return new LinearAnimation(this.scene, id, controlPoints, time); 
 };
 
-MySceneGraph.prototype.parseCircularAnimation = function(i, node, id) {
+MySceneGraph.prototype.parseComposedAnimation = function(node, id) {
+    
+    var composedAnimation = new ComposedAnimation(this.scene, id);
+    
+    var subanimation = node.getElementsByTagName('SUBANIMATION');
+    
+    if (subanimation.length == 0)
+        this.onXMLError("'ANIMATION' id: " + id + " doesn't have 'SUBANIMATION'.");
+    for (var i = 0; i < subanimation.length; i++) {
+       this.parseSubAnimation(composedAnimation, subanimation[i], id,"'ANIMATION'");
+    }
+
+    return composedAnimation;
+};
+
+MySceneGraph.prototype.parseSubAnimation=function (composedAnimation, node, id,tag){
+    var animation = this.animations[node.id];
+    if(animation == null)
+        return this.onXMLError("In "+tag + " id= " + id+ ": 'SUBANIMATION' id=" +node.id+"doesn´t exist.");
+    var initTime = this.reader.getFloat(node, 'time', true);
+
+    composedAnimation.addAnimation(animation, initTime);
+};
+
+MySceneGraph.prototype.parseCircularAnimation = function(node, id) {
     var center = this.parseCoords(node,'center',"ANIMATION");
     var radius = this.reader.getFloat(node, 'radius', true);
     var alphaInit = this.reader.getFloat(node, 'startang', true);

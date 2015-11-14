@@ -14,12 +14,8 @@ function CircularAnimation(scene, id, center, radius, alphaInit, alpha, time){
 CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
-CircularAnimation.prototype.apply= function(){
-	Animation.prototype.apply.call(this);
-};
-
-CircularAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
-	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);
+CircularAnimation.prototype.apply= function(currTime){
+	Animation.prototype.apply.call(this, currTime);
 	
 	if(this.initTime == null){
 		this.initTime = currTime;
@@ -35,6 +31,7 @@ CircularAnimation.prototype.display= function(parentTexture, parentMaterial, cur
 
 
 
+
 CircularAnimation.prototype.applyRotation= function(time){
     var inverseTransl = this.center.toArray();
     this.scene.translate(inverseTransl[0],inverseTransl[1],inverseTransl[2]);
@@ -44,8 +41,4 @@ CircularAnimation.prototype.applyRotation= function(time){
 	
 	this.scene.translate(this.radius,0,0);
 
-};
-
-CircularAnimation.prototype.end= function(){
-	this.scene.nodes[this.node.id]=this.node;
 };
