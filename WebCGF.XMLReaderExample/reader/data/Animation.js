@@ -7,11 +7,7 @@ function Animation(scene,id){
 Animation.prototype = Object.create(Object.prototype);
 Animation.prototype.constructor = Animation;
 
-Animation.prototype.display= function(parentTexture, parentMaterial, currTime){
 
-};
-
-
-Animation.prototype.apply= function(){
-	//this.scene.nodes[this.node.id] = this;
+Animation.prototype.apply= function(currTime){
+	
 };

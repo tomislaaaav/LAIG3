@@ -33,8 +33,8 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 
-LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currTime){
-	Animation.prototype.display.call(parentTexture,parentMaterial,currTime);
+LinearAnimation.prototype.apply= function(currTime){
+	Animation.prototype.apply.call(this, currTime);
 	if(this.initTime == null){
 		this.initTime = currTime;
 	}
@@ -45,10 +45,6 @@ LinearAnimation.prototype.display= function(parentTexture, parentMaterial, currT
 		var i = this.vectors.length-1;
 		this.applyTransformations(time, i, Vector.fromArray(this.controlPoints[i]),0, this.times[i]);
 	}	
-};
-
-LinearAnimation.prototype.apply= function(){
-	Animation.prototype.apply.call(this);
 };
 
 LinearAnimation.prototype.applyTransformations= function(time, i, previousVector, routeTime, nextRouteTime){
@@ -69,8 +65,4 @@ LinearAnimation.prototype.applyTransformations= function(time, i, previousVector
 	}else{
 		this.applyTransformations(time, i+1, newVector, nextRouteTime, this.times[i+1]);
 	}
-};
-
-LinearAnimation.prototype.end= function(){
-	this.scene.nodes[this.node.id]=this.node;
 };

@@ -130,7 +130,7 @@
 	</MATERIALS>
 
 	<ANIMATIONS>
-		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 0" radius="10" startang="0" rotang="360" />
+		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 -10" radius="10" startang="-90" rotang="360" />
 		<ANIMATION id="mesa" span="10" type="linear">
 			<CONTROLPOINT x="0" y="0" z="0"/>
 			<CONTROLPOINT x="0" y="10" z="0"/>
