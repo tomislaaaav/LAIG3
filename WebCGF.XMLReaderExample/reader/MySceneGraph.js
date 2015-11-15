@@ -353,6 +353,10 @@ MySceneGraph.prototype.parseNodeList = function(rootElement) {
 }
 ;
 
+/**
+ * Parses the animations tag from the LSX, setting a list with animations.
+ * @param rootElement - the document element
+ */
 MySceneGraph.prototype.parseAnimations = function(rootElement) {
     var animationsElement = rootElement.getElementsByTagName('ANIMATIONS');
     if (animationsElement == null )
@@ -390,6 +394,12 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
     }
 };
 
+/**
+ * Parses the type linear of the animation.
+ * @param node {MyNode} - the current node
+ * @param id {string} - the id of the current animation
+ * @return LinearAnimation {LinearAnimation} - the object LinearAnimation
+ */
 MySceneGraph.prototype.parseLinearAnimation = function(node, id) {
     var time = this.reader.getFloat(node, 'span', true);
     
@@ -404,6 +414,12 @@ MySceneGraph.prototype.parseLinearAnimation = function(node, id) {
     return new LinearAnimation(this.scene, id, controlPoints, time); 
 };
 
+/**
+ * Parses different Animations, all from the same node.
+ * @param node {MyNode} - the current node
+ * @param id {string} - the id of the current animation
+ * @return composedAnimation {ComposedAnimation} - the object ComposedAnimation
+ */ 
 MySceneGraph.prototype.parseComposedAnimation = function(node, id) {
     
     var composedAnimation = new ComposedAnimation(this.scene, id);
@@ -419,6 +435,13 @@ MySceneGraph.prototype.parseComposedAnimation = function(node, id) {
     return composedAnimation;
 };
 
+/**
+ * Parses an animation.
+ * @param composedAnimation {ComposedAnimation} - the full animation
+ * @param node {MyNode} - the current node
+ * @param id {string} - the id of the current animation
+ * @param tag {string} - the tag
+ */
 MySceneGraph.prototype.parseSubAnimation=function (composedAnimation, node, id,tag){
     var animation = this.animations[node.id];
     if(animation == null)
@@ -428,6 +451,12 @@ MySceneGraph.prototype.parseSubAnimation=function (composedAnimation, node, id,t
     composedAnimation.addAnimation(animation, initTime);
 };
 
+/**
+ * Parses the type circular of the animation.
+ * @param node {MyNode} - the current node
+ * @param id {string} - the id of the current animation
+ * @return CircularAnimation {CircularAnimation} - the object CircularAnimation
+ */
 MySceneGraph.prototype.parseCircularAnimation = function(node, id) {
     var center = this.parseCoords(node,'center',"ANIMATION");
     var radius = this.reader.getFloat(node, 'radius', true);
@@ -438,6 +467,12 @@ MySceneGraph.prototype.parseCircularAnimation = function(node, id) {
     return new CircularAnimation(this.scene, id, center, radius, alphaInit, alpha, time);
 };
 
+/**
+ * Parses any given coordinates (x,y,z).
+ * @param node {MyNode} - the current node
+ * @param tag {string} - the tag
+ * @param nodeName {string} - the name of the node
+ */
 MySceneGraph.prototype.parseCoords= function(node, tag, nodeName){
     var center = this.reader.getString(node, tag, true);
     var coords = center.trim().split(/\s+/);
@@ -591,7 +626,7 @@ MySceneGraph.prototype.parseCylinder = function(node) {
 };
 
 /**
- * Parses the leaf cylinder.
+ * Parses the leaf sphere.
  * @param {MyNode} node - The current parsing node
  * @return MySphere
  */
@@ -644,6 +679,11 @@ MySceneGraph.prototype.parsePatch = function(node) {
     return new Patch(this.scene,node.id, orderU, orderV, partsU,partsV, controlPoints);
 };
 
+/**
+ * Parses the control points from the leaf Patch.
+ * @param controlPoint {tag} - tag control point
+ * return cp {array}
+ */
 MySceneGraph.prototype.parsePatchControlPoint = function(controlPoint) {
     var a = this.reader.getFloat(controlPoint, 'a', true);    
     var cp = this.parseControlPoint(controlPoint);
@@ -651,7 +691,10 @@ MySceneGraph.prototype.parsePatchControlPoint = function(controlPoint) {
     return cp;
 };
 
-
+/**
+ * Parses the control points from animations.
+ * @param controlPoint {tag} - tag control point
+ * @return [x,y,z] {array} - array with x, y, z
 MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
     var x = this.reader.getFloat(controlPoint, 'x', true);
     var y = this.reader.getFloat(controlPoint, 'y', true);

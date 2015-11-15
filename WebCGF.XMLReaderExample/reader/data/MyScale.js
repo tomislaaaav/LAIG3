@@ -1,7 +1,7 @@
 /**
  * Creates MyScale
  * @constructor
- * @param scene - The scene
+ * @param scene {CGFscene}- The scene
  * @param {number} x - The scale on the x coord
  * @param {number} y - The scale on the y coord
  * @param {number} z - The scale on the z coord

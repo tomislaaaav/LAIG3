@@ -1,3 +1,14 @@
+/**
+ * Creates a Patch.
+ * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the current node
+ * @param orderU {number} - the order in U (up to 3)
+ * @param orderV {number} - the order in V (up to 3)
+ * @param divsU {number} - the number of divisions in U
+ * @param divsV {number} - the number of divisions in V
+ * @param controlPoints {array} - the array with all of the Control Points
+ */
 function Patch(scene,id,orderU, orderV,divsU,divsV,controlPoints){
     Object.call(this);
 
@@ -54,9 +65,22 @@ function Patch(scene,id,orderU, orderV,divsU,divsV,controlPoints){
     this.nurbsObject = new CGFnurbsObject(scene, getSurfacePoint, divsU,divsV); 
 };
 
+/**
+ * Stances that Patch has the properties of an Object.
+*/
 Patch.prototype = Object.create(Object.prototype);
+
+/**
+ * Creates a Patch object.
+ */
 Patch.prototype.constructor = Patch;
 
+/**
+ * Displays the patch through Nurbs.
+ * @param parentTexture {MyTexture} - the texture of the parent node
+ * @param parentMaterial {MyMaterial} - the material of the parent node
+ * @param currTime {number} - the current time
+ */
 Patch.prototype.display= function(parentTexture, parentMaterial, currTime){
     this.nurbsObject.display();
 };

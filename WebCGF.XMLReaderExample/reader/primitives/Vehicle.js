@@ -1,3 +1,9 @@
+/**
+ * Creates the Leaf Vehicle, hard coded. Creates its 3 patches and the 2 textures associated.
+ * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the node
+ */
 function Vehicle(scene,id){
 	Object.call(this);
 	this.id =id;
@@ -46,9 +52,22 @@ function Vehicle(scene,id){
     this.p3 = new Patch(this.scene, this.id, 2, 2, 10, 10, this.c3);
 };
 
+/**
+ * Stances that Vehicle has the properties of an Object.
+*/
 Vehicle.prototype = Object.create(Object.prototype);
+
+/**
+ * Creates a Vehicle.
+ */
 Vehicle.prototype.constructor = Vehicle;
 
+/**
+ * The display function of the vehicle.
+ * @param parentTexture {MyTexture} - the texture of the parent
+ * @param parentMaterial {MyMaterial} - the material of the parent
+ * @param currTime {number} - the current time
+ */
 Vehicle.prototype.display= function(parentTexture, parentMaterial, currTime){
 
     this.scene.translate(10, 8, 10);

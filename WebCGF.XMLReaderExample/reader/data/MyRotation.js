@@ -1,7 +1,7 @@
 /**
  * Creates MyRotation
  * @constructor
- * @param scene - The scene
+ * @param scene {CGFscene} - The scene
  * @param {string} axis - The axis where it rotates
  * @param {number} degree - The angle it rotates
  */
