@@ -1,4 +1,4 @@
-function Terrain(scene,id, heightmap, colorTexture){
+function Terrain(scene,id, heightRange, heightmap, colorTexture){
     Object.call(this);
     this.scene = scene;
     this.id = id;
@@ -8,7 +8,7 @@ function Terrain(scene,id, heightmap, colorTexture){
 
     this.shader = new CGFshader(this.scene.gl, "scenes/myScene/shaders/scene.vert", "scenes/myScene/shaders/scene.frag");
 
-	this.shader.setUniformsValues({uHeightRange: 7.5});
+	this.shader.setUniformsValues({uHeightRange: heightRange});
 	this.shader.setUniformsValues({uHeightMap: 1});
 	this.shader.setUniformsValues({uTexture: 0})	
 	
