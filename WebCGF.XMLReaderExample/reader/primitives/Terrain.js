@@ -1,3 +1,11 @@
+/**
+ * Creates a Terrain.
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the node
+ * @param heightRange {number} - the range of the height
+ * @param heightMap {number} - the map of the height
+ * @param colorTexture - the texture
+ */ 
 function Terrain(scene,id, heightRange, heightmap, colorTexture){
     Object.call(this);
     this.scene = scene;
@@ -15,9 +23,19 @@ function Terrain(scene,id, heightRange, heightmap, colorTexture){
 	this.volcano = new Plane(this.scene, "volcano", 256, 256);
 };
 
+/**
+ * Stances that Terrain has the properties of an Object.
+*/
 Terrain.prototype = Object.create(Object.prototype);
+
+/**
+ * Creates a Terrain object.
+ */
 Terrain.prototype.constructor = Terrain;
 
+/**
+ * Displays the terrain, through shaders.
+ */
 Terrain.prototype.display= function(){
     this.scene.setActiveShader(this.shader);		
     this.heightmap.bind(1);
