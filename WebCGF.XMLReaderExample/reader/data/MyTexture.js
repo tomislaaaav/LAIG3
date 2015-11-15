@@ -1,6 +1,11 @@
 /**
  * MyTexture
  * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the current node
+ * @param path {string} - the path of the texture used
+ * @param s {number} - the scale on s
+ * @param t {number} - the scale on t
  */
 function MyTexture(scene, id, path, s, t) {
     CGFtexture.call(this, scene,path);

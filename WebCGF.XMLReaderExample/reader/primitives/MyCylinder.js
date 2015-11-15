@@ -1,7 +1,7 @@
 /**
  * Constructor MyCylinder
  * @constructor
- * @param scene - The scene
+ * @param scene {CGFscene} - The scene
  * @param {number} height - height of the cylinder
  * @param {number} bRad - bottom radius
  * @param {number} tRad - top radius

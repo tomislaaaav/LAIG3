@@ -1,7 +1,7 @@
 /**
  * Creates a triangle given three points.
  * @constructor
- * @param scene - The scene
+ * @param scene {CGFscene} - The scene
  * @param {number} x1 - The x coord of the first point
  * @param {number} y1 - The y coord of the first point
  * @param {number} z1 - The z coord of the first point

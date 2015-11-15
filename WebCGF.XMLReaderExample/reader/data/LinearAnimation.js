@@ -1,3 +1,11 @@
+/**
+ * Creates a LinearAnimation.
+ * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the current node
+ * @param controlPoints {array} - the array of Control Points
+ * @param time {number} - the span of the animation
+ */
 function LinearAnimation(scene,id,controlPoints, time){
 	Animation.call(this,scene,id);
 	this.initTime = null;
@@ -29,10 +37,20 @@ function LinearAnimation(scene,id,controlPoints, time){
 	this.time = time * 1e3;	
 }
 
+/**
+ * Stances that LinearAnimation has the properties of an Animation.
+*/
 LinearAnimation.prototype = Object.create(Animation.prototype);
+
+/**
+ * Creates an object LinearAnimation
+ */
 LinearAnimation.prototype.constructor = LinearAnimation;
 
-
+/**
+ * Applies the LinearAnimation to the scene.
+ * @param currTime {number} - the current time
+ */
 LinearAnimation.prototype.apply= function(currTime){
 	Animation.prototype.apply.call(this, currTime);
 	if(this.initTime == null){
@@ -47,6 +65,14 @@ LinearAnimation.prototype.apply= function(currTime){
 	}	
 };
 
+/**
+ * Applies all of the transformations needed.
+ * @param time {number} - the span of the transformation
+ * @param i {number} - the index of the control point
+ * @param previousVector {Vector} - the previous vector
+ * @param routeTime {number} - the time the route will take
+ * @param nextRouteTime {number} - the time the next route will take
+ */
 LinearAnimation.prototype.applyTransformations= function(time, i, previousVector, routeTime, nextRouteTime){
 	var routeVector = this.vectors[i];
 	var t = 0;

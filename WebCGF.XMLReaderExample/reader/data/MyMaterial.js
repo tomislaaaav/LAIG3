@@ -1,6 +1,8 @@
 /**
  * MyMaterial
  * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - id of the current node
  */
 function MyMaterial(scene, id) {
     CGFappearance.call(this, scene);

@@ -6,6 +6,7 @@
  * @param {MyTexture} texture - the texture the node has
  * @param {MyTransformation} transformations - the transformations the node suffers
  * @param {MyNode} descendants - the descendants the node has
+ * @param {Animation} animation - the animation that the node has
  */
 function MyNode(scene,id, material, texture, transformations, descendants, animation) {
  	CGFobject.call(this,scene);
@@ -32,6 +33,7 @@ MyNode.prototype.constructor = MyNode;
  * Displays a given node, applying transformations, materials and textures.
  * @param {MyTexture} parent texture - The texture the parent node has
  * @param {MyTexture} parent texture - The material the parent node has
+ * @param {number} currTime - the current time
  */
 MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
 

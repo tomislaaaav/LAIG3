@@ -1,3 +1,14 @@
+/**
+ * Creates a Circular Animation.
+ * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the current node
+ * @param center {array} - the center point
+ * @param radius {number} - the radius
+ * @param alphaInit {number} - the initial rotation
+ * @param alpha {number} - the rotation
+ * @param time {number} - the span of the animation
+ */
 function CircularAnimation(scene, id, center, radius, alphaInit, alpha, time){
 	Animation.call(this,scene,id);
 	this.initTime = null;
@@ -10,10 +21,20 @@ function CircularAnimation(scene, id, center, radius, alphaInit, alpha, time){
 
     this.angularVelocity = this.alpha/this.time;
 }
-
+/**
+ * Stances that CircularAnimation has the properties of an Animation.
+*/
 CircularAnimation.prototype = Object.create(Animation.prototype);
+
+/**
+ * Creates a CircularAnimation object.
+ */
 CircularAnimation.prototype.constructor = CircularAnimation;
 
+/**
+ * Applies a CircularAnimation to the scene.
+ * @param currTime {number} - the current time
+ */
 CircularAnimation.prototype.apply= function(currTime){
 	Animation.prototype.apply.call(this, currTime);
 	
@@ -29,9 +50,10 @@ CircularAnimation.prototype.apply= function(currTime){
 
 };
 
-
-
-
+/**
+ * Applies the rotation to the scene.
+ * @param time {number} - the span of the rotation
+ */
 CircularAnimation.prototype.applyRotation= function(time){
     var inverseTransl = this.center.toArray();
     this.scene.translate(inverseTransl[0],inverseTransl[1],inverseTransl[2]);

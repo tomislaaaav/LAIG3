@@ -1,7 +1,7 @@
 /**
  * Constructor MyRectangle
  * @constructor
- * @param scene - The scene
+ * @param scene {CGFscene} - The scene
  * @param {number} x1 - x coord from the first point
  * @param {number} y1 - y coord from the first point
  * @param {number} x2 - x coord from the second point

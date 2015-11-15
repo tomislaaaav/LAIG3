@@ -1,3 +1,11 @@
+/**
+ * Creates a Plane.
+ * @constructor
+ * @param scene {CGFscene} - the scene
+ * @param id {string} - the id of the current node
+ * @param divsU {number} - the number of the divisions in U
+ * @param divsV {number} - the number of the divisions in V
+ */
 function Plane(scene,id,divsU,divsV){
 	Object.call(this);
 	this.id =id;
@@ -33,9 +41,19 @@ function Plane(scene,id,divsU,divsV){
     
 }
 
+/**
+ * Stances that Plane has the properties of an Object.
+*/
 Plane.prototype = Object.create(Object.prototype);
+
+/**
+ * Creates a Plane object.
+ */
 Plane.prototype.constructor = Plane;
 
+/**
+ * Displays the plane through Nurbs.
+ */
 Plane.prototype.display= function(parentTexture, parentMaterial, currTime){
     this.nurbsObject.display();
 };

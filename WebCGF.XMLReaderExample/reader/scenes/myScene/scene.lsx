@@ -178,7 +178,11 @@
 				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
 	    </LEAF>
 
+<<<<<<< HEAD
 	    <LEAF id="volcano" type="terrain" heightrange="0.75" heightmap="volcano_heightmap" colormap="volcanoColor" />
+=======
+	    <LEAF id="veh" type="vehicle" />
+>>>>>>> refs/remotes/origin/Vehicle
 
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
@@ -228,7 +232,11 @@
 
 	            <DESCENDANT id="front wall" />
 
+<<<<<<< HEAD
 	            <DESCENDANT id="volcano" />
+=======
+	            <DESCENDANT id="veh" />
+>>>>>>> refs/remotes/origin/Vehicle
 
 	        </DESCENDANTS>
 
