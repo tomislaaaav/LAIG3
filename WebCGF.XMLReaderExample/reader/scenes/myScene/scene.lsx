@@ -519,8 +519,6 @@
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
-            <ANIMATIONREF id="mesa"/>
-
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
@@ -814,8 +812,8 @@
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        
-	        <TRANSLATION x="12" y="0" z="8" />
-	        <SCALE sx="3" sy="3" sz="3" />
+	        <TRANSLATION x="16" y="0" z="4" />
+	        <SCALE sx="4" sy="4" sz="4" />
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
