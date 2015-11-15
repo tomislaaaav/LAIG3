@@ -695,6 +695,7 @@ MySceneGraph.prototype.parsePatchControlPoint = function(controlPoint) {
  * Parses the control points from animations.
  * @param controlPoint {tag} - tag control point
  * @return [x,y,z] {array} - array with x, y, z
+ */
 MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
     var x = this.reader.getFloat(controlPoint, 'x', true);
     var y = this.reader.getFloat(controlPoint, 'y', true);
