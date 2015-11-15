@@ -140,14 +140,28 @@
 
 	<ANIMATIONS>
 		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 -10" radius="10" startang="-90" rotang="360" />
+
+		<ANIMATION id="bullet1" span="10" type="circular" center="0 0 -10" radius="1" startang="0" rotang="360" />
+
+		<ANIMATION id="bullet2" span="10" type="linear">
+			<CONTROLPOINT x="0" y="0" z="0"/>
+			<CONTROLPOINT x="10" y="0" z="0"/>
+		</ANIMATION>
+
 		<ANIMATION id="mesa" span="10" type="linear">
 			<CONTROLPOINT x="0" y="0" z="0"/>
 			<CONTROLPOINT x="0" y="10" z="0"/>
 			<CONTROLPOINT x="10" y="0" z="0"/>
 		</ANIMATION>
+
 		<ANIMATION id="compCadeira" type="composed">
 			<SUBANIMATION id="mesa" time="0"/>
 			<SUBANIMATION id="cadeira" time="0"/>
+		</ANIMATION>
+
+		<ANIMATION id="bullet" type="composed">
+			<SUBANIMATION id="bullet1" time="0"/>
+			<SUBANIMATION id="bullet2" time="0"/>
 		</ANIMATION>
 	</ANIMATIONS>
 
@@ -231,7 +245,7 @@
 
 	            <DESCENDANT id="volcano1" />
 
-	            <DESCENDANT id="veh" />
+	            <DESCENDANT id="vehicle1_1" />
 
 	        </DESCENDANTS>
 
@@ -821,6 +835,48 @@
 	        </DESCENDANTS>
 
 	    </NODE>
+
+	    <NODE id="vehicle1">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+	        <!-- next two lines are mandatory -->
+	        <MATERIAL id="grey" />      <!-- declared material superimposes the material received from parent node -->
+	                                  <!-- id="null" maintains material from parent node        -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+	                                  <!-- id="null" maintains texture from parent node       -->
+	                                  <!-- id="clear" clears texture declaration received from parent node      -->
+	        <ANIMATIONREF id="bullet"/>
+	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+	        
+	        
+
+	        <!-- declaring descendents, ate least one node or one leaf must be present -->
+	        <DESCENDANTS>
+	            <DESCENDANT id="veh" />
+	        </DESCENDANTS>
+
+	    </NODE>
+
+	    <NODE id="vehicle1_1">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+	        <!-- next two lines are mandatory -->
+	        <MATERIAL id="grey" />      <!-- declared material superimposes the material received from parent node -->
+	                                  <!-- id="null" maintains material from parent node        -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+	                                  <!-- id="null" maintains texture from parent node       -->
+	                                  <!-- id="clear" clears texture declaration received from parent node      -->
+	        
+	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+	        <TRANSLATION x="10" y="8" z="10" />
+	        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+
+	        <!-- declaring descendents, ate least one node or one leaf must be present -->
+	        <DESCENDANTS>
+	            <DESCENDANT id="vehicle1" />
+	        </DESCENDANTS>
+
+	    </NODE>
+
+	    
 
 	    <!--              CRIAR UMA CADEIRA             -->
 
