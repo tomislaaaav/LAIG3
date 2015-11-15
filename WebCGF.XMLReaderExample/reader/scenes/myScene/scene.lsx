@@ -88,6 +88,15 @@
 	        <amplif_factor s="1" t="1" />               
 	    </TEXTURE> 
 
+	    <TEXTURE id="volcano_heightmap">
+	    	<file path="textures/volcano_heightmap.png"/>
+	    	<amplif_factor s="1" t="1" />
+	    </TEXTURE>
+
+	    <TEXTURE id="volcanoColor">
+	    	<file path="textures/volcano.jpg"/>
+	    	<amplif_factor s="1" t="1" />
+	    </TEXTURE>
 	    <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
 	    
 	</TEXTURES>
@@ -140,7 +149,6 @@
 			<SUBANIMATION id="mesa" time="0"/>
 			<SUBANIMATION id="cadeira" time="0"/>
 		</ANIMATION>
-
 	</ANIMATIONS>
 
 
