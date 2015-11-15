@@ -17,9 +17,8 @@ varying vec2 vTextureCoord;
 
 void main(){
     vec4 offset = vec4(0.0,0.0,0.0,0.0);
-    float h = 0.0;
-    h = texture2D(uHeightMap, aTextureCoord).r * uHeightRange;
-    offset = vec4(aVertexPosition.x, aVertexPosition.y + h, aVertexPosition.z, 1.0);
+    float height = texture2D(uHeightMap, aTextureCoord).r * uHeightRange;
+    offset = vec4(aVertexPosition.x, aVertexPosition.y + height, aVertexPosition.z, 1.0);
     gl_Position = uPMatrix *uMVMatrix * offset;
     vTextureCoord = aTextureCoord;
 }
