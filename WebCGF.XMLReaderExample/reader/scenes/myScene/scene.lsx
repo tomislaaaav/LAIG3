@@ -88,6 +88,15 @@
 	        <amplif_factor s="1" t="1" />               
 	    </TEXTURE> 
 
+	    <TEXTURE id="volcano_heightmap">
+	    	<file path="textures/volcano_heightmap.png"/>
+	    	<amplif_factor s="1" t="1" />
+	    </TEXTURE>
+
+	    <TEXTURE id="volcanoColor">
+	    	<file path="textures/volcano.jpg"/>
+	    	<amplif_factor s="1" t="1" />
+	    </TEXTURE>
 	    <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
 	    
 	</TEXTURES>
@@ -140,7 +149,6 @@
 			<SUBANIMATION id="mesa" time="0"/>
 			<SUBANIMATION id="cadeira" time="0"/>
 		</ANIMATION>
-
 	</ANIMATIONS>
 
 
@@ -169,6 +177,8 @@
 				<CONTROLPOINT x="2.0" y="2.0" z="2.0" a="1" />							
 				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
 	    </LEAF>
+
+	    <LEAF id="volcano" type="terrain" heightrange="0.75" heightmap="volcano_heightmap" colormap="volcanoColor" />
 
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
@@ -217,6 +227,8 @@
 	            <DESCENDANT id="left wall" />
 
 	            <DESCENDANT id="front wall" />
+
+	            <DESCENDANT id="volcano" />
 
 	        </DESCENDANTS>
 

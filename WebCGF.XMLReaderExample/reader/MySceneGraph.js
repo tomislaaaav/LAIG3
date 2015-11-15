@@ -313,6 +313,10 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
             break;
         case 'vehicle':
             this.leaves[id] = this.parseVehicle(leafNode[i]);
+            break;
+        case 'terrain':
+            this.leaves[id] = this.parseTerrain(leafNode[i]);
+            break;
         default:
             return this.onXMLError("invalid 'type' element in 'LEAF' id= " + id + ".");
         }
@@ -670,6 +674,25 @@ MySceneGraph.prototype.parseVehicle = function(node) {
     return null;
     //return new Vehicle(this.scene, node.id);
 };
+
+/**
+ * Parses the leaf terrain.
+ * @param {MyNode} node - The current parsing node
+ * @return Terrain
+ */
+MySceneGraph.prototype.parseTerrain= function(node) {
+    var heighmapID = this.reader.getString(node, 'heightmap', true);
+    if(this.textures[heighmapID] == null)
+        return this.onXMLError("In 'LEAF' id= " +node.id+" element 'heightmap' = "+heightmapID+" doesn´t exist as a 'TEXTURE'");
+    var colorMapID = this.reader.getString(node, 'colormap', true);
+    if(this.textures[colorMapID] == null)
+        return this.onXMLError("In 'LEAF' id= " +node.id+" element 'colormap' = "+colorMapID+" doesn´t exist as a 'TEXTURE'");
+    
+    var heightRange = this.reader.getFloat(node, 'heightrange', true);
+    
+    return new Terrain(this.scene, node.id, heightRange, this.textures[heighmapID], this.textures[colorMapID]);
+};
+
 
 /**
  * Parses a transformation.
