@@ -178,11 +178,8 @@
 				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
 	    </LEAF>
 
-<<<<<<< HEAD
 	    <LEAF id="volcano" type="terrain" heightrange="0.75" heightmap="volcano_heightmap" colormap="volcanoColor" />
-=======
 	    <LEAF id="veh" type="vehicle" />
->>>>>>> refs/remotes/origin/Vehicle
 
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
@@ -232,11 +229,9 @@
 
 	            <DESCENDANT id="front wall" />
 
-<<<<<<< HEAD
-	            <DESCENDANT id="volcano" />
-=======
+	            <DESCENDANT id="volcano1" />
+
 	            <DESCENDANT id="veh" />
->>>>>>> refs/remotes/origin/Vehicle
 
 	        </DESCENDANTS>
 
@@ -804,6 +799,27 @@
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
 	            <DESCENDANT id="torre" />
+	        </DESCENDANTS>
+
+	    </NODE>
+
+	    <NODE id="volcano1">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+	        <!-- next two lines are mandatory -->
+	        <MATERIAL id="grey" />      <!-- declared material superimposes the material received from parent node -->
+	                                  <!-- id="null" maintains material from parent node        -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+	                                  <!-- id="null" maintains texture from parent node       -->
+	                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+	        
+	        <TRANSLATION x="12" y="0" z="8" />
+	        <SCALE sx="3" sy="3" sz="3" />
+
+	        <!-- declaring descendents, ate least one node or one leaf must be present -->
+	        <DESCENDANTS>
+	            <DESCENDANT id="volcano" />
 	        </DESCENDANTS>
 
 	    </NODE>

@@ -314,12 +314,9 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
         case 'vehicle':
             this.leaves[id] = this.parseVehicle(leafNode[i]);
             break;
-<<<<<<< HEAD
         case 'terrain':
             this.leaves[id] = this.parseTerrain(leafNode[i]);
             break;
-=======
->>>>>>> refs/remotes/origin/Vehicle
         default:
             return this.onXMLError("invalid 'type' element in 'LEAF' id= " + id + ".");
         }
@@ -725,7 +722,7 @@ MySceneGraph.prototype.parseVehicle = function(node) {
 /**
  * Parses the leaf terrain.
  * @param {MyNode} node - The current parsing node
- * @return Terrain
+ * @return Terrain {Terrain}
  */
 MySceneGraph.prototype.parseTerrain= function(node) {
     var heighmapID = this.reader.getString(node, 'heightmap', true);
