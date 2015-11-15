@@ -170,6 +170,8 @@
 				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
 	    </LEAF>
 
+	    <LEAF id="veh" type="vehicle" />
+
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
 	        <!-- cylinder:  height, bottom radius, top radius, sections along height, parts per section  -->
@@ -217,6 +219,8 @@
 	            <DESCENDANT id="left wall" />
 
 	            <DESCENDANT id="front wall" />
+
+	            <DESCENDANT id="veh" />
 
 	        </DESCENDANTS>
 

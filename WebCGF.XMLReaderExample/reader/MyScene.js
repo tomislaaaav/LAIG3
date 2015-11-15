@@ -35,6 +35,8 @@ MyScene.prototype.init = function (application) {
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    this.veiculo = new Vehicle(this, 'veiculo');
+
 
 	this.axis=new CGFaxis(this);
 };
@@ -135,6 +137,7 @@ MyScene.prototype.display = function () {
 		
 		var d = new Date();
 		this.nodes[this.rootID].display(null, null, d.getTime());
+		//this.veiculo.display();
     }; 
 	
 	

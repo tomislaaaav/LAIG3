@@ -313,6 +313,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
             break;
         case 'vehicle':
             this.leaves[id] = this.parseVehicle(leafNode[i]);
+            break;
         default:
             return this.onXMLError("invalid 'type' element in 'LEAF' id= " + id + ".");
         }
@@ -667,8 +668,8 @@ MySceneGraph.prototype.parseControlPoint = function(controlPoint) {
  * @return Vehicle
  */
 MySceneGraph.prototype.parseVehicle = function(node) {
-    return null;
-    //return new Vehicle(this.scene, node.id);
+    //return null;
+    return new Vehicle(this.scene, node.id);
 };
 
 /**
