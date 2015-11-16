@@ -148,7 +148,12 @@
  
 		<ANIMATION id="enter_through_window" span="10" type="linear">
 			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="18.5" y="0" z="0"/>
+			<CONTROLPOINT x="15" y="0" z="0"/>
+		</ANIMATION>
+
+		<ANIMATION id="align_with_chair" span="4" type="linear">
+			<CONTROLPOINT x="0" y="0" z="0"/>
+			<CONTROLPOINT x="" y="0" z="3.5"/>
 		</ANIMATION>
 
 		<ANIMATION id="descend" span="10" type="linear">
@@ -172,7 +177,8 @@
 			<SUBANIMATION id="rotate_right" time="11" />
 			<SUBANIMATION id="circle_around_room" time="14"/>
 			<SUBANIMATION id="rotate_left" time="25" />
-			<SUBANIMATION id="descend" time="29"/>
+			<SUBANIMATION id="align_with_chair" time="29" />
+			<SUBANIMATION id="descend" time="34"/>
 		</ANIMATION>
 	</ANIMATIONS>
 

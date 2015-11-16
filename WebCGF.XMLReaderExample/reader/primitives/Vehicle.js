@@ -70,7 +70,6 @@ Vehicle.prototype.constructor = Vehicle;
  */
 Vehicle.prototype.display= function(parentTexture, parentMaterial, currTime){
 	this.scene.pushMatrix();
-    //this.scene.rotate(Math.PI/2, 0, 1, 0);
     this.scene.scale(0.5,0.5,0.5);
     this.scene.pushMatrix();
     this.brown.apply();
