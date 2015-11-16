@@ -1,5 +1,6 @@
 /**
  * Creates the interface of the lights.
+ * @constructor
  * @param scene {CGFscene} - the scene
  */
 function MyLightsInterface(scene) {

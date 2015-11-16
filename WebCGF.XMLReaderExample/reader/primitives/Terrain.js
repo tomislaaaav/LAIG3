@@ -1,5 +1,6 @@
 /**
  * Creates a Terrain.
+ * @constructor
  * @param scene {CGFscene} - the scene
  * @param id {string} - the id of the node
  * @param heightRange {number} - the range of the height
