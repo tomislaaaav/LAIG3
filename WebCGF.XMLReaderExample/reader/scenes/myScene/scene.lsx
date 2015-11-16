@@ -871,8 +871,8 @@
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        
-	        <TRANSLATION x="16" y="0" z="4" />
-	        <SCALE sx="4" sy="4" sz="4" />
+	        <TRANSLATION x="-20" y="0" z="10" />
+	        <SCALE sx="20" sy="10" sz="20" />
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>

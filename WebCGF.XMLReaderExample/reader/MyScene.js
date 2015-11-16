@@ -25,6 +25,8 @@ MyScene.prototype.init = function (application) {
 
     this.initCameras();
 	this.enableTextures(true);
+	
+	this.initLights();
 
 	this.enabledLights = [];
 
@@ -81,8 +83,9 @@ MyScene.prototype.onGraphLoaded = function ()
     for (var i = 0; i < this.graph.lights.length; ++i) {
     	this.lights[i] = this.graph.lights[i];
     	this.lights[i].setVisible(true);
-    	console.log("loaded light id="+this.lights[i].id);
-    	this.enabledLights[this.lights[i].id] = this.lights[i].enabled;
+    	this.lights[i].update();
+    	console.log("loaded light id="+this.lights[i].lightID);
+    	this.enabledLights[this.lights[i].lightID] = this.lights[i].enabled;
     }
 	this.initialTransformations = this.graph.initialTransformations;
 	this.textures = this.graph.textures;
@@ -162,13 +165,15 @@ MyScene.prototype.applyInitTransformations= function(){
 
 MyScene.prototype.updateLight= function(lightID, state){
 	for (var i=0; i < this.lights.length; i++) {
-		if (this.lights[i].id == lightID) {
+		if (this.lights[i].lightID == lightID) {
 			if(state) {
-				console.log("Enable light="+this.lights[i].id);
+				console.log("Enable light="+this.lights[i].lightID);
 				this.lights[i].enable()
+				this.lights[i].update();
 			}else{
-				console.log("Disable light="+this.lights[i].id);
+				console.log("Disable light="+this.lights[i].lightID);
 				this.lights[i].disable();
+				this.lights[i].update();
 			}
 			return;
 		}
@@ -179,3 +184,16 @@ MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0)
 		this.timer += (currTime - this.lastUpdate);
 }
+
+
+MyScene.prototype.initLights = function () {
+
+	if (this.lights.length > 0) {
+		this.lights[0].setPosition(0,0,15,1);
+		this.lights[0].setAmbient(0.1,0.1,0.1,1);
+		this.lights[0].setDiffuse(0.9,0.9,0.9,1);
+		this.lights[0].setSpecular(0,0,0,1);
+		this.lights[0].enable();		
+		this.lights[0].update();
+	}
+};
