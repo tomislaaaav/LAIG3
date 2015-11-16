@@ -27,6 +27,14 @@
 	        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
 	    </LIGHT>
 
+	    <LIGHT id="sconce_light">                                    
+	        <enable value="1" />                  
+	        <position x="10" y="11" z="0" w="1" />
+	        <ambient r="0.75" g="0" b="0" a="1" />
+	        <diffuse r="0.75" g="0" b="0" a="1" />
+	        <specular r="0.75" g="0" b="0" a="1" />       
+	    </LIGHT>
+
 	    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
 	    
 	</LIGHTS>
@@ -193,20 +201,38 @@
 	    <!--<LEAF id="ter" type="terrain" texture="chao" heightmap="chao" />--> 
 	    <LEAF id="plane" type="plane" parts="20"/>
 	    <LEAF id="patch" type="patch" orderU="2" orderV="3" partsU="20" partsV="20" >
-	    		<CONTROLPOINT x="-1.5" y="-1.5" z="0.0" a="1" />
-				<CONTROLPOINT x="-2.0" y="-2.0" z="2.0" a="1" />
-				<CONTROLPOINT x="-2.0" y="2.0" z="2.0" a="1" />
-				<CONTROLPOINT x="-1.5" y="1.5" z="0.0" a="1" />							
+    		<CONTROLPOINT x="-1.5" y="-1.5" z="0.0" a="1" />
+			<CONTROLPOINT x="-2.0" y="-2.0" z="2.0" a="1" />
+			<CONTROLPOINT x="-2.0" y="2.0" z="2.0" a="1" />
+			<CONTROLPOINT x="-1.5" y="1.5" z="0.0" a="1" />							
 
-				<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
-				<CONTROLPOINT x="0" y="-2.0" z="3.0" a="5" />							
-				<CONTROLPOINT x="0" y="2.0" z="3.0" a="5" />							
-				<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
-					 					 
-				<CONTROLPOINT x="1.5" y="-1.5" z="0.0" a="1" />							
-				<CONTROLPOINT x="2.0" y="-2.0" z="2.0" a="1" />							
-				<CONTROLPOINT x="2.0" y="2.0" z="2.0" a="1" />							
-				<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
+			<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
+			<CONTROLPOINT x="0" y="-2.0" z="3.0" a="5" />							
+			<CONTROLPOINT x="0" y="2.0" z="3.0" a="5" />							
+			<CONTROLPOINT x="0" y="0" z="3.0" a="1" />							
+				 					 
+			<CONTROLPOINT x="1.5" y="-1.5" z="0.0" a="1" />							
+			<CONTROLPOINT x="2.0" y="-2.0" z="2.0" a="1" />							
+			<CONTROLPOINT x="2.0" y="2.0" z="2.0" a="1" />							
+			<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
+	    </LEAF>
+
+
+	    <LEAF id="sconce" type="patch" orderU="2" orderV="3" partsU="20" partsV="20" >
+	    	<CONTROLPOINT x="-1.5" y="-1.0" z="0.0" a="1" />
+			<CONTROLPOINT x="-2.0" y="-1.0" z="0.0" a="1" />
+			<CONTROLPOINT x="-2.0" y="1.0" z="0.0" a="1" />
+			<CONTROLPOINT x="-1.5" y="1.0" z="0.0" a="1" />							
+
+			<CONTROLPOINT x="0" y="0" z="0.0" a="1" />							
+			<CONTROLPOINT x="0" y="-2.0" z="1.5" a="5" />							
+			<CONTROLPOINT x="0" y="2.0" z="1.5" a="5" />							
+			<CONTROLPOINT x="0" y="0" z="0.0" a="1" />							
+				 					 
+			<CONTROLPOINT x="1.5" y="-1.0" z="0.0" a="1" />							
+			<CONTROLPOINT x="2.0" y="-1.0" z="0.0" a="1" />							
+			<CONTROLPOINT x="2.0" y="1.0" z="0.0" a="1" />							
+			<CONTROLPOINT x="1.5" y="1.0" z="0.0" a="1" />							
 	    </LEAF>
 
 	    <LEAF id="volcano" type="terrain" heightrange="0.75" heightmap="volcano_heightmap" colormap="volcanoColor" />
@@ -263,6 +289,8 @@
 	            <DESCENDANT id="volcano1" />
 
 	            <DESCENDANT id="vehicle1_1" />
+
+	            <DESCENDANT id="place_sconce" />
 
 	        </DESCENDANTS>
 
@@ -1328,6 +1356,23 @@
 	        </DESCENDANTS>
 
 	    </NODE>
+
+	    <NODE id="place_sconce">      
+
+	        <MATERIAL id="null" />     
+	        <TEXTURE id="clear" />       
+
+
+
+	        <TRANSLATION x="10" y="10" z="0" />
+	        <!--<SCALE sx="20" sy="20" sz="20" /> -->
+
+	        <DESCENDANTS>
+	            <DESCENDANT id="sconce" />     
+	        </DESCENDANTS>
+
+	    </NODE>
+
 
 	</NODES>
 

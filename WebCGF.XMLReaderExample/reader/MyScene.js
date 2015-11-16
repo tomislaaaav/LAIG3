@@ -36,6 +36,8 @@ MyScene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis=new CGFaxis(this);
+
+
 };
 
 /**
@@ -92,8 +94,7 @@ MyScene.prototype.onGraphLoaded = function ()
 
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
-
-		
+	
 };
 
 /**
