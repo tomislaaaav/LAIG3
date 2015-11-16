@@ -51,9 +51,9 @@ MyScene.prototype.initCameras = function () {
  * Creates a default appearance.
  */
 MyScene.prototype.setDefaultAppearance = function () {
-    this.setAmbient(0.2, 0.4, 0.8, 1.0);
-    this.setDiffuse(0.2, 0.4, 0.8, 1.0);
-    this.setSpecular(0.2, 0.4, 0.8, 1.0);
+    this.setAmbient(0.2, 0.2, 0.2, 1.0);
+    this.setDiffuse(0.2, 0.2, 0.2, 1.0);
+    this.setSpecular(0.2, 0.2, 0.2, 1.0);
     this.setShininess(10.0);	
 };
 
@@ -94,7 +94,10 @@ MyScene.prototype.onGraphLoaded = function ()
 
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
-	
+
+
+	this.timer = 0;
+    this.setUpdatePeriod(100/6);
 };
 
 /**
@@ -133,8 +136,8 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();	
 		}
 		
-		var d = new Date();
-		this.nodes[this.rootID].display(null, null, d.getTime());
+		
+		this.nodes[this.rootID].display(null, null, this.timer);
     }; 
 	
 	
@@ -171,3 +174,8 @@ MyScene.prototype.updateLight= function(lightID, state){
 		}
 	}
 };
+
+MyScene.prototype.update = function(currTime) {
+	if (this.lastUpdate != 0)
+		this.timer += (currTime - this.lastUpdate);
+}
