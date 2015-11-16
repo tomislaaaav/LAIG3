@@ -69,8 +69,8 @@ Vehicle.prototype.constructor = Vehicle;
  * @param currTime {number} - the current time
  */
 Vehicle.prototype.display= function(parentTexture, parentMaterial, currTime){
-
-    this.scene.rotate(Math.PI/2, 0, 1, 0);
+	this.scene.pushMatrix();
+    //this.scene.rotate(Math.PI/2, 0, 1, 0);
     this.scene.scale(0.5,0.5,0.5);
     this.scene.pushMatrix();
     this.brown.apply();
@@ -91,5 +91,6 @@ Vehicle.prototype.display= function(parentTexture, parentMaterial, currTime){
     this.p3.display();
     this.scene.popMatrix();
     
+    this.scene.popMatrix();
     this.scene.popMatrix();
 };

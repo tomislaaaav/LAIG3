@@ -141,11 +141,19 @@
 	<ANIMATIONS>
 		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 -10" radius="10" startang="-90" rotang="360" />
 
-		<ANIMATION id="bullet1" span="10" type="circular" center="0 0 -10" radius="1" startang="0" rotang="270" />
+		<ANIMATION id="circle_around_room" span="10" type="circular" center="5 0 0" radius="-5" startang="0" rotang="360" />
 
-		<ANIMATION id="bullet2" span="10" type="linear">
+		<ANIMATION id="rotate_right" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="-90" />
+		<ANIMATION id="rotate_left" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="90" />
+ 
+		<ANIMATION id="enter_through_window" span="10" type="linear">
 			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="0" y="0" z="-10"/>
+			<CONTROLPOINT x="18.5" y="0" z="0"/>
+		</ANIMATION>
+
+		<ANIMATION id="descend" span="10" type="linear">
+			<CONTROLPOINT x="0" y="0" z="0"/>
+			<CONTROLPOINT x="0" y="-4.2" z="0"/>
 		</ANIMATION>
 
 		<ANIMATION id="mesa" span="10" type="linear">
@@ -160,8 +168,11 @@
 		</ANIMATION>
 
 		<ANIMATION id="bullet" type="composed">
-			<SUBANIMATION id="bullet1" time="0"/>
-			<SUBANIMATION id="bullet2" time="10"/>
+			<SUBANIMATION id="enter_through_window" time="0"/>
+			<SUBANIMATION id="rotate_right" time="11" />
+			<SUBANIMATION id="circle_around_room" time="14"/>
+			<SUBANIMATION id="rotate_left" time="25" />
+			<SUBANIMATION id="descend" time="29"/>
 		</ANIMATION>
 	</ANIMATIONS>
 
@@ -865,9 +876,7 @@
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 	        
-	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-	        <TRANSLATION x="10" y="8" z="10" />
-	        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<TRANSLATION x="-10" y="7.5" z="11.75" />
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
@@ -1022,7 +1031,7 @@
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
 
-	        <ANIMATIONREF id="cadeira"/>
+	        <!--<ANIMATIONREF id="cadeira"/>-->
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
