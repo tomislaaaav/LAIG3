@@ -142,6 +142,14 @@
 	        <emission r="0.5" g="0.5" b="0.5" a="1" />        <!-- emission component -->
 	    </MATERIAL>
 
+	    <MATERIAL id="sconce">                                  
+	        <shininess value="120" />
+	        <specular r="0.25" g="0" b="0" a="0.1" />        <!-- specular reflection -->
+	        <diffuse r="0.25" g="0" b="0" a="0.1" />         <!-- diffuse reflection -->
+	        <ambient r="0.25" g="0" b="0" a="0.1" />         <!-- ambient reflection -->
+	        <emission r="0.25" g="0" b="0" a="0.1" />       <!-- emission component -->
+	    </MATERIAL>
+
 	    <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material requires a distinct "id" -->
 
 	</MATERIALS>
