@@ -157,7 +157,7 @@
 	<ANIMATIONS>
 		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 -10" radius="10" startang="-90" rotang="360" />
 
-		<ANIMATION id="circle_around_room" span="10" type="circular" center="5 0 0" radius="-5" startang="0" rotang="360" />
+		<ANIMATION id="circle_around_room" span="10" type="circular" center="8 0 0" radius="-8" startang="0" rotang="360" />
 
 		<ANIMATION id="rotate_right" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="-90" />
 		<ANIMATION id="rotate_left" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="90" />
@@ -277,16 +277,7 @@
 	            <DESCENDANT id="mesa1" />       <!-- "ss" is the identifier of a node or of leaf; -->
 	                                         <!-- may be repeatad as necessary. It can refer an -->
 	                                         <!-- identifier of another node or leaf, later defined in the lsx file. -->
-	            <DESCENDANT id="cadeira1" />
-	            
-	            <DESCENDANT id="rato1" />
-
-	        	
-	            <DESCENDANT id="torre1" />
-	            
-	            <DESCENDANT id="teclado1" />
-	            
-	            <DESCENDANT id="monitor1" />
+	            <DESCENDANT id="cadeira1" />	            
 
 	            <DESCENDANT id="floor" />
 
@@ -879,8 +870,8 @@
 
 	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 	        
-	        <TRANSLATION x="-20" y="0" z="10" />
-	        <SCALE sx="20" sy="10" sz="20" />
+	        <TRANSLATION x="8.25" y="3.51" z="8.25" />
+	        <SCALE sx="4" sy="2" sz="4" />
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
