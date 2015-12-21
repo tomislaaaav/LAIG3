@@ -29,11 +29,18 @@ BoardDraw.prototype = Object.create(Object.prototype);
 BoardDraw.prototype.constructor = BoardDraw;
 
 
-BoardDraw.prototype.drawPlate = function(){
+BoardDraw.prototype.drawPlates = function(x,y){
     this.scene.pushMatrix();
-    this.scene.scale(this.x,1,Math.floor(this.y/2) + 1);
-    this.plate.display();
+        this.scene.scale(x,1,Math.floor(y/2) + 1);
+        this.plate.display();
+
+        this.scene.pushMatrix();
+            this.scene.translate(1,-1,0);
+            this.scene.rotate(Math.PI,0,0,1);
+            this.plate.display();
+        this.scene.popMatrix();  
     this.scene.popMatrix();
+
 }
 
 BoardDraw.prototype.drawMosaic = function(x,y){
@@ -62,8 +69,8 @@ BoardDraw.prototype.drawMosaic = function(x,y){
 BoardDraw.prototype.display = function(){
     this.scene.pushMatrix();
     this.scene.scale(this.size, this.size, this.size);
-
-    this.drawPlate();
+    
+    this.boardBody(this.x, this.y);
     for(var i = 1; i <= this.x; i++)
         for(var j = 1; j <= this.y; j++){
             this.drawMosaic(i,j);
@@ -78,4 +85,42 @@ BoardDraw.prototype.display = function(){
  */
 BoardDraw.prototype.setSize= function(size){
     this.size = size;
+};
+
+BoardDraw.prototype.boardBody= function(x,y){
+    this.scene.pushMatrix();
+        this.scene.scale(1,0.5,1);
+        this.drawPlates(x,y);
+        this.drawBorders(x,y);
+    this.scene.popMatrix();
+};
+
+BoardDraw.prototype.drawBorders= function(x,y){
+    this.scene.pushMatrix();
+        
+        this.scene.translate(0,-1,0);
+        this.scene.rotate(Math.PI/2,0,0,1);
+        this.scene.scale(1,1,Math.floor(y/2) + 1);
+        this.plate.display();
+
+        this.scene.pushMatrix();
+            this.scene.translate(1,-x,0);
+            this.scene.rotate(-Math.PI,0,0,1);  
+            this.plate.display();  
+        this.scene.popMatrix();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(0,-1,Math.floor(y/2) + 1);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.scene.rotate(Math.PI/2,0,0,1);
+        this.scene.scale(1,1,x);
+        this.plate.display();
+
+        this.scene.pushMatrix();
+            this.scene.translate(1,-(Math.floor(y/2) + 1),0);
+            this.scene.rotate(-Math.PI,0,0,1);  
+            this.plate.display();  
+        this.scene.popMatrix();
+    this.scene.popMatrix();
 };
