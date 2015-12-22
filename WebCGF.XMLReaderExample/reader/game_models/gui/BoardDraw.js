@@ -16,6 +16,8 @@ function BoardDraw(scene, x,y){
 
     this.plate = this.scene.nodes['plate'];
     this.mosaic= this.scene.nodes['plate_mosaic'];
+    this.piece1= this.scene.nodes['player1'];
+    this.piece2= this.scene.nodes['player2']
 }
 
 /**
@@ -31,7 +33,7 @@ BoardDraw.prototype.constructor = BoardDraw;
 
 BoardDraw.prototype.drawPlates = function(x,y){
     this.scene.pushMatrix();
-        this.scene.scale(x,1,Math.floor(y/2) + 1);
+        this.scene.scale(x,1,(y+1)/2);
         this.plate.display();
 
         this.scene.pushMatrix();
@@ -69,13 +71,33 @@ BoardDraw.prototype.drawMosaic = function(x,y){
 BoardDraw.prototype.display = function(){
     this.scene.pushMatrix();
     this.scene.scale(this.size, this.size, this.size);
-    
+
+    this.placePieces(this.x, this.y);
     this.boardBody(this.x, this.y);
-    for(var i = 1; i <= this.x; i++)
-        for(var j = 1; j <= this.y; j++){
-            this.drawMosaic(i,j);
-        }
+        this.scene.pushMatrix();
+            this.scene.translate(1,0,0);
+            for(var i = 1; i <= this.x; i++)
+                for(var j = 1; j <= this.y; j++){
+                    this.drawMosaic(i,j);
+                }
+        this.scene.popMatrix();
     
+    this.scene.popMatrix();
+}
+
+/**
+ * Place the pieces in the border of the board
+ */
+BoardDraw.prototype.placePieces= function(x,y){
+    this.scene.pushMatrix();
+        this.scene.translate(0,0,(y+1)/4);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.piece2.display();
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+        this.scene.translate(x+2,0,(y+1)/4);
+        this.scene.rotate(-Math.PI/2,0,1,0);
+        this.piece1.display();
     this.scene.popMatrix();
 }
 
@@ -88,6 +110,7 @@ BoardDraw.prototype.setSize= function(size){
 };
 
 BoardDraw.prototype.boardBody= function(x,y){
+    x +=2;
     this.scene.pushMatrix();
         this.scene.scale(1,0.5,1);
         this.drawPlates(x,y);
@@ -96,11 +119,12 @@ BoardDraw.prototype.boardBody= function(x,y){
 };
 
 BoardDraw.prototype.drawBorders= function(x,y){
+    
     this.scene.pushMatrix();
         
         this.scene.translate(0,-1,0);
         this.scene.rotate(Math.PI/2,0,0,1);
-        this.scene.scale(1,1,Math.floor(y/2) + 1);
+        this.scene.scale(1,1,(y+1)/2);
         this.plate.display();
 
         this.scene.pushMatrix();
@@ -111,14 +135,14 @@ BoardDraw.prototype.drawBorders= function(x,y){
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0,-1,Math.floor(y/2) + 1);
+        this.scene.translate(0,-1,(y+1)/2);
         this.scene.rotate(Math.PI/2,0,1,0);
         this.scene.rotate(Math.PI/2,0,0,1);
         this.scene.scale(1,1,x);
         this.plate.display();
 
         this.scene.pushMatrix();
-            this.scene.translate(1,-(Math.floor(y/2) + 1),0);
+            this.scene.translate(1,-(y+1)/2,0);
             this.scene.rotate(-Math.PI,0,0,1);  
             this.plate.display();  
         this.scene.popMatrix();
