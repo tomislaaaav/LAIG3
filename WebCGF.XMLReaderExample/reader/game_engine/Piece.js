@@ -12,7 +12,7 @@ function Piece(scene, board, position, player){
     this.scene = scene;
     this.board = Vector.fromArray(board);
     this.boardPiecePosition = Vector.fromArray(position); 
-    this.position = Vector.fromArray(BoardDraw.realCoordinates(board, this.boardPiecePosition.toArray()));
+    this.position = this.getPiecePosition(board,position,player);
     this.initPosition= new Vector.fromArray(BoardDraw.pieceInitPositions(board,player));
 
     this.size=1;
@@ -32,7 +32,7 @@ function Piece(scene, board, position, player){
     
     this.player = player;
     this.createAnimation();
-    this.alignPieceAnimation = this.createAlignPieceAnimation();
+    this.alignPieceAnimation = this.createAlignPieceAnimation(position,player);
 
 };
 
@@ -72,9 +72,19 @@ Piece.prototype.setInInitialPosition = function(){
     this.scene.translate(this.initPosition.x,this.initPosition.y, this.initPosition.z);
     var rotation = BoardDraw.playerOrientation(this.player);
     this.scene.rotate(rotation, 0,1,0);
-
 };
 
+/**
+ *
+ */
+Piece.prototype.getPiecePosition= function(board,boardPiecePosition,player){
+    if(player == 1){
+        return Vector.fromArray(BoardDraw.realCoordinates(board, BoardDraw.invertCoordinates(board,boardPiecePosition)));
+    }else{
+        return Vector.fromArray(BoardDraw.realCoordinates(board, boardPiecePosition));
+    }
+
+}
 
 /**
  * Set the Piece scale size
@@ -153,11 +163,13 @@ Piece.getPieceHeight= function(){
  * -the piece needs to be inverted and you are player 1
  * -the piece doesn't need to be inverted and you are player 2
  */
-Piece.prototype.createAlignPieceAnimation= function(){
+Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
-    if((BoardDraw.isPieceInverted(this.boardPiecePosition.toArray()) && this.player==1)
-        || (!BoardDraw.isPieceInverted(this.boardPiecePosition.toArray()) && this.player == 2)){      
+    if((BoardDraw.isPieceInverted(position) && player==1)
+        || (!BoardDraw.isPieceInverted(position) && player == 2)){      
         var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
+        var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
+        animation.addAnimation(correctPosition, this.liftPieceDuration);
         animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
     }
 
