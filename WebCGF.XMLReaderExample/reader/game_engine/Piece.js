@@ -12,10 +12,11 @@ function Piece(scene, board, position, player){
     this.scene = scene;
     this.board = Vector.fromArray(board);
     this.boardPiecePosition = Vector.fromArray(position); 
-    this.position = Vector.fromArray(BoardDraw.realCoordinates(board, position));
+    this.position = Vector.fromArray(BoardDraw.realCoordinates(board, this.boardPiecePosition.toArray()));
     this.initPosition= new Vector.fromArray(BoardDraw.pieceInitPositions(board,player));
 
     this.size=1;
+    this.duration=5;
 
     switch(player){
         case 1:
@@ -31,7 +32,9 @@ function Piece(scene, board, position, player){
     
     this.player = player;
     this.createAnimation();
-}
+    this.alignPieceAnimation = this.createAlignPieceAnimation();
+
+};
 
 /**
  * Stances that Piece has the properties of a CGFobject. 
@@ -59,6 +62,7 @@ Piece.prototype.display = function(time){
         
 
         this.scene.rotate(-Math.PI/2, 0,0,1);
+        this.alignPieceAnimation.apply(time);
         
         this.piece.display();
     this.scene.popMatrix();
@@ -87,23 +91,25 @@ Piece.prototype.setSize= function(size){
 Piece.prototype.createAnimation= function(){
     var distance = this.initPosition.subtract(this.position).length();
 
-    var time = 5;
-    var movePieceTime = time*0.8;
-    var liftPieceTime = time*0.1; 
+    this.movePieceDuration = this.duration*0.8;
+    this.liftPieceDuration = this.duration*0.1; 
 
-    var circularTranslation = this.createCircularTranslation(distance,movePieceTime);
-    var circularRotation = this.createCircularRotation(movePieceTime);
-    var translation = this.createTranslation(distance,movePieceTime);
+    var circularTranslation = this.createCircularTranslation(distance,this.movePieceDuration);
+    var circularRotation = this.createCircularRotation(this.movePieceDuration);
+    var translation = this.createTranslation(distance,this.movePieceDuration);
 
-    var liftPiece = this.liftPieceAnimation(Piece.getPieceHeight(), "lift_piece",liftPieceTime);
-    var dropPiece = this.liftPieceAnimation(-Piece.getPieceHeight(), "drop_piece", liftPieceTime);
+    var liftPiece = this.liftPieceAnimation(Piece.getPieceHeight(), "lift_piece",this.liftPieceDuration);
+    var dropPiece = this.liftPieceAnimation(-Piece.getPieceHeight(), "drop_piece", this.liftPieceDuration);
+
+    
+    
 
     this.animation = new ComposedAnimation();
     this.animation.addAnimation(liftPiece, 0);
-    this.animation.addAnimation(circularTranslation,liftPieceTime);
-    this.animation.addAnimation(circularRotation,liftPieceTime);
-    this.animation.addAnimation(translation,liftPieceTime);
-    this.animation.addAnimation(dropPiece, liftPieceTime+movePieceTime);
+    this.animation.addAnimation(circularTranslation,this.liftPieceDuration);
+    this.animation.addAnimation(circularRotation,this.liftPieceDuration);
+    this.animation.addAnimation(translation,this.liftPieceDuration);
+    this.animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
 };
 
 
@@ -140,4 +146,20 @@ Piece.prototype.createTranslation= function(totalDistance, time){
 
 Piece.getPieceHeight= function(){
     return 0.2;
+}
+
+/**
+ * Creates an animation to rotate the piece if:
+ * -the piece needs to be inverted and you are player 1
+ * -the piece doesn't need to be inverted and you are player 2
+ */
+Piece.prototype.createAlignPieceAnimation= function(){
+    var animation = new ComposedAnimation();
+    if((BoardDraw.isPieceInverted(this.boardPiecePosition.toArray()) && this.player==1)
+        || (!BoardDraw.isPieceInverted(this.boardPiecePosition.toArray()) && this.player == 2)){      
+        var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
+        animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
+    }
+
+    return animation;
 }

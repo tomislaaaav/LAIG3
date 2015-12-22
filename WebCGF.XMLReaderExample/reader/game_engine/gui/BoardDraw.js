@@ -90,13 +90,15 @@ BoardDraw.prototype.display = function(){
  */
 BoardDraw.prototype.placePieces= function(x,y){
     this.scene.pushMatrix();
-        this.scene.translate(0,0,(y+1)/4);
-        this.scene.rotate(Math.PI/2,0,1,0);
+        var piece2 = BoardDraw.pieceInitPositions([x,0,y],2);
+        this.scene.translate(piece2[0],0,piece2[2]);
+        this.scene.rotate(BoardDraw.playerOrientation(2),0,1,0);
         this.piece2.display();
     this.scene.popMatrix();
     this.scene.pushMatrix();
-        this.scene.translate(x+2,0,(y+1)/4);
-        this.scene.rotate(-Math.PI/2,0,1,0);
+        var piece1 = BoardDraw.pieceInitPositions([x,0,y],1);
+        this.scene.translate(piece1[0],0,piece1[2]);
+        this.scene.rotate(BoardDraw.playerOrientation(1),0,1,0);
         this.piece1.display();
     this.scene.popMatrix();
 }
@@ -147,4 +149,54 @@ BoardDraw.prototype.drawBorders= function(x,y){
             this.plate.display();  
         this.scene.popMatrix();
     this.scene.popMatrix();
+};
+
+BoardDraw.pieceInitPositions= function(board, player){
+    switch(player){
+        case 1:
+            var boardDimensions = Vector.fromArray(board);
+            var x = boardDimensions.x + 2;
+            var y =(boardDimensions.z +1)/4;
+            return [x,0,y];
+            break;
+        case 2:
+            var boardDimensions = Vector.fromArray(board);
+            var x = 0;
+            var y =(boardDimensions.z +1)/4;
+            return [x,0,y];
+            break;
+        default:
+            console.error("Player "+player+" doesn't exist");
+            break;
+    }
+};
+
+BoardDraw.realCoordinates= function(board,coordinates){
+    var x = coordinates[0];
+    var y = (board[2] - coordinates[2])*0.5;
+    return [x,0,y];
+};
+
+BoardDraw.invertCoordinates= function(board, coordinates){
+    var x = board[0] - coordinates[0] + 1; 
+    var y = board[3] - coordinates[3] + 1;
+    return [x,0,y];
+};
+
+BoardDraw.isPieceInverted= function(coordinates){
+    if(coordinates[2]%2 == 0){
+        return true;
+    }else{
+        return false;        
+    }
+};
+
+BoardDraw.playerOrientation= function(player){
+    switch(player){
+        case 1:
+            return -Math.PI/2;
+        case 2:
+            return Math.PI/2;
+        
+    }  
 };
