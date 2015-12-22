@@ -55,15 +55,23 @@ Piece.prototype.display = function(time){
     this.scene.pushMatrix();
         this.scene.scale(this.size, this.size, this.size);
 
+        var path = this.position.subtract(this.initPosition);
+        var rotation = 0;
+        if(this.player == 1){
+            rotation = Math.PI - (Math.PI/2 - Math.atan2(path.x,path.z));
+        }else
+            rotation = Math.PI/2-Math.atan2(path.x,path.z);
         this.setInInitialPosition();
+
+        this.scene.rotate(-rotation,0,1,0);        
         this.scene.rotate(Math.PI/2,0,0,1);
-            
+        
         this.animation.apply(time);
         
-
         this.scene.rotate(-Math.PI/2, 0,0,1);
+        this.scene.rotate(rotation,0,1,0);
+
         this.alignPieceAnimation.apply(time);
-        
         this.piece.display();
     this.scene.popMatrix();
 };
@@ -99,8 +107,9 @@ Piece.prototype.setSize= function(size){
  *
  */
 Piece.prototype.createAnimation= function(){
-    var distance = this.initPosition.subtract(this.position).length();
-
+    var path = this.position.subtract(this.initPosition);
+    var distance = path.length();
+    
     this.movePieceDuration = this.duration*0.8;
     this.liftPieceDuration = this.duration*0.1; 
 
@@ -165,13 +174,16 @@ Piece.getPieceHeight= function(){
  */
 Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
+
+    var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
+    animation.addAnimation(correctPosition, this.liftPieceDuration);
+        
     if((BoardDraw.isPieceInverted(position) && player==1)
         || (!BoardDraw.isPieceInverted(position) && player == 2)){      
         var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
-        var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
-        animation.addAnimation(correctPosition, this.liftPieceDuration);
         animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
+    }else{
+              
     }
-
     return animation;
-}
+};

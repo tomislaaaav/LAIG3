@@ -173,7 +173,7 @@ BoardDraw.pieceInitPositions= function(board, player){
 
 BoardDraw.realCoordinates= function(board,coordinates){
     var x = coordinates[0];
-    var y = (board[2] - coordinates[2])*0.5;
+    var y = (board[2] - coordinates[2]+1)*0.5;
     return [x,0,y];
 };
 
