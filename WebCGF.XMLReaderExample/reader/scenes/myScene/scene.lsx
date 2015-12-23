@@ -22,20 +22,10 @@
 	    <LIGHT id="initial_light">                                    <!-- light identifier -->
 	        <enable value="1" />                         <!-- enable/disable -->
 	        <position x="4" y="8" z="4" w="1" />       <!-- light position -->
-	        <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
-	        <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
-	        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
+	        <ambient r="0.5" g="0.5" b="0.5" a="1" />        <!-- ambient component -->
+	        <diffuse r="0.5" g="0.5" b="0.5" a="1" />        <!-- diffuse component -->
+	        <specular r="0.5" g="0.5" b="0.5" a="1" />       <!-- specular component -->
 	    </LIGHT>
-
-	    <LIGHT id="sconce_light">                                    
-	        <enable value="1" />                  
-	        <position x="10" y="10" z="0" w="1" />
-	        <ambient r="0.75" g="0" b="0" a="1" />
-	        <diffuse r="0.75" g="0" b="0" a="1" />
-	        <specular r="0.75" g="0" b="0" a="1" />       
-	    </LIGHT>
-
-	    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
 	    
 	</LIGHTS>
 
@@ -46,86 +36,9 @@
 	        <amplif_factor s="1" t="1" />             
 	    </TEXTURE>
 
-	    <TEXTURE id="wood">
-	        <file path="textures/wood.jpg" />                  
-	        <amplif_factor s="1" t="1" />            
-	    </TEXTURE>
-
-	    <TEXTURE id="wallpaper">
-	        <file path="textures/desktop_wallpaper.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="keyboard">
-	        <file path="textures/keyboard.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="mouse">
-	        <file path="textures/mouse.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="front_tower">
-	        <file path="textures/tower_front.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="left_tower">
-	        <file path="textures/side_tower.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="chao">
-	        <file path="textures/floor_v2.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="front_wall">
-	        <file path="textures/wall_v2.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="back_tower">
-	        <file path="textures/tower_back.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE>
-
-	    <TEXTURE id="upper_tower">
-	        <file path="textures/tower_up.jpg" />                            
-	        <amplif_factor s="1" t="1" />               
-	    </TEXTURE> 
-
-	    <TEXTURE id="volcano_heightmap">
-	    	<file path="textures/volcano_heightmap.png"/>
-	    	<amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="volcanoColor">
-	    	<file path="textures/volcano.jpg"/>
-	    	<amplif_factor s="1" t="1" />
-	    </TEXTURE>
-	    <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-	    
 	</TEXTURES>
 
 	<MATERIALS>
-	    <MATERIAL id="brown">                                  
-	        <shininess value="120" />
-	        <specular r="0.5" g="0.25" b="0" a="1" />        <!-- specular reflection -->
-	        <diffuse r="0.5" g="0.25" b="0" a="1" />         <!-- diffuse reflection -->
-	        <ambient r="0.5" g="0.25" b="0" a="1" />         <!-- ambient reflection -->
-	        <emission r="0.5" g="0.25" b="0" a="1" />        <!-- emission component -->
-	    </MATERIAL>
-
-	    <MATERIAL id="green">                                  
-	        <shininess value="120" />
-	        <specular r="0" g="1" b="0" a="1" />        <!-- specular reflection -->
-	        <diffuse r="0" g="1" b="0" a="1" />         <!-- diffuse reflection -->
-	        <ambient r="0" g="1" b="0" a="1" />         <!-- ambient reflection -->
-	        <emission r="0" g="1" b="0" a="1" />        <!-- emission component -->
-	    </MATERIAL>
-
 	    <MATERIAL id="default">                                  
 	        <shininess value="120" />
 	        <specular r="1" g="1" b="1" a="1" />        <!-- specular reflection -->
@@ -135,67 +48,43 @@
 	    </MATERIAL>
 
 	    <MATERIAL id="grey">                                  
-	        <shininess value="120" />
-	        <specular r="0.5" g="0.5" b="0.5" a="1" />        <!-- specular reflection -->
-	        <diffuse r="0.5" g="0.5" b="0.5" a="0.5" />         <!-- diffuse reflection -->
-	        <ambient r="0.5" g="0.5" b="0.5" a="1" />         <!-- ambient reflection -->
-	        <emission r="0.5" g="0.5" b="0.5" a="1" />        <!-- emission component -->
-	    </MATERIAL>
+	        <shininess value="1" />
+	        <specular r="0.4" g="0.4" b="0.4" a="1" />       
+	        <diffuse r="0.4" g="0.4" b="0.4" a="0.1" />         
+	        <ambient r="0.4" g="0.4" b="0.4" a="0.1" />        
+	        <emission r="0.4" g="0.4" b="0.4" a="0.1" />        
+	     </MATERIAL>
 
-	    <MATERIAL id="sconce">                                  
-	        <shininess value="120" />
-	        <specular r="0.25" g="0" b="0" a="0.1" />        <!-- specular reflection -->
-	        <diffuse r="0.25" g="0" b="0" a="0.1" />         <!-- diffuse reflection -->
-	        <ambient r="0.25" g="0" b="0" a="0.1" />         <!-- ambient reflection -->
-	        <emission r="0.25" g="0" b="0" a="0.1" />       <!-- emission component -->
-	    </MATERIAL>
+	     <MATERIAL id="black">                                  
+	        <shininess value="50" />
+	        <specular r="0" g="0" b="0" a="1" />       
+	        <diffuse r="0" g="0" b="0" a="1" />         
+	        <ambient r="0" g="0" b="0" a="1" />        
+	        <emission r="0" g="0" b="0" a="1" />        
+	     </MATERIAL>
 
-	    <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material requires a distinct "id" -->
+	     <MATERIAL id="yellow">                                  
+	        <shininess value="50" />
+	        <specular r="0" g="1" b="1" a="1" />       
+	        <diffuse r="0" g="1" b="1" a="1" />         
+	        <ambient r="0" g="1" b="1" a="1" />        
+	        <emission r="0" g="1" b="1" a="1" />        
+	     </MATERIAL>
+
+	     <MATERIAL id="green">                                  
+	        <shininess value="50" />
+	        <specular r="0" g="1" b="0" a="1" />       
+	        <diffuse r="0" g="1" b="0" a="1" />         
+	        <ambient r="0" g="1" b="0" a="1" />        
+	        <emission r="0" g="1" b="0" a="1" />        
+	     </MATERIAL>  
+  
 
 	</MATERIALS>
 
+
 	<ANIMATIONS>
-		<ANIMATION id="cadeira" span="10" type="circular" center="0 0 -10" radius="10" startang="-90" rotang="360" />
-
-		<ANIMATION id="circle_around_room" span="10" type="circular" center="8 0 0" radius="-8" startang="0" rotang="360" />
-
-		<ANIMATION id="rotate_right" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="-90" />
-		<ANIMATION id="rotate_left" span="3" type="circular" center="0 0 0" radius="0" startang="0" rotang="90" />
- 
-		<ANIMATION id="enter_through_window" span="10" type="linear">
-			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="15" y="0" z="0"/>
-		</ANIMATION>
-
-		<ANIMATION id="align_with_chair" span="4" type="linear">
-			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="" y="0" z="3.5"/>
-		</ANIMATION>
-
-		<ANIMATION id="descend" span="10" type="linear">
-			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="0" y="-4.2" z="0"/>
-		</ANIMATION>
-
-		<ANIMATION id="mesa" span="10" type="linear">
-			<CONTROLPOINT x="0" y="0" z="0"/>
-			<CONTROLPOINT x="0" y="10" z="0"/>
-			<CONTROLPOINT x="10" y="0" z="0"/>
-		</ANIMATION>
-
-		<ANIMATION id="compCadeira" type="composed">
-			<SUBANIMATION id="mesa" time="0"/>
-			<SUBANIMATION id="cadeira" time="0"/>
-		</ANIMATION>
-
-		<ANIMATION id="bullet" type="composed">
-			<SUBANIMATION id="enter_through_window" time="0"/>
-			<SUBANIMATION id="rotate_right" time="11" />
-			<SUBANIMATION id="circle_around_room" time="14"/>
-			<SUBANIMATION id="rotate_left" time="25" />
-			<SUBANIMATION id="align_with_chair" time="29" />
-			<SUBANIMATION id="descend" time="34"/>
-		</ANIMATION>
+		
 	</ANIMATIONS>
 
 
@@ -225,27 +114,6 @@
 			<CONTROLPOINT x="1.5" y="1.5" z="0.0" a="1" />							
 	    </LEAF>
 
-
-	    <LEAF id="sconce" type="patch" orderU="2" orderV="3" partsU="20" partsV="20" >
-	    	<CONTROLPOINT x="-1.5" y="-1.0" z="0.0" a="1" />
-			<CONTROLPOINT x="-2.0" y="-1.0" z="0.0" a="1" />
-			<CONTROLPOINT x="-2.0" y="1.0" z="0.0" a="1" />
-			<CONTROLPOINT x="-1.5" y="1.0" z="0.0" a="1" />							
-
-			<CONTROLPOINT x="0" y="0" z="0.0" a="1" />							
-			<CONTROLPOINT x="0" y="-2.0" z="1.5" a="5" />							
-			<CONTROLPOINT x="0" y="2.0" z="1.5" a="5" />							
-			<CONTROLPOINT x="0" y="0" z="0.0" a="1" />							
-				 					 
-			<CONTROLPOINT x="1.5" y="-1.0" z="0.0" a="1" />							
-			<CONTROLPOINT x="2.0" y="-1.0" z="0.0" a="1" />							
-			<CONTROLPOINT x="2.0" y="1.0" z="0.0" a="1" />							
-			<CONTROLPOINT x="1.5" y="1.0" z="0.0" a="1" />							
-	    </LEAF>
-
-	    <LEAF id="volcano" type="terrain" heightrange="0.75" heightmap="volcano_heightmap" colormap="volcanoColor" />
-	    <LEAF id="veh" type="vehicle" />
-
 	    <!-- Parameters of the above primitives:                                                         -->
 	        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
 	        <!-- cylinder:  height, bottom radius, top radius, sections along height, parts per section  -->
@@ -270,13 +138,165 @@
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
 
-	        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+   	        <!-- <TRANSLATION x="2" y="0" z="2"/> -->
+
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
-
+	        	<!-- <DESCENDANT id="plate_mosaic"/> -->
+	        	<DESCENDANT id="plate"/>
 	        </DESCENDANTS>
 
+	    </NODE>
+
+
+	    <NODE id="plate">
+	   		<MATERIAL id="grey" />
+	    	<TEXTURE id="null" />
+
+	        <TRANSLATION x="0" y="0" z="1"/>
+	        <ROTATION axis="x" angle="-90"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="rect"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="player2">
+	   		<MATERIAL id="green" />
+	    	<TEXTURE id="null" />
+
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="game_piece"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="player1">
+	   		<MATERIAL id="yellow" />
+	    	<TEXTURE id="null" />
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="game_piece"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="game_piece">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="base_game_piece"/>
+	        	<DESCENDANT id="base_game_piece_1"/>
+	        	<DESCENDANT id="side_game_piece"/>
+	        	<DESCENDANT id="side_game_piece_1"/>
+	        	<DESCENDANT id="side_game_piece_2"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="base_game_piece">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<ROTATION axis="z" angle="180"/>
+	    	<TRANSLATION x="-0.5" y="-0.2" z="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="tri"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="base_game_piece_1">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<TRANSLATION x="-0.5" y="0" z="0" />
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="tri"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="side_game_piece">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<!--<SCALE sx="1" sy="0.5" sz="0"/>-->
+	    	<TRANSLATION x="0" y="0" z="1"/>
+	    	<ROTATION axis="y" angle="63.6"/>
+	    	<SCALE sx="1.115" sy="0.2" sz="0"/>
+
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="rect"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="side_game_piece_1">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<TRANSLATION x="-0.5" y="0" z="0"/>
+	    	<ROTATION axis="y" angle="-63"/>
+	    	<SCALE sx="1.115" sy="0.2" sz="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="rect"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	   	<NODE id="side_game_piece_2">
+	   		<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+
+	    	<ROTATION axis="y" angle="180"/>
+	    	<TRANSLATION x="-0.5" y="0" z="0"/>
+	    	<SCALE sx="1" sy="0.2" sz="1"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="rect"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+
+
+	   	<NODE id="grey_mosaic">
+	   		<MATERIAL id="grey" />
+	    	<TEXTURE id="null" />
+
+	        <TRANSLATION x="0.5" y="0.002" z="-0.5"/>
+	        <SCALE sx="0.98" sy="1" sz="0.96" />
+	        <TRANSLATION x="-0.01" y="0" z="0.53"/>
+	        <ROTATION axis="z" angle="180"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="tri"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+		<NODE id="black_mosaic">
+	   		<MATERIAL id="black" />
+	    	<TEXTURE id="null" />
+
+
+	        <TRANSLATION x="0.5" y="0" z="0"/>
+	        <ROTATION axis="z" angle="180"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="tri"/>
+	        </DESCENDANTS>
+	   	</NODE>
+
+	    <NODE id="plate_mosaic">
+	    	<MATERIAL id="grey" />
+	    	<TEXTURE id="null" />
+
+	        <TRANSLATION x="0" y="0.002" z="0.00"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="grey_mosaic"/>
+	        	<DESCENDANT id="black_mosaic"/>
+	        </DESCENDANTS>
 	    </NODE>
 
 	</NODES>
