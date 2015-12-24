@@ -3,26 +3,28 @@
  * @constructor
  * @param dimensions {array} - board dimensions 
  */
-function BoardInfo(scene, dimensions){
-    Object.call(this,scene);
+function BoardState(dimensions, board){
+    Object.call(this);
 
-    this.scene = scene;
     this.dimensions = Vector.fromArray(dimensions);
-
-    this.board = this.createEmptyBoard(this.dimensions.x, this.dimensions.z);
+    if(board != null)
+        this.board = board;
+    else
+        this.board = this.createEmptyBoard(this.dimensions.x, this.dimensions.z);
 };
 
 /**
- * Stances that BoardInfo has the properties of a CGFobject. 
+ * Stances that BoardState has the properties of a CGFobject. 
  */
-BoardInfo.prototype = Object.create(Object.prototype);
+BoardState.prototype = Object.create(Object.prototype);
 
 /**
- * Creates a BoardInfo.
+ * Creates a BoardState.
  */
-BoardInfo.prototype.constructor = BoardInfo;
+BoardState.prototype.constructor = BoardState;
 
-BoardInfo.prototype.createEmptyBoard= function(x,y){
+
+BoardState.prototype.createEmptyBoard= function(x,y){
     var board=[];
 
     for(var i = 0; i < x; i++){
@@ -37,11 +39,11 @@ BoardInfo.prototype.createEmptyBoard= function(x,y){
     return board;
 };
 
-BoardInfo.prototype.addPiece= function(x,y,player){
+BoardState.prototype.addPiece= function(x,y,player){
     this.board[x+1][y+1]=[null, player];
 };
 
-BoardInfo.boardDifferences= function(oldBoard, newBoard){
+BoardState.boardDifferences= function(oldBoard, newBoard){
     if(oldBoard.dimensions != newBoard.dimensions){
         console.error("Comparison between boards with different dimensions is not possible");
         return;
