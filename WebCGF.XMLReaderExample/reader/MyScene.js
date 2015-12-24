@@ -39,7 +39,7 @@ MyScene.prototype.init = function (application) {
 
 	this.axis=new CGFaxis(this);
 
-
+	this.setPickEnabled(true);
 };
 
 /**
@@ -98,6 +98,8 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
+	this.tabuleiro = new BoardDraw(this, 10, 10);
+
 
 	this.timer = 0;
     this.setUpdatePeriod(100/6);
@@ -139,7 +141,8 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();	
 		}
 		
-		
+		this.tabuleiro.display();
+		this.logPicking();
 		this.nodes[this.rootID].display(null, null, this.timer);
     }; 
 	
@@ -196,4 +199,20 @@ MyScene.prototype.initLights = function () {
 		this.lights[0].enable();		
 		this.lights[0].update();
 	}
+};
+
+MyScene.prototype.logPicking = function ()
+ {
+    if (this.pickMode == false) {
+        if (this.pickResults != null && this.pickResults.length > 0) {
+            for (var i=0; i< this.pickResults.length; i++) {
+                var obj = this.pickResults[i][0];
+                if (obj){
+                    var customId = this.pickResults[i][1];
+                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                }
+            }
+            this.pickResults.splice(0,this.pickResults.length);
+        }
+    }
 };

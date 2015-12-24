@@ -13,6 +13,7 @@ function BoardDraw(scene, x,y){
     this.y = y;
     this.size=1;
 
+    this.id = 1;
 
     this.plate = this.scene.nodes['plate'];
     this.mosaic= this.scene.nodes['plate_mosaic'];
@@ -73,6 +74,7 @@ BoardDraw.prototype.createTiles = function(x,y){
  * Draw the board
  */
 BoardDraw.prototype.display = function(){
+    this.id = 1;
     this.scene.pushMatrix();
     this.scene.scale(this.size, this.size, this.size);
 
@@ -82,6 +84,8 @@ BoardDraw.prototype.display = function(){
             this.scene.translate(1,0,0);
             for(var i = 0; i < this.x; i++)
                 for(var j = 0; j < this.y; j++){
+                    this.scene.registerForPick(this.id, this.tiles[i][j]);
+                    this.id++;
                     this.tiles[i][j].display();
                 }
         this.scene.popMatrix();
