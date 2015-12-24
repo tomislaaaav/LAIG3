@@ -6,7 +6,7 @@
  * @param {number} position - position where the 
  * @param {number} player - player making the move
  */
-function Piece(scene, board, position, player){
+function Piece(scene, board, position, player, duration){
     Object.call(this,scene);
 
     this.scene = scene;
@@ -16,7 +16,11 @@ function Piece(scene, board, position, player){
     this.initPosition= new Vector.fromArray(BoardDraw.pieceInitPositions(board,player));
 
     this.size=1;
-    this.duration=5;
+
+    if(duration === undefined)
+        this.duration=5;
+    else
+        this.duration = duration;
 
     switch(player){
         case 1:
@@ -31,7 +35,7 @@ function Piece(scene, board, position, player){
     }
     
     this.player = player;
-    this.createAnimation();
+    this.animation = this.createAnimation();
     this.alignPieceAnimation = this.createAlignPieceAnimation(position,player);
 
 };
@@ -45,8 +49,6 @@ Piece.prototype = Object.create(Object.prototype);
  * Creates a Piece.
  */
 Piece.prototype.constructor = Piece;
-
-
 
 /**
  * Draw the Piece
@@ -123,12 +125,13 @@ Piece.prototype.createAnimation= function(){
     
     
 
-    this.animation = new ComposedAnimation();
+    var animation = new ComposedAnimation();
     this.animation.addAnimation(liftPiece, 0);
     this.animation.addAnimation(circularTranslation,this.liftPieceDuration);
     this.animation.addAnimation(circularRotation,this.liftPieceDuration);
     this.animation.addAnimation(translation,this.liftPieceDuration);
     this.animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
+    return animation;
 };
 
 
@@ -186,4 +189,14 @@ Piece.prototype.createAlignPieceAnimation= function(position, player){
               
     }
     return animation;
+};
+
+
+
+/**
+ *
+ */
+Piece.prototype.setDuration= function(duration){
+    this.duration = duration;
+    this.animation = this.createAnimation();
 };
