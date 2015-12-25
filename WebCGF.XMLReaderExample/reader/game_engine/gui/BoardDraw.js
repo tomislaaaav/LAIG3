@@ -17,7 +17,9 @@ function BoardDraw(scene, x,y){
     this.plate = this.scene.nodes['plate'];
     this.mosaic= this.scene.nodes['plate_mosaic'];
     this.piece1= this.scene.nodes['player1'];
-    this.piece2= this.scene.nodes['player2']
+    this.piece2= this.scene.nodes['player2'];
+
+    this.tiles = this.createTiles(x,y);
 }
 
 /**
@@ -30,7 +32,9 @@ BoardDraw.prototype = Object.create(Object.prototype);
  */
 BoardDraw.prototype.constructor = BoardDraw;
 
-
+/**
+ * Draw the plates
+ */
 BoardDraw.prototype.drawPlates = function(x,y){
     this.scene.pushMatrix();
         this.scene.scale(x,1,(y+1)/2);
@@ -42,27 +46,27 @@ BoardDraw.prototype.drawPlates = function(x,y){
             this.plate.display();
         this.scene.popMatrix();  
     this.scene.popMatrix();
-
 }
 
-BoardDraw.prototype.drawMosaic = function(x,y){
+/**
+ * Create the tiles for the board
+ * @param {number} x - The height of the board
+ * @param {number} y - The width of the board
+ */
+BoardDraw.prototype.createTiles = function(x,y){
+    board = [x,0,y];
     
-    this.scene.pushMatrix();
+    var tiles = [];
 
-    this.scene.translate(this.x-x,0,(this.y-y)*0.5);
-    
-    //Place the center of the mosaic in the position (0.5,0,0.5)
-    this.scene.translate(1,0,0.5);
-    
-    //Change the mosaic from up or down according to its position on the board
-    if(y%2 == 0){
-        this.scene.translate(-1,0,0);
-        this.scene.rotate(Math.PI/2,0,1,0);
-    }else{
-        this.scene.rotate(-Math.PI/2,0,1,0);
+    for(var i = 1; i <= x; i++){
+        var row = [];
+        for(var j = 1; j <= y; j++){
+            var tile = new Tile(this.scene, board, [i,0,j]);
+            row.push(tile);
+        }
+        tiles.push(row);
     }
-    this.mosaic.display();
-    this.scene.popMatrix();
+    return tiles;
 }
 
 /**
@@ -76,9 +80,9 @@ BoardDraw.prototype.display = function(){
     this.boardBody(this.x, this.y);
         this.scene.pushMatrix();
             this.scene.translate(1,0,0);
-            for(var i = 1; i <= this.x; i++)
-                for(var j = 1; j <= this.y; j++){
-                    this.drawMosaic(i,j);
+            for(var i = 0; i < this.x; i++)
+                for(var j = 0; j < this.y; j++){
+                    this.tiles[i][j].display();
                 }
         this.scene.popMatrix();
     
@@ -178,7 +182,7 @@ BoardDraw.realCoordinates= function(board,coordinates){
 };
 
 BoardDraw.invertCoordinates= function(board, coordinates){
-    var x = board[0] - coordinates[0] + 1; 
+    var x = board[0] - coordinates[0]; 
     var y = board[2] - coordinates[2] + 1;
     return [x,0,y];
 };
