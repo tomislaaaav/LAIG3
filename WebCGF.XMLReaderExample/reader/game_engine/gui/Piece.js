@@ -127,11 +127,11 @@ Piece.prototype.createAnimation= function(){
     
 
     var animation = new ComposedAnimation();
-    this.animation.addAnimation(liftPiece, 0);
-    this.animation.addAnimation(circularTranslation,this.liftPieceDuration);
-    this.animation.addAnimation(circularRotation,this.liftPieceDuration);
-    this.animation.addAnimation(translation,this.liftPieceDuration);
-    this.animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
+    animation.addAnimation(liftPiece, 0);
+    animation.addAnimation(circularTranslation,this.liftPieceDuration);
+    animation.addAnimation(circularRotation,this.liftPieceDuration);
+    animation.addAnimation(translation,this.liftPieceDuration);
+    animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
     return animation;
 };
 

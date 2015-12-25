@@ -40,11 +40,11 @@ BoardState.prototype.createEmptyBoard= function(x,y){
 };
 
 BoardState.prototype.addPiece= function(x,y,player){
-    this.board[x+1][y+1]=[null, player];
+    this.board[x-1][y-1]=[null, player];
 };
 
 BoardState.boardDifferences= function(oldBoard, newBoard){
-    if(oldBoard.dimensions != newBoard.dimensions){
+    if(oldBoard.dimensions.x != newBoard.dimensions.x || oldBoard.dimensions.z != newBoard.dimensions.z){
         console.error("Comparison between boards with different dimensions is not possible");
         return;
     }
@@ -54,7 +54,7 @@ BoardState.boardDifferences= function(oldBoard, newBoard){
     for(var i = 0; i < oldBoard.dimensions.x; i++){
 
         for(var j = 0; j < oldBoard.dimensions.z; j++){
-            if(oldBoard.board[i][j] == newBoard.board[i][j]){
+            if(oldBoard.board[i][j][1] == newBoard.board[i][j][1]){
                 continue;
             }else{
                 var diff = [];

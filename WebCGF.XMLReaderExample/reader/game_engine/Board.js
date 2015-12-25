@@ -13,7 +13,7 @@ function Board(scene, x,y){
     this.y = y;
     this.dimensions = Vector.fromArray([x,0,y]);
 
-    this.state = new BoardState(x,y);
+    this.state = new BoardState([x,0,y]);
     this.boardTable = new BoardDraw(scene, x,y);
 
     this.boardHistory=[];
@@ -40,7 +40,14 @@ Board.prototype.constructor = Board;
  * Draw the board
  */
 Board.prototype.display = function(time){
+    if(this.rewind == true){
+        this.rewindGame(time);
+    }
+
     this.boardTable.display();
+    for(var i = 0; i < this.pieces.length; i++){
+        this.pieces[i].display(time);
+    }
 }
 
 Board.prototype.setSpeed= function(speed){
@@ -57,6 +64,9 @@ Board.prototype.setSpeed= function(speed){
         case "superfast":
             this.speed = 1;
             break;
+        default:
+            console.erro("Selected speed doesn't exist");
+            return false;
     }
 };
 
@@ -72,7 +82,7 @@ Board.prototype.play= function(player,x,y){
     var board = this.dimensions.toArray();
     var position = [x,0,y];
 
-    for(var i = 0; i < this.pieces.size; i++){
+    for(var i = 0; i < this.pieces.length; i++){
         if(this.pieces[i].boardPiecePosition.toArray() == position){
             console.error="There already is a piece in the position ("+x+","+y+")";
             return false;
@@ -86,10 +96,13 @@ Board.prototype.play= function(player,x,y){
     return true;
 };
 
+Board.prototype.newPlay= function(newBoard){
+    return this.switchBoards(this.state, newBoard);
+};
 
 Board.prototype.switchBoards= function(oldBoard, newBoard){
     var differences = BoardState.boardDifferences(oldBoard, newBoard);
-    for(var i = 0; i < differences.size; i++){
+    for(var i = 0; i < differences.length; i++){
         if(!this.applyBoardDifference(differences[i]))
             return false;
     }
@@ -101,7 +114,7 @@ Board.prototype.switchBoards= function(oldBoard, newBoard){
 
 Board.prototype.removeBoardPiece= function(x,y){
     var position = [x,0,y];
-    for(var i = 0; i < this.pieces.size; i++){
+    for(var i = 0; i < this.pieces.length; i++){
         if(this.pieces[i].boardPiecePosition.toArray() == position){
             this.pieces.splice(i,1);
             return true;
@@ -116,5 +129,44 @@ Board.prototype.applyBoardDifference= function(difference){
         return this.removeBoardPiece(difference.x, difference.y);
     }else{
         return this.play(difference.cell[1],difference.x,difference.y); 
+    }
+};
+
+
+
+
+Board.prototype.startRewind= function(){
+    if(this.boardHistory[0] == null){
+        console.error("There are no plays in the history that can be rewind");
+        return false;
+    }
+    this.setSpeed("fast");
+    
+    if(this.boardHistory.indexOf(this.state) == -1)
+        this.boardHistory.push(this.state);
+    this.state = this.boardHistory[0];
+    this.rewind = true;
+    this.rewindIndex = 1;
+    this.rewindInitTime = null;
+};
+
+Board.prototype.stopRewind= function(){
+    this.rewind = false;
+}
+
+Board.prototype.rewindGame= function(time){
+    if(this.rewindInitTime == null){
+        this.rewindInitTime = time;
+    }
+
+    var minutes = (time- this.rewindInitTime)*1e-3;
+    if(this.rewindIndex >= this.boardHistory.length){
+        console.log("Finished rewind");
+        return false;
+    }
+
+    if(minutes >= this.rewindIndex*this.speed){
+        this.newPlay(this.boardHistory[this.rewindIndex]);
+        this.rewindIndex++;  
     }
 };
