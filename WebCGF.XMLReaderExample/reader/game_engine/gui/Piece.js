@@ -3,7 +3,7 @@
  * @constructor
  * @param scene {CGFscene} - The scene
  * @param board {array} - board dimensions 
- * @param {number} position - position where the 
+ * @param {number} position - position where the piece will be placed 
  * @param {number} player - player making the move
  */
 function Piece(scene, board, position, player, duration){
@@ -31,6 +31,7 @@ function Piece(scene, board, position, player, duration){
             break;
         default:
             console.error("Piece played in ("+x+","+y+") does not correspond to a valid player");
+            return false;
             break;
     }
     
