@@ -179,11 +179,12 @@ Piece.getPieceHeight= function(){
 Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
 
-    var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
-    animation.addAnimation(correctPosition, this.liftPieceDuration);
+   
         
     if((BoardDraw.isPieceInverted(position) && player==1)
-        || (!BoardDraw.isPieceInverted(position) && player == 2)){      
+        || (!BoardDraw.isPieceInverted(position) && player == 2)){
+        var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
+        animation.addAnimation(correctPosition, this.liftPieceDuration);      
         var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
         animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
     }else{

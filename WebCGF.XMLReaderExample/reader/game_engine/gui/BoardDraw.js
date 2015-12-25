@@ -182,7 +182,7 @@ BoardDraw.realCoordinates= function(board,coordinates){
 };
 
 BoardDraw.invertCoordinates= function(board, coordinates){
-    var x = board[0] - coordinates[0] + 1; 
+    var x = board[0] - coordinates[0]; 
     var y = board[2] - coordinates[2] + 1;
     return [x,0,y];
 };
