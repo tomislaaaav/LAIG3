@@ -6,7 +6,7 @@
  * @param {number} y - The width of the board
  */
 function Tile(scene, board,position){
-    Object.call(this,scene);
+    Object.call(this);
 
     this.scene = scene;
     this.board = Vector.fromArray(board);
@@ -45,4 +45,4 @@ Tile.prototype.display = function(){
         }
         this.tile.display();
     this.scene.popMatrix();
-}
+};

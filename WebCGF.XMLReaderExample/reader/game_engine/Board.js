@@ -6,7 +6,7 @@
  * @param {number} y - The width of the board
  */
 function Board(scene, x,y){
-    Object.call(this,scene);
+    Object.call(this);
 
     this.scene = scene;
     this.x = x;

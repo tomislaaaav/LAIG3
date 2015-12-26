@@ -65,10 +65,18 @@
 
 	     <MATERIAL id="yellow">                                  
 	        <shininess value="50" />
-	        <specular r="0" g="1" b="1" a="1" />       
-	        <diffuse r="0" g="1" b="1" a="1" />         
-	        <ambient r="0" g="1" b="1" a="1" />        
-	        <emission r="0" g="1" b="1" a="1" />        
+	        <specular r="1" g="1" b="0" a="1" />       
+	        <diffuse r="1" g="1" b="0" a="1" />         
+	        <ambient r="1" g="1" b="0" a="1" />        
+	        <emission r="1" g="1" b="0" a="1" />        
+	     </MATERIAL>
+
+	     <MATERIAL id="red">                                  
+	        <shininess value="50" />
+	        <specular r="1" g="0" b="0" a="1" />       
+	        <diffuse r="1" g="0" b="0" a="1" />         
+	        <ambient r="1" g="0" b="0" a="1" />        
+	        <emission r="1" g="0" b="0" a="1" />        
 	     </MATERIAL>
 
 	     <MATERIAL id="green">                                  
@@ -144,11 +152,240 @@
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
 	        	<!-- <DESCENDANT id="plate_mosaic"/> -->
-	        	<DESCENDANT id="plate"/>
+	        	<DESCENDANT id="scoreboard_number_0"/>
 	        </DESCENDANTS>
 
 	    </NODE>
 
+	    <NODE id="scoreboard_number_0">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw4"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_1">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_2">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw4"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_3">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_4">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_5">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_6">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw4"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_7">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_8">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw4"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_number_9">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw1"/>
+	        	<DESCENDANT id="scoreboard_straw2"/>
+	        	<DESCENDANT id="scoreboard_straw3"/>
+	        	<DESCENDANT id="scoreboard_straw5"/>
+	        	<DESCENDANT id="scoreboard_straw6"/>
+	        	<DESCENDANT id="scoreboard_straw7"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw">
+	    	<MATERIAL id="red"/>
+	    	<TEXTURE id="null"/>
+
+	    	<SCALE sx="0.2" sy="1" sz="0.2"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="unit_cube"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_dot">
+	    	<MATERIAL id="red"/>
+	    	<TEXTURE id="null"/>
+
+	    	<SCALE sx="0.2" sy="0.2" sz="0.2"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="unit_cube"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw1">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="-0.5" y="0.5" z="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw2">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="0" y="1" z="0"/>
+	        <ROTATION axis="z" angle="90"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw3">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="0.5" y="0.5" z="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+		<NODE id="scoreboard_straw4">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="-0.5" y="-0.5" z="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw5">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <ROTATION axis="z" angle="90"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw6">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="0.5" y="-0.5" z="0"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
+
+	    <NODE id="scoreboard_straw7">
+	    	<MATERIAL id="null"/>
+	    	<TEXTURE id="null"/>
+
+	        <TRANSLATION x="0" y="-1" z="0"/>
+	        <ROTATION axis="z" angle="90"/>
+
+	    	<DESCENDANTS>
+	        	<DESCENDANT id="scoreboard_straw"/>
+	        </DESCENDANTS>
+	    </NODE>
 
 	    <NODE id="plate">
 	   		<MATERIAL id="grey" />
@@ -298,6 +535,95 @@
 	        	<DESCENDANT id="black_mosaic"/>
 	        </DESCENDANTS>
 	    </NODE>
+
+	            <NODE id="rectangle1">       
+                	<MATERIAL id="null" />      
+                	<TEXTURE id="null" />       
+   
+                	<TRANSLATION x="0" y="0" z="1" />                      
+   
+					<DESCENDANTS>
+                        <DESCENDANT id="rect" />      
+                    </DESCENDANTS>
+                </NODE>      
+
+                <NODE id="rectangle2">       
+                    <MATERIAL id="null" />      
+                    <TEXTURE id="null" />      
+
+                    <TRANSLATION x="0" y="1" z="0" />
+                    <ROTATION axis="x" angle="180" />
+         
+                    <DESCENDANTS>
+                        <DESCENDANT id="rect" />      
+                    </DESCENDANTS>
+                </NODE>
+         
+                <NODE id="rectangle3">      
+                    <MATERIAL id="null" />
+                	<TEXTURE id="null" />
+
+                    <TRANSLATION x="1" y="0" z="1" />
+                    <ROTATION axis="y" angle="90" />
+
+					<DESCENDANTS>
+                        <DESCENDANT id="rect" />
+                    </DESCENDANTS>
+     
+                </NODE>
+         
+                <NODE id="rectangle4">
+                    <MATERIAL id="null" />     
+                    <TEXTURE id="null" />     
+
+                    <ROTATION axis="y" angle="-90" />
+     
+                    <DESCENDANTS>
+                        <DESCENDANT id="rect" />
+                    </DESCENDANTS>
+                </NODE>
+     
+                <NODE id="rectangle5">
+                    <MATERIAL id="null" />
+                    <TEXTURE id="null" />
+     
+                    <TRANSLATION x="0" y="1" z="1" />
+                    <ROTATION axis="x" angle="-90" />
+
+                    <DESCENDANTS>
+                        <DESCENDANT id="rect" />
+                    </DESCENDANTS>
+                </NODE>
+     
+                <NODE id="rectangle6">
+                    <MATERIAL id="null" />
+                    <TEXTURE id="null" />
+
+                    <TRANSLATION x="0" y="0" z="0" />
+                    <ROTATION axis="x" angle="-270" />
+                   
+                    <DESCENDANTS>
+                        <DESCENDANT id="rect" />
+                    </DESCENDANTS>
+                </NODE>
+     
+                <NODE id="unit_cube">
+                    <MATERIAL id="null" />
+                    <TEXTURE id="null" />
+
+                    <TRANSLATION x="-0.5" y="-0.5" z="-0.5" />
+                    <ROTATION axis="x" angle="0" />
+                    <SCALE sx="1" sy="1" sz="1" />
+
+                    <DESCENDANTS>
+                        <DESCENDANT id="rectangle1" />
+                        <DESCENDANT id="rectangle2" />
+                        <DESCENDANT id="rectangle3" />
+                        <DESCENDANT id="rectangle4" />
+                        <DESCENDANT id="rectangle5" />
+                        <DESCENDANT id="rectangle6" />
+                    </DESCENDANTS>
+                </NODE>
 
 	</NODES>
 
