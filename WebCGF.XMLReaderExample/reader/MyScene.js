@@ -98,8 +98,13 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
-	this.tabuleiro = new BoardDraw(this, 10, 10);
-
+	this.board = new Board(this, 7,6);
+	var boardState = new BoardState([7,0,6]);
+	boardState.addPiece(3,2,1);
+	boardState.addPiece(3,1,1);
+	boardState.addPiece(2,2,2);
+	boardState.addPiece(2,1,2);
+	this.board.newPlay(boardState);
 
 	this.timer = 0;
     this.setUpdatePeriod(100/6);
@@ -141,7 +146,7 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();	
 		}
 		
-		this.tabuleiro.display();
+		this.board.display(this.timer);
 		this.logPicking();
 		this.nodes[this.rootID].display(null, null, this.timer);
     }; 

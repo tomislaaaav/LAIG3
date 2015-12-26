@@ -105,7 +105,7 @@ BoardDraw.prototype.placePieces= function(x,y){
     this.scene.popMatrix();
     this.scene.pushMatrix();
         var piece1 = BoardDraw.pieceInitPositions([x,0,y],1);
-        this.scene.translate(piece1[0],0,piece1[2]);
+        this.scene.translate(piece1[0]-1,0,piece1[2]);
         this.scene.rotate(BoardDraw.playerOrientation(1),0,1,0);
         this.piece1.display();
     this.scene.popMatrix();
@@ -163,7 +163,7 @@ BoardDraw.pieceInitPositions= function(board, player){
     switch(player){
         case 1:
             var boardDimensions = Vector.fromArray(board);
-            var x = boardDimensions.x + 2;
+            var x = boardDimensions.x + 3;
             var y =(boardDimensions.z +1)/4;
             return [x,0,y];
             break;

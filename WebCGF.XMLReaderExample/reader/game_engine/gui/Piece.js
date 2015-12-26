@@ -3,10 +3,10 @@
  * @constructor
  * @param scene {CGFscene} - The scene
  * @param board {array} - board dimensions 
- * @param {number} position - position where the 
+ * @param {number} position - position where the piece will be placed 
  * @param {number} player - player making the move
  */
-function Piece(scene, board, position, player){
+function Piece(scene, board, position, player, duration){
     Object.call(this,scene);
 
     this.scene = scene;
@@ -16,7 +16,11 @@ function Piece(scene, board, position, player){
     this.initPosition= new Vector.fromArray(BoardDraw.pieceInitPositions(board,player));
 
     this.size=1;
-    this.duration=5;
+
+    if(duration === undefined)
+        this.duration=5;
+    else
+        this.duration = duration;
 
     switch(player){
         case 1:
@@ -27,11 +31,12 @@ function Piece(scene, board, position, player){
             break;
         default:
             console.error("Piece played in ("+x+","+y+") does not correspond to a valid player");
+            return false;
             break;
     }
     
     this.player = player;
-    this.createAnimation();
+    this.animation = this.createAnimation();
     this.alignPieceAnimation = this.createAlignPieceAnimation(position,player);
 
 };
@@ -45,8 +50,6 @@ Piece.prototype = Object.create(Object.prototype);
  * Creates a Piece.
  */
 Piece.prototype.constructor = Piece;
-
-
 
 /**
  * Draw the Piece
@@ -78,6 +81,8 @@ Piece.prototype.display = function(time){
 
 Piece.prototype.setInInitialPosition = function(){
     this.scene.translate(this.initPosition.x,this.initPosition.y, this.initPosition.z);
+    if(this.player == 1)
+        this.scene.translate(-1,0,0);
     var rotation = BoardDraw.playerOrientation(this.player);
     this.scene.rotate(rotation, 0,1,0);
 };
@@ -123,12 +128,13 @@ Piece.prototype.createAnimation= function(){
     
     
 
-    this.animation = new ComposedAnimation();
-    this.animation.addAnimation(liftPiece, 0);
-    this.animation.addAnimation(circularTranslation,this.liftPieceDuration);
-    this.animation.addAnimation(circularRotation,this.liftPieceDuration);
-    this.animation.addAnimation(translation,this.liftPieceDuration);
-    this.animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
+    var animation = new ComposedAnimation();
+    animation.addAnimation(liftPiece, 0);
+    animation.addAnimation(circularTranslation,this.liftPieceDuration);
+    animation.addAnimation(circularRotation,this.liftPieceDuration);
+    animation.addAnimation(translation,this.liftPieceDuration);
+    animation.addAnimation(dropPiece, this.liftPieceDuration + this.movePieceDuration);
+    return animation;
 };
 
 
@@ -175,15 +181,24 @@ Piece.getPieceHeight= function(){
 Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
 
-    var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
-    animation.addAnimation(correctPosition, this.liftPieceDuration);
+   
         
     if((BoardDraw.isPieceInverted(position) && player==1)
-        || (!BoardDraw.isPieceInverted(position) && player == 2)){      
+        || (!BoardDraw.isPieceInverted(position) && player == 2)){
+        var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
+        animation.addAnimation(correctPosition, this.liftPieceDuration);      
         var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
         animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
-    }else{
-              
     }
     return animation;
+};
+
+
+
+/**
+ *
+ */
+Piece.prototype.setDuration= function(duration){
+    this.duration = duration;
+    this.animation = this.createAnimation();
 };
