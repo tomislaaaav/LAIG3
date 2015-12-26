@@ -81,6 +81,8 @@ Piece.prototype.display = function(time){
 
 Piece.prototype.setInInitialPosition = function(){
     this.scene.translate(this.initPosition.x,this.initPosition.y, this.initPosition.z);
+    if(this.player == 1)
+        this.scene.translate(-1,0,0);
     var rotation = BoardDraw.playerOrientation(this.player);
     this.scene.rotate(rotation, 0,1,0);
 };
@@ -187,8 +189,6 @@ Piece.prototype.createAlignPieceAnimation= function(position, player){
         animation.addAnimation(correctPosition, this.liftPieceDuration);      
         var alignPieceAnimation = new CircularAnimation(this.scene, "align_piece",[0,0,0],0,0,180,this.movePieceDuration);
         animation.addAnimation(alignPieceAnimation,this.liftPieceDuration);
-    }else{
-              
     }
     return animation;
 };
