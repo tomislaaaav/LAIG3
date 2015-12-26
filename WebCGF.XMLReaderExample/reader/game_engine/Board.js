@@ -83,7 +83,7 @@ Board.prototype.play= function(player,x,y){
     var position = [x,0,y];
 
     for(var i = 0; i < this.pieces.length; i++){
-        if(this.pieces[i].boardPiecePosition.toArray() == position){
+        if(this.pieces[i].boardPiecePosition.equals(Vector.fromArray(position))){
             console.error="There already is a piece in the position ("+x+","+y+")";
             return false;
         }
@@ -112,10 +112,16 @@ Board.prototype.switchBoards= function(oldBoard, newBoard){
     return true;
 };
 
+/**
+ * Removes the visual representation of a piece from the board.
+ * @param x {number} - x position of the piece in the board
+ * @param y {number} - y position of the piece in the board
+ * @return - false if there isn't a piece in that position. Else returs true
+ */
 Board.prototype.removeBoardPiece= function(x,y){
     var position = [x,0,y];
     for(var i = 0; i < this.pieces.length; i++){
-        if(this.pieces[i].boardPiecePosition.toArray() == position){
+        if(this.pieces[i].boardPiecePosition.equals(Vector.fromArray(position))){
             this.pieces.splice(i,1);
             return true;
         }
@@ -132,9 +138,11 @@ Board.prototype.applyBoardDifference= function(difference){
     }
 };
 
-
-
-
+/**
+ * Starts the rewind state of the Board. The Board will start from the 
+ * first element of the boardHistory and execute all the following states as if the game would be played again.
+ * The animations speed increases from normal to fast.
+ */
 Board.prototype.startRewind= function(){
     if(this.boardHistory[0] == null){
         console.error("There are no plays in the history that can be rewind");
@@ -150,10 +158,16 @@ Board.prototype.startRewind= function(){
     this.rewindInitTime = null;
 };
 
+/**
+ * Stops the rewind state of the Board. 
+ */
 Board.prototype.stopRewind= function(){
     this.rewind = false;
 }
 
+/**
+ * Handles the exchange of states during the rewind state.
+ */
 Board.prototype.rewindGame= function(time){
     if(this.rewindInitTime == null){
         this.rewindInitTime = time;
@@ -169,4 +183,22 @@ Board.prototype.rewindGame= function(time){
         this.newPlay(this.boardHistory[this.rewindIndex]);
         this.rewindIndex++;  
     }
+};
+
+
+/**
+ * Goes to the boardHistory vector, removes the latest element and sets it as the current state
+ * @return - Returns false if the boardHistory vector is empty, else returns true
+ */
+Board.prototype.undoPlay= function(){
+    if(this.boardHistory.length == 0){
+        console.error("You can't undo to an empty game");
+        return false;
+    }  
+    
+    var index = this.boardHistory.length - 1;
+    this.switchBoards(this.state,this.boardHistory[index]);
+    this.boardHistory.splice(index,1);
+    this.boardHistory.splice(index+1,1);
+    return true;
 };
