@@ -106,8 +106,7 @@ MyScene.prototype.onGraphLoaded = function ()
 	boardState.addPiece(2,1,2);
 	this.board.newPlay(boardState);
 
-	this.player_1 = new Player(this, 1);
-	this.player_2 = new Player(this, 2);
+	this.score_board = new ScoreBoard(this);
 
 	this.timer = 0;
   this.setUpdatePeriod(100/6);
@@ -152,10 +151,9 @@ MyScene.prototype.display = function () {
 			this.board.display(this.timer);
 			this.logPicking();
 			this.nodes[this.rootID].display(null, null, this.timer);
-			this.player_1.display();
+
+			this.score_board.display();
     };
-
-
 
 };
 

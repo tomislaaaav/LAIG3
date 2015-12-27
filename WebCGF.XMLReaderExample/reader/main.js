@@ -17,7 +17,7 @@ function getUrlVars() {
 serialInclude(['../lib/CGF.js', 'MyScene.js', 'MySceneGraph.js', 'data/MyMaterial.js', 'data/MyNode.js', 'data/MyRotation.js', 'data/MyScale.js', 'data/MyTexture.js', 'data/MyTranslation.js', 'primitives/MyCylinder.js', 'primitives/MyRectangle.js', 'primitives/MySphere.js', 'primitives/MyTriangle.js', 'data/MyLightsInterface.js', 'data/MyLight.js', 'data/Animation.js', 'data/LinearAnimation.js','data/CircularAnimation.js', 'primitives/Plane.js','primitives/Patch.js','data/ComposedAnimation.js', 'primitives/Terrain.js',
  'game_engine/gui/BoardDraw.js','game_engine/gui/Piece.js', 'game_engine/gui/Tile.js', 'game_engine/gui/Number.js' ,
  'game_engine/Board.js', 'game_engine/models/BoardState.js' ,
- 'dependencies/vector.js','primitives/Vehicle.js', 'data/Player.js',
+ 'dependencies/vector.js','primitives/Vehicle.js', 'data/ScoreBoard.js',
 
 /**
  * Standard main function. Creates a CGFapplication and sets in it a scene and an interface.
