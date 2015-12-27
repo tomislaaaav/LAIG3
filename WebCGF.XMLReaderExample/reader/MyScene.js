@@ -97,9 +97,6 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.rootID = this.graph.rootID;
 	console.log("Graph Loaded");
 
-	this.interface.onGraphLoaded();
-	console.log("Interface loaded");
-
 	this.board = new Board(this, 7,6);
 	var boardState = new BoardState([7,0,6]);
 	boardState.addPiece(3,2,1);
@@ -109,6 +106,9 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.board.newPlay(boardState);
 
 	this.score_board = new ScoreBoard(this);
+
+	this.interface.onGraphLoaded();
+	console.log("Interface loaded");
 
 	this.timer = 0;
   this.setUpdatePeriod(100/6);

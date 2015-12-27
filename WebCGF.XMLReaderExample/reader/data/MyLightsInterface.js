@@ -34,7 +34,7 @@ MyLightsInterface.prototype.onGraphLoaded = function(){
     var group = this.gui.addFolder('Lights');
     group.open();
     var lights = this.scene.enabledLights;
-    
+
 	for(light in lights){
 	    var self = this;
 	    var controller = group.add(lights,light);
@@ -42,4 +42,7 @@ MyLightsInterface.prototype.onGraphLoaded = function(){
 	    	self.scene.updateLight(this.property, enable);
 	    });
 	}
+
+	this.gui.add(this.scene.board, "undoPlay");
+
 }

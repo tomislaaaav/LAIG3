@@ -20,9 +20,9 @@ function ScoreBoard(scene) {
     this.turn = "99";
 
     this.appearance = new CGFappearance(this);
-  	this.appearance.setAmbient(1.0, 1.0, 1.0, 1);
-  	this.appearance.setDiffuse(1.0, 1.0, 1.0, 1);
-  	this.appearance.setSpecular(1.0, 1.0, 1.0, 1);
+  	this.appearance.setAmbient(1, 0, 0, 1);
+  	this.appearance.setDiffuse(1, 0, 0, 1);
+  	this.appearance.setSpecular(1, 0, 0, 1);
   	this.appearance.setShininess(120);
   	this.appearance.setTexture(this.scene.textures["font_texture"]);
 
@@ -128,6 +128,7 @@ ScoreBoard.prototype.createSentence = function (string) {
 
     this.scene.pushMatrix();
   	this.scene.activeShader.setUniformsValues({'charCoords': coord});
+    this.scene.activeShader.setUniformsValues({'color': vec4.fromValues(1, 0, 0, 1)});
   	this.plane.display();
     this.scene.popMatrix();
     if (i + 1 != string.length)
