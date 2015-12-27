@@ -109,11 +109,44 @@ parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 parse_input(createBoard(Rows,Cols), Res):- createBoard(Res, Rows, Cols).
-parse_input(playerMakeMove(BOARD,PLAYER,Y,X), RESULT):- makeMovePvP(BOARD, RESULT, PLAYER, X, Y).
-parse_input(botMakeMove(BOARD, PLAYER, DIFFICULTY), Res):- botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
+parse_input(playerMakeMove(BOARD_RAW,PLAYER,Y,X), RESULT):- 
+	transformBoard(BOARD_RAW,BOARD),
+	makeMovePvP(BOARD, RESULT, PLAYER, X, Y).
+parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), Res):- 
+	transformBoard(BOARD_RAW,BOARD),
+	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
+
+createBoardWithComas(
+[
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [1,2], [0,0], [0,0], [0,0] ],
+[ [1,2], [2,1], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ]
+]
+).
+
+
+transformBoard([],[]).
+transformBoard([Row|Next_Rows], [Result|Next_result]):- 
+	transformBoard(Next_Rows, Next_result),
+	transformRow(Row, Result).
+
+transformRow([],[]).
+transformRow([Col |Next_cols], [Result|Next_results]):-
+	%write(Col),nl,write(Result),nl,write(Next_cols),nl,write(Next_results),
+	transformCol(Col, Result),
+	transformRow(Next_cols, Next_results).
+
+transformCol([],_).
+transformCol([A,B],[R1|R2]):-
+	%write(A),nl,write(B), nl,write(R1),nl,write(R2),nl,
+	R1 is A,
+	R2 is B.
+
 
 
 	
