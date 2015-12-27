@@ -20,11 +20,7 @@ function Pvp(game){
 Pvp.prototype = Object.create(Object.prototype);
 
 Pvp.prototype.update= function(action){
-    switch(this.state){
-        case "StartTurn":
-            this.switchState("Turn");
-            this.update(action);
-            break;        
+    switch(this.state){       
         case "Turn":
             switch(action){
                 case "endTurn":
@@ -34,7 +30,7 @@ Pvp.prototype.update= function(action){
                     this.switchState("WaitResponse");
                     break;
                 default:
-                    console.error("Action not recognized");
+                    console.error("Action not recognized " + action);
                     break;                    
             }
             break;
@@ -51,6 +47,9 @@ Pvp.prototype.update= function(action){
                     break; 
             }
             break;
+        default:
+            console.error("State not recognized "+this.state);
+            break;
     }  
 };
 
@@ -58,7 +57,6 @@ Pvp.prototype.switchState= function(state){
     switch(state){
         case "StartTurn":
             this.game.resetTimer();
-            this.currState = "Turn";
             if(this.currPlayer == 1){
                 this.currPlayer = 2;
                 console.log("Player 2 now playing");
@@ -66,15 +64,20 @@ Pvp.prototype.switchState= function(state){
                 this.currPlayer = 1;
                 console.log("Player 1 now playing");
             }
+            this.switchState("Turn");
             break;        
         case "Turn":
+            this.state = state;
             this.game.picking = true;
             if(!this.game.timerActiv)
                 this.game.resumeTime();
             break;
         case "WaitResponse":
+            this.state = state;
             this.game.stopTimer();
             this.game.picking = false;
             break;
+        default:
+            console.error("State change failed. Didn't expect state: "+state)
     }         
 };

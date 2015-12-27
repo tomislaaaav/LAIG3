@@ -84,6 +84,7 @@ Spangles.prototype.PlayerMakePlay= function(x,y){
     var type = 1;
     if(BoardDraw.isPieceInverted([x,0,y]))
         type = 2;
+    this.stateMachine.update("sendRequest");
     console.log("Player "+player+" will play in ("+x+","+y+")");
     this.connection.playerMakeMove(board, player,x,y,type);
 };
