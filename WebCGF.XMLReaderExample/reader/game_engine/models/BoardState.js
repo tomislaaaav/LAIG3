@@ -14,7 +14,7 @@ function BoardState(dimensions, board){
 };
 
 /**
- * Stances that BoardState has the properties of a CGFobject. 
+ * Stances that BoardState has the properties of a Object. 
  */
 BoardState.prototype = Object.create(Object.prototype);
 
@@ -30,7 +30,7 @@ BoardState.prototype.createEmptyBoard= function(x,y){
     for(var i = 0; i < x; i++){
         var row = [];
         for(var j = 0; j < y; j++){
-            var cell = [null,null];
+            var cell = [0,0];
             row.push(cell);
         }
         board.push(row);
@@ -40,7 +40,7 @@ BoardState.prototype.createEmptyBoard= function(x,y){
 };
 
 BoardState.prototype.addPiece= function(x,y,player){
-    this.board[x-1][y-1]=[null, player];
+    this.board[x-1][y-1]=[0, player];
 };
 
 BoardState.boardDifferences= function(oldBoard, newBoard){
@@ -69,3 +69,21 @@ BoardState.boardDifferences= function(oldBoard, newBoard){
     
     return differences;
 }
+
+/**
+ * Transform the response receive from the prolog server into an array
+ */
+BoardState.getStateFromResponse= function(response){
+    var jsonResponse = response.replace(/\|/g,",");
+    var array = JSON.parse(jsonResponse);
+    return array;
+};
+
+/**
+ * Get the JSON string of the current state to send to the prolog server 
+ */
+BoardState.prototype.getJSONString= function(){
+    var string = JSON.stringify(this.board);
+    //var jsonString = string.replace(/,/g,"|");
+    return string;
+};

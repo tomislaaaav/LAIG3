@@ -103,11 +103,14 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-:-include('game.pl')
+:-include('game.pl').
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
+parse_input(createBoard(Rows,Cols), Res):- createBoard(Res, Rows, Cols).
+parse_input(playerMakeMove(BOARD,PLAYER,Y,X), RESULT):- makeMovePvP(BOARD, RESULT, PLAYER, X, Y).
+parse_input(botMakeMove(BOARD, PLAYER, DIFFICULTY), Res):- botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).

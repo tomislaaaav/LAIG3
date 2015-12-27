@@ -5,15 +5,19 @@
  * @param {number} x - The height of the board
  * @param {number} y - The width of the board
  */
-function Board(scene, x,y){
-    Object.call(this,scene);
+function Board(scene, x,y,state){
+    Object.call(this);
 
     this.scene = scene;
     this.x = x;
     this.y = y;
     this.dimensions = Vector.fromArray([x,0,y]);
-
-    this.state = new BoardState([x,0,y]);
+    
+    if(state == null)
+        this.state = new BoardState([x,0,y]);
+    else
+        this.state = state;
+        
     this.boardTable = new BoardDraw(scene, x,y);
 
     this.boardHistory=[];

@@ -1,4 +1,4 @@
-:- include('gamepvp.pl').
+:- include('gamepvp.pl').		
 :- include('gamepvb.pl').
 :- include('gamebvb.pl').
 :- include('bot.pl').

@@ -40,6 +40,13 @@ makeMovePvP(BOARD, RESULT, PLAYER) :-  readCoord(X, Y),
                                     validCoords(BOARD, X, Y),
                                     calcTriangleType(BOARD, X, Y, TYPE),
                                     insertTriangle(X, Y, BOARD, RESULT, [TYPE | PLAYER]).
+
+% Player make a move
+makeMovePvP(BOARD, RESULT, PLAYER, X, Y) :-
+      validCoords(BOARD, X, Y),                                               
+      calcTriangleType(BOARD, X, Y, TYPE),
+      insertTriangle(X, Y, BOARD, RESULT, [TYPE | PLAYER]).
+
 % Invalid movement coordinates
 makeMovePvP(BOARD, _, PLAYER) :-   printInvalidCoord,
                                 readAnyKey,
