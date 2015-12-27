@@ -43,6 +43,6 @@ MyLightsInterface.prototype.onGraphLoaded = function(){
 	    });
 	}
 
-	this.gui.add(this.scene.board, "undoPlay");
+	this.gui.add(this.scene.board, "undoPlay"); //terá de ser mudado para this.scene.game.board 8)
 
 }
