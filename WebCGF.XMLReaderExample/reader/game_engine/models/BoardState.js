@@ -5,8 +5,11 @@
  */
 function BoardState(dimensions, board){
     Object.call(this);
-
-    this.dimensions = Vector.fromArray(dimensions);
+    if(dimensions != null){
+        this.dimensions = Vector.fromArray(dimensions);
+    }else{
+        this.dimensions = BoardState.getDimensionsFromState(board);
+    }
     if(board != null)
         this.board = board;
     else
@@ -41,6 +44,22 @@ BoardState.prototype.createEmptyBoard= function(x,y){
 
 BoardState.prototype.addPiece= function(x,y,player){
     this.board[x-1][y-1]=[0, player];
+};
+
+/**
+ *
+ */
+BoardState.getDimensionsFromState= function(state){
+    var x = state.length;
+    var y = state[0].length;
+    for(i = 0; i < x; i++){
+        if(state[0].length != y){
+            console.error("Board y length different accross x");
+            return false;
+        }
+    }
+    
+    return new Vector(x,0,y);
 };
 
 BoardState.boardDifferences= function(oldBoard, newBoard){

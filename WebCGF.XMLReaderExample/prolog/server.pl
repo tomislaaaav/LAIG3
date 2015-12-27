@@ -109,10 +109,28 @@ parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 parse_input(createBoard(Rows,Cols), Res):- createBoard(Res, Rows, Cols).
-parse_input(playerMakeMove(BOARD_RAW,PLAYER,Y,X), RESULT):- 
+
+parse_input(playerMakeMove(BOARD_RAW,PLAYER,Y,X,_), RESULT):- 
 	transformBoard(BOARD_RAW,BOARD),
-	makeMovePvP(BOARD, RESULT, PLAYER, X, Y).
-parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), Res):- 
+	write('Request'),nl,
+	printBoardIndex(BOARD),nl,
+	makeMovePvP(BOARD, RESULT, PLAYER, X, Y),
+	write('Response'),nl, printBoardIndex(RESULT)
+	.
+%empty board
+parse_input(playerMakeMove(BOARD_RAW,PLAYER,Y,X,TYPE), RESULT):- 
+	transformBoard(BOARD_RAW,BOARD),
+	getNumberCols(BOARD, NCOLS),
+    getNumberRows(BOARD, NROWS),
+    createBoard(Empty_board, NROWS,NCOLS),
+    BOARD == Empty_board,
+	write('Request'),nl,
+	printBoardIndex(BOARD),nl,
+	initialPlayPvP(BOARD, RESULT, PLAYER, X, Y,TYPE),
+	write('Response'),nl, printBoardIndex(RESULT)
+	.
+
+parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), RESULT):- 
 	transformBoard(BOARD_RAW,BOARD),
 	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
 
@@ -128,6 +146,17 @@ createBoardWithComas(
 [ [0,0], [0,0], [0,0], [0,0], [0,0] ]
 ]
 ).
+
+createEmptyBoardWithComas(
+[
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ],
+[ [0,0], [0,0], [0,0], [0,0], [0,0] ]
+]
+).
+
 
 
 transformBoard([],[]).

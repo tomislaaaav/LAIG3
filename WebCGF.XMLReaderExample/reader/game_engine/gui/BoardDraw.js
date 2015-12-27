@@ -192,7 +192,7 @@ BoardDraw.invertCoordinates= function(board, coordinates){
 };
 
 BoardDraw.isPieceInverted= function(coordinates){
-    if(coordinates[2]%2 == 0){
+    if((coordinates[2]%2 == 0 && coordinates[0]%2 != 0) || (coordinates[2]%2 != 0 && coordinates[0]%2 == 0) ){
         return true;
     }else{
         return false;        
@@ -212,5 +212,7 @@ BoardDraw.playerOrientation= function(player){
 BoardDraw.prototype.getPosFromCoords= function(id){
     var x = Math.ceil(id/this.y);
     var y = id % this.y;
+    if(y == 0)
+        y = this.y;
     return [x,y];
 };

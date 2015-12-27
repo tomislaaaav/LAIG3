@@ -11,6 +11,13 @@ initialPlayPvP(BOARD) :-   clearConsole,
                         insertTriangle(X, Y, BOARD, NEW_BOARD, [1|1]),
                         nextPlayer(PLAYER, NEXT_PLAYER),
                         playPvP(NEW_BOARD, NEXT_PLAYER).
+
+initialPlayPvP(BOARD, NEW_BOARD,PLAYER, X,Y, TYPE) :-
+      getNumberCols(BOARD, NCOLS),
+      getNumberRows(BOARD, NROWS),
+      X < NCOLS, X >= 0,
+      Y < NROWS, Y >= 0,
+      insertTriangle(X, Y, BOARD, NEW_BOARD, [TYPE|PLAYER]).
 % Invalid coordinates
 initialPlayPvP(BOARD) :-   printInvalidCoord,
                         readAnyKey,
@@ -43,7 +50,7 @@ makeMovePvP(BOARD, RESULT, PLAYER) :-  readCoord(X, Y),
 
 % Player make a move
 makeMovePvP(BOARD, RESULT, PLAYER, X, Y) :-
-      validCoords(BOARD, X, Y),                                               
+      validCoords(BOARD, X, Y),
       calcTriangleType(BOARD, X, Y, TYPE),
       insertTriangle(X, Y, BOARD, RESULT, [TYPE | PLAYER]).
 

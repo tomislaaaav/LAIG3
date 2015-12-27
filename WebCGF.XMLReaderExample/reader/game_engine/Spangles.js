@@ -9,12 +9,10 @@ function Spangles(scene){
     this.scene = scene;
 
     this.connection = new Connection(this);
-    this.currPrologState = "";
-    this.newGame(7,7,"pvp");
+    this.newGame(5,5,"pvp");
 
     this.turnTime = 20;
     this.picking = true;
-    //this.connection.createBoard(7,7);
 };
 
 /**
@@ -68,13 +66,13 @@ Spangles.prototype.update= function(time){
     if(this.timerActiv == false)
         return;
 
-    if(this.lastCount == null)
-        this.lastCount = time;
+    if(this.timeLastCount == null)
+        this.timeLastCount = time;
     
-    var timePassed = (time - this.lastCount)*1e-3; 
+    var timePassed = (time - this.timeLastCount)*1e-3; 
     this.time += timePassed;
 
-    if(this.time >= this.turnTime){
+    if(timePassed >= this.turnTime){
         this.stateMachine.update("endTurn");
         console.log("Finished player "+this.stateMachine.currPlayer+" turn");
     }
@@ -83,19 +81,23 @@ Spangles.prototype.update= function(time){
 Spangles.prototype.PlayerMakePlay= function(x,y){
     var player = this.stateMachine.currPlayer;
     board = this.board.state.getJSONString();
-    //board = this.currPrologState;
-    this.connection.playerMakeMove(board, player,x,y);
+    var type = 1;
+    if(BoardDraw.isPieceInverted([x,0,y]))
+        type = 2;
+    console.log("Player "+player+" will play in ("+x+","+y+")");
+    this.connection.playerMakeMove(board, player,x,y,type);
 };
 
 Spangles.prototype.receiveBoard= function(response){
-    var newBoardState = BoardState.getStateFromResponse(response);
+    var newBoardState = new BoardState(null,BoardState.getStateFromResponse(response));
     this.currPrologState = response;
     this.board.newPlay(newBoardState);
-
+    console.log("Valid play by player "+this.stateMachine.currPlayer);
     this.stateMachine.update("validPlay");
 };
 
 Spangles.prototype.failResponse= function(){
+    console.log("Failed play by player "+this.stateMachine.currPlayer);
     this.stateMachine.update("fail");  
 };
 
@@ -103,5 +105,6 @@ Spangles.prototype.pickTile= function(id){
     if(this.picking == false)
         return false;
     var position = this.board.boardTable.getPosFromCoords(id);
+    console.log("Pick tile with position ("+position[0]+","+position[1]+")")
     this.PlayerMakePlay(position[0],position[1]);
 };

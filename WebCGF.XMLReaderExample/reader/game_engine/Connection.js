@@ -41,8 +41,8 @@ Connection.prototype.sendBoardToGame = function(data){
     this.connection.game.currPrologState = response;
 };
 
-Connection.prototype.playerMakeMove = function(board, player, x,y){
-    var request = 'playerMakeMove('+board+','+player+','+x+','+y+')';
+Connection.prototype.playerMakeMove = function(board, player, x,y,type){
+    var request = 'playerMakeMove('+board+','+player+','+(x-1)+','+(y-1)+','+type+')';
     this.getPrologRequest(request, this.sendResponseToGame, null, this.port);
 };
 

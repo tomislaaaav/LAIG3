@@ -7,10 +7,11 @@
 function Pvp(game){
     Object.call(this);
 
-    this.game = this.game;
+    this.game = game;
     
     this.currPlayer = 2;
-    this.currState = "StartTurn";
+    this.switchState("StartTurn");
+    this.game.stopTimer();
 };
 
 /**
@@ -60,8 +61,10 @@ Pvp.prototype.switchState= function(state){
             this.currState = "Turn";
             if(this.currPlayer == 1){
                 this.currPlayer = 2;
+                console.log("Player 2 now playing");
             }else{
-                this.currPlayer == 1;
+                this.currPlayer = 1;
+                console.log("Player 1 now playing");
             }
             break;        
         case "Turn":
