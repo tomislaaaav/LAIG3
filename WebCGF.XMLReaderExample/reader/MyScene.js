@@ -25,7 +25,7 @@ MyScene.prototype.init = function (application) {
 
     this.initCameras();
 	this.enableTextures(true);
-	
+
 	this.initLights();
 
 	this.enabledLights = [];
@@ -56,10 +56,10 @@ MyScene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.2, 0.2, 1.0);
     this.setDiffuse(0.2, 0.2, 0.2, 1.0);
     this.setSpecular(0.2, 0.2, 0.2, 1.0);
-    this.setShininess(10.0);	
+    this.setShininess(10.0);
 };
 
-// Handler called when the graph is finally loaded. 
+// Handler called when the graph is finally loaded.
 // As loading is asynchronous, this may be called already after the application has started the run loop
 
 /**
@@ -68,7 +68,7 @@ MyScene.prototype.setDefaultAppearance = function () {
  * Sets the background and ambient light.
  * Sets the textures, materials, leaves, nodes ad rootID that exist only on the graph.
  */
-MyScene.prototype.onGraphLoaded = function () 
+MyScene.prototype.onGraphLoaded = function ()
 {
 
     this.camera.near = this.graph.frustum[0];
@@ -76,10 +76,10 @@ MyScene.prototype.onGraphLoaded = function ()
 
     if (this.graph.reference >= 0)
 	   this.axis = new CGFaxis(this, this.graph.reference);
-	   
+
 	this.gl.clearColor(this.graph.backgroundLight[0],this.graph.backgroundLight[1],this.graph.backgroundLight[2],this.graph.backgroundLight[3]);
 	this.setGlobalAmbientLight(this.graph.ambientLight[0],this.graph.ambientLight[1],this.graph.ambientLight[2],this.graph.ambientLight[3]);
-	
+
     for (var i = 0; i < this.graph.lights.length; ++i) {
     	this.lights[i] = this.graph.lights[i];
     	this.lights[i].setVisible(true);
@@ -106,8 +106,11 @@ MyScene.prototype.onGraphLoaded = function ()
 	boardState.addPiece(2,1,2);
 	this.board.newPlay(boardState);
 
+	this.player_1 = new Player(this, 1);
+	this.player_2 = new Player(this, 2);
+
 	this.timer = 0;
-    this.setUpdatePeriod(100/6);
+  this.setUpdatePeriod(100/6);
 };
 
 /**
@@ -115,7 +118,7 @@ MyScene.prototype.onGraphLoaded = function ()
  */
 MyScene.prototype.display = function () {
     // ---- BEGIN Background, camera and axis setup
-    
+
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -133,25 +136,26 @@ MyScene.prototype.display = function () {
     this.setDefaultAppearance();
 
     console.log("Ended background, camera and axis setup")
-    
+
     // ---- END Background, camera and axis setup
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
     if (this.graph.loadedOk){
-		this.applyInitTransformations();
+			this.applyInitTransformations();
 
-		for(var i = 0; i < this.lights.length; i++){
-			this.lights[i].update();	
-		}
-		
-		this.board.display(this.timer);
-		this.logPicking();
-		this.nodes[this.rootID].display(null, null, this.timer);
-    }; 
-	
-	
+			for(var i = 0; i < this.lights.length; i++){
+				this.lights[i].update();
+			}
+
+			this.board.display(this.timer);
+			this.logPicking();
+			this.nodes[this.rootID].display(null, null, this.timer);
+			this.player_1.display();
+    };
+
+
 
 };
 
@@ -161,7 +165,7 @@ MyScene.prototype.setInterface= function(newInterface) {
 
 MyScene.prototype.applyInitTransformations= function(){
 	this.initialTransformations['translation'].apply();
-	
+
 	var rotation = this.initialTransformations['rotation'];
 	rotation[0].apply();
 	rotation[1].apply();
@@ -201,7 +205,7 @@ MyScene.prototype.initLights = function () {
 		this.lights[0].setAmbient(0.1,0.1,0.1,1);
 		this.lights[0].setDiffuse(0.9,0.9,0.9,1);
 		this.lights[0].setSpecular(0,0,0,1);
-		this.lights[0].enable();		
+		this.lights[0].enable();
 		this.lights[0].update();
 	}
 };
