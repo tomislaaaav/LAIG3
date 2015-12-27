@@ -10,10 +10,18 @@ function ScoreBoard(scene) {
 
     this.plane = new Plane(this.scene, 5, 20, 20);
 
+    this.time_minutes = "99";
+    this.time_seconds = "59";
+
+    this.player_1_points = "99";
+    this.player_2_points = "99";
+
+    this.turn = "99";
+
     this.appearance = new CGFappearance(this);
-  	this.appearance.setAmbient(0.3, 0.3, 0.3, 1);
-  	this.appearance.setDiffuse(0.7, 0.7, 0.7, 1);
-  	this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
+  	this.appearance.setAmbient(1, 1.0, 1.0, 1);
+  	this.appearance.setDiffuse(1, 1.0, 1.0, 1);
+  	this.appearance.setSpecular(1, 1.0, 1.0, 1);
   	this.appearance.setShininess(120);
   	this.appearance.setTexture(this.scene.textures["font_texture"]);
 
@@ -31,6 +39,22 @@ ScoreBoard.prototype = Object.create(CGFappearance.prototype);
  */
 ScoreBoard.prototype.constructor = ScoreBoard;
 
+ScoreBoard.prototype.setTimeSeconds = function (string) {
+  this.time_seconds = string;
+}
+
+ScoreBoard.prototype.setTimeMinutes = function (string) {
+  this.time_minutes = string;
+}
+
+ScoreBoard.prototype.setPlayer1Points = function (string) {
+  this.player_1_points = string;
+}
+
+ScoreBoard.prototype.setPlayer2Points = function (string) {
+  this.player_2_points = string;
+}
+
 ScoreBoard.prototype.display = function () {
 
   this.scene.pushMatrix();
@@ -41,25 +65,53 @@ ScoreBoard.prototype.display = function () {
 
   // spangles
   this.scene.pushMatrix();
-  this.scene.translate(15, 2, -12);
+  this.scene.translate(15, 2, -15);
   this.createSentence("SPANGLES");
   this.scene.popMatrix();
 
+  // time
   this.scene.pushMatrix();
-  this.scene.translate(17, 2, -10);
+  this.scene.translate(17, 2, -13);
   this.createSentence("TIME");
   this.scene.popMatrix();
+
+  // time
+  this.scene.pushMatrix();
+  // scale for hours
+  this.scene.scale(2, 2, 2);
+
+  this.scene.pushMatrix();
+  this.scene.translate(7, 1, -5.5);
+  this.createSentence(this.time_minutes + ":" + this.time_seconds);
+  this.scene.popMatrix();
+
+  this.scene.popMatrix();
+  // 3ª div
+  this.scene.pushMatrix();
   // jogador 1
   this.scene.translate(5, 2, -7);
   this.createSentence("PLAYER 1");
 
   this.scene.translate(5, 0, 0);
-
   // turn
   this.createSentence("TURN");
   this.scene.translate(5, 0, 0);
   // jogador 2
   this.createSentence("PLAYER 2");
+  this.scene.popMatrix();
+
+  // 4ª div
+  this.scene.pushMatrix();
+  // caixa do jogador 1
+  this.scene.translate(8, 2, -5);
+  this.createSentence(this.player_1_points);
+
+  this.scene.translate(9, 0, 0);
+  this.createSentence(this.turn);
+
+  this.scene.translate(9, 0, 0);
+  this.createSentence(this.player_2_points);
+  this.scene.popMatrix();
 
   this.scene.setActiveShaderSimple(this.scene.defaultShader);
   this.scene.popMatrix();
