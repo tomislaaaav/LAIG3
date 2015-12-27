@@ -70,7 +70,7 @@ Pvp.prototype.switchState= function(state){
             this.state = state;
             this.game.picking = true;
             if(!this.game.timerActiv)
-                this.game.resumeTime();
+                this.game.resumeTimer();
             break;
         case "WaitResponse":
             this.state = state;
