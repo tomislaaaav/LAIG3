@@ -41,6 +41,42 @@ Connection.prototype.sendBoardToGame = function(data){
     this.connection.game.currPrologState = response;
 };
 
+Connection.prototype.verifyWinner= function(board){
+    this.getPrologRequest('checkWinner('+board+ ')',this.receiveWinner,null,this.port);
+};
+
+Connection.prototype.receiveWinner = function(data){
+    var response = data.target.response;
+    if(response == "Syntax Error"){
+        console.error(response);
+        return;
+    }
+
+    if(response == "Bad Request"){
+        this.connection.game.receiveWinner(false);
+    }else{
+        this.connection.game.receiveWinner(response);
+    }
+};
+
+Connection.prototype.hasAvailableCells= function(board){
+    this.getPrologRequest('hasAvailableCells('+board+ ')',this.receiveHasAvailabeCells,null,this.port);
+};
+
+Connection.prototype.receiveHasAvailabeCells= function(data){
+    var response = data.target.response;
+    if(response == "Syntax Error"){
+        console.error(response);
+        return;
+    }
+
+    if(response == "Bad Request"){
+        this.connection.game.receiveHasAvailabeCells(false);
+    }else{
+        this.connection.game.receiveHasAvailabeCells(true);
+    }
+};
+
 Connection.prototype.playerMakeMove = function(board, player, x,y,type){
     var request = 'playerMakeMove('+board+','+player+','+(x-1)+','+(y-1)+','+type+')';
     this.getPrologRequest(request, this.sendResponseToGame, null, this.port);

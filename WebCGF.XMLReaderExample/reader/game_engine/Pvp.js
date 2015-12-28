@@ -37,15 +37,39 @@ Pvp.prototype.update= function(action){
         case "WaitResponse":
             switch(action){
                 case "validPlay":
-                    this.switchState("StartTurn");
+                    this.switchState("BoardCheck");
                     break;
                 case "fail":
                     this.switchState("Turn");
                     break;
                 default:
-                    console.error("Action not recognized");
+                    console.error("Action not recognized" + action);
                     break; 
             }
+            break;
+        case "BoardCheck":
+            switch(action){
+                case "won":
+                    var message = "Player "+this.currPlayer+" has won this game. You will now see a recap of the game"; 
+                    this.switchState("Finished");
+                    console.log(message);
+                    alert(message);
+                    break;
+                case "full":
+                    var message = "There are no more empty cells. It's a tie. You will now see a recap of the game";
+                    console.log(message);
+                    this.switchState("Finished");
+                    alert(message);
+                    break;
+                case "continue":
+                    this.switchState("StartTurn");
+                    break;
+                default:
+                    console.error("Action not recognized" + action);
+                    break;
+            }
+            break;
+        case "Finished":
             break;
         default:
             console.error("State not recognized "+this.state);
@@ -57,6 +81,7 @@ Pvp.prototype.switchState= function(state){
     switch(state){
         case "StartTurn":
             this.game.resetTimer();
+            this.game.resetResults();
             if(this.currPlayer == 1){
                 this.currPlayer = 2;
                 console.log("Player 2 now playing");
@@ -77,7 +102,23 @@ Pvp.prototype.switchState= function(state){
             this.game.stopTimer();
             this.game.picking = false;
             break;
+        case "BoardCheck":
+            this.game.startVerification();
+            this.state = state;
+            break;
+        case "Finished":
+            this.state = state;
+            this.game.board.startRewind();
+            this.game.stopTimer();
+            this.game.picking = false;
+            break;
         default:
             console.error("State change failed. Didn't expect state: "+state)
     }         
 };
+
+Pvp.isVerificationComplete= function(){
+
+};
+
+Pvp.prototype.winnerVerificationResult

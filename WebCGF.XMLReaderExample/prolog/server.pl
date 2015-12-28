@@ -134,6 +134,21 @@ parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), RESULT):-
 	transformBoard(BOARD_RAW,BOARD),
 	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
 
+parse_input(hasAvailableCells(BOARD_RAW), Res):- 
+	nl,nl,nl,nl,
+	write('Request'),nl,
+	transformBoard(BOARD_RAW,BOARD),
+	printBoardIndex(BOARD),nl,nl,nl,
+	hasAvailableCells(BOARD),
+	Res = 'true'.
+
+parse_input(checkWinner(BOARD_RAW), Winner):- 
+	nl,nl,nl,nl,
+	write('Request'),nl,
+	transformBoard(BOARD_RAW,BOARD),
+	printBoardIndex(BOARD),nl,
+	checkWinner(BOARD, Winner).
+
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 

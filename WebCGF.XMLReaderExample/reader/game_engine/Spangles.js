@@ -3,16 +3,21 @@
  * @constructor
  * @param scene {CGFScene} - scene 
  */
-function Spangles(scene){
+function Spangles(scene,time){
     Object.call(this);
 
     this.scene = scene;
 
+    this.turnTime = time || 20;
+    this.picking = true;
+    this.results = [];
+    this.results['winner'] = null;
+    this.results['emptyCells'] = null;
+
     this.connection = new Connection(this);
     this.newGame(5,5,"pvp");
 
-    this.turnTime = 20;
-    this.picking = true;
+
 };
 
 /**
@@ -74,7 +79,7 @@ Spangles.prototype.update= function(time){
 
     if(timePassed >= this.turnTime){
         this.stateMachine.update("endTurn");
-        console.log("Finished player "+this.stateMachine.currPlayer+" turn");
+        console.log("Player "+this.stateMachine.currPlayer+" missed his turn");
     }
 };
 
@@ -108,4 +113,56 @@ Spangles.prototype.pickTile= function(id){
     var position = this.board.boardTable.getPosFromCoords(id);
     console.log("Pick tile with position ("+position[0]+","+position[1]+")")
     this.PlayerMakePlay(position[0],position[1]);
+};
+
+Spangles.prototype.receiveWinner= function(state){
+    if(state != false){
+        this.results.winner = true;
+        this.stateMachine.currPlayer = state;
+        this.stateMachine.update("won");
+    }else{
+        this.results.winner = false;
+        if(isVerificationComplete(this.results)){
+            this.stateMachine.update("continue");
+        }
+    }      
+};
+
+Spangles.prototype.receiveHasAvailabeCells= function(state){
+    if(state){
+        this.results.emptyCells = true;
+        if(isVerificationComplete(this.results)){
+            this.stateMachine.update("continue");
+        }
+    }else{
+        this.results.emptyCells = false;
+        this.stateMachine.update("full");        
+    } 
+};
+
+Spangles.prototype.startVerification= function(){
+    var board = this.board.state.getJSONString();
+    this.connection.verifyWinner(board);
+    this.connection.hasAvailableCells(board);
+};
+
+Spangles.prototype.resetResults= function(){
+    this.results.winner = null;
+    this.results.emptyCells = null;  
+};
+
+function isGameFinished(results){
+    if(results.winner || !results.emptyCells){
+        return false;
+    }else{
+        return true
+    }
+};
+
+function isVerificationComplete(results){
+    if(results.winner == null || results.emptyCells == null){
+        return false;
+    }else{
+        return true;
+    }
 };

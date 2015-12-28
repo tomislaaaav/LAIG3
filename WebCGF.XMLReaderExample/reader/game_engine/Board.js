@@ -135,7 +135,7 @@ Board.prototype.removeBoardPiece= function(x,y){
 };
 
 Board.prototype.applyBoardDifference= function(difference){
-    if(difference.cell[1] == null){
+    if(difference.cell[1] == null || difference.cell[1] == 0){
         return this.removeBoardPiece(difference.x, difference.y);
     }else{
         return this.play(difference.cell[1],difference.x,difference.y); 
@@ -156,7 +156,8 @@ Board.prototype.startRewind= function(){
     
     if(this.boardHistory.indexOf(this.state) == -1)
         this.boardHistory.push(this.state);
-    this.state = this.boardHistory[0];
+    this.newPlay(this.boardHistory[0]);
+    this.pieces =[];
     this.rewind = true;
     this.rewindIndex = 1;
     this.rewindInitTime = null;
@@ -177,13 +178,13 @@ Board.prototype.rewindGame= function(time){
         this.rewindInitTime = time;
     }
 
-    var minutes = (time- this.rewindInitTime)*1e-3;
+    var seconds = (time- this.rewindInitTime)*1e-3;
     if(this.rewindIndex >= this.boardHistory.length){
         console.log("Finished rewind");
         return false;
     }
 
-    if(minutes >= this.rewindIndex*this.speed){
+    if(seconds >= this.rewindIndex*this.speed){
         this.newPlay(this.boardHistory[this.rewindIndex]);
         this.rewindIndex++;  
     }
