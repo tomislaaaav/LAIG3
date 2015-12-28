@@ -97,19 +97,10 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.rootID = this.graph.rootID;
 	console.log("Graph Loaded");
 
-	this.board = new Board(this, 7,6);
-	var boardState = new BoardState([7,0,6]);
-	boardState.addPiece(3,2,1);
-	boardState.addPiece(3,1,1);
-	boardState.addPiece(2,2,2);
-	boardState.addPiece(2,1,2);
-	this.board.newPlay(boardState);
-
 	this.score_board = new ScoreBoard(this);
 
-	this.interface.onGraphLoaded();
-	console.log("Interface loaded");
-
+	this.game = new Spangles(this);
+	
 	this.timer = 0;
   this.setUpdatePeriod(100/6);
 };
@@ -146,16 +137,17 @@ MyScene.prototype.display = function () {
     if (this.graph.loadedOk){
 			this.applyInitTransformations();
 
-			for(var i = 0; i < this.lights.length; i++){
-				this.lights[i].update();
-			}
-
-			this.board.display(this.timer);
-			this.logPicking();
-			this.nodes[this.rootID].display(null, null, this.timer);
-
-			this.score_board.display();
-    };
+		for(var i = 0; i < this.lights.length; i++){
+			this.lights[i].update();	
+		}
+		
+		this.game.display(this.timer);
+		this.logPicking();
+		//this.nodes[this.rootID].display(null, null, this.timer);
+		this.score_board.display();
+    }; 
+	
+	
 
 };
 
@@ -195,6 +187,7 @@ MyScene.prototype.updateLight= function(lightID, state){
 MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0)
 		this.timer += (currTime - this.lastUpdate);
+	this.game.update(this.timer);
 }
 
 
@@ -218,6 +211,7 @@ MyScene.prototype.logPicking = function ()
                 var obj = this.pickResults[i][0];
                 if (obj){
                     var customId = this.pickResults[i][1];
+                    this.game.pickTile(customId);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                 }
             }

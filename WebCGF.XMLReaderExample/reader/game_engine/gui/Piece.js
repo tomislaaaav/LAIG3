@@ -59,11 +59,12 @@ Piece.prototype.display = function(time){
         this.scene.scale(this.size, this.size, this.size);
 
         var path = this.position.subtract(this.initPosition);
-        var rotation = 0;
         if(this.player == 1){
-            rotation = Math.PI - (Math.PI/2 - Math.atan2(path.x,path.z));
-        }else
-            rotation = Math.PI/2-Math.atan2(path.x,path.z);
+            var initPosition = new Vector.fromArray(BoardDraw.pieceInitPositions(this.board.toArray(),2)); 
+            path = this.position.subtract(initPosition);
+        }
+        
+        var rotation = Math.PI/2-Math.atan2(path.x,path.z);
         this.setInInitialPosition();
 
         this.scene.rotate(-rotation,0,1,0);        
@@ -113,6 +114,12 @@ Piece.prototype.setSize= function(size){
  */
 Piece.prototype.createAnimation= function(){
     var path = this.position.subtract(this.initPosition);
+    if(this.player == 1){
+        var initPosition = new Vector.fromArray(BoardDraw.pieceInitPositions(this.board.toArray(),2)); 
+        path = this.position.subtract(initPosition);
+        //path = path.subtract(Vector.fromArray([0,0,1/4])); 
+    }
+
     var distance = path.length();
     
     this.movePieceDuration = this.duration*0.8;
@@ -181,8 +188,7 @@ Piece.getPieceHeight= function(){
 Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
 
-   
-        
+
     if((BoardDraw.isPieceInverted(position) && player==1)
         || (!BoardDraw.isPieceInverted(position) && player == 2)){
         var correctPosition = new LinearAnimation(this.scene, "correctPosition", [[0,0,0],[0,0,1]], this.movePieceDuration)
