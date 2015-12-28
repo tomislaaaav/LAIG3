@@ -42,7 +42,4 @@ MyLightsInterface.prototype.onGraphLoaded = function(){
 	    	self.scene.updateLight(this.property, enable);
 	    });
 	}
-
-	this.gui.add(this.scene.board, "undoPlay"); //terá de ser mudado para this.scene.game.board 8)
-
 }
