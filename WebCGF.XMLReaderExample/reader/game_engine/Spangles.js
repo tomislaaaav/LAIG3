@@ -15,7 +15,7 @@ function Spangles(scene,time){
     this.results['emptyCells'] = null;
 
     this.connection = new Connection(this);
-    this.newGame(5,5,"pvp");
+    this.newGame(5,5,"bot");
 
 
 };
@@ -35,7 +35,7 @@ Spangles.prototype.display= function(time){
 };
 
 
-Spangles.prototype.newGame= function(x,y,mode){
+Spangles.prototype.newGame= function(x,y,mode, difficulty){
     this.resetTimer();
     this.stopTimer();
     switch(mode){
@@ -43,7 +43,8 @@ Spangles.prototype.newGame= function(x,y,mode){
             this.stateMachine = new Pvp(this);
             break;
         case "bot":
-            //this.stateMachine = new PvB(this);
+            this.stateMachine = new Pvb(this);
+            this.difficulty = difficulty || 1; 
             break;
         default:
             console.error("Trying to start a game with the following mode: " + mode);
@@ -93,6 +94,14 @@ Spangles.prototype.PlayerMakePlay= function(x,y){
     console.log("Player "+player+" will play in ("+x+","+y+")");
     this.connection.playerMakeMove(board, player,x,y,type);
 };
+
+Spangles.prototype.botMakePlay= function(player){
+    var difficulty = this. difficulty;
+    board = this.board.state.getJSONString(); 
+    this.stateMachine.update("sendRequest");
+    console.log("Bot "+player+" will try to play.");   
+    this.connection.botMove(board, player, difficulty);
+}
 
 Spangles.prototype.receiveBoard= function(response){
     var newBoardState = new BoardState(null,BoardState.getStateFromResponse(response));

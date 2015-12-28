@@ -52,7 +52,7 @@ Connection.prototype.receiveWinner = function(data){
         return;
     }
 
-    if(response == "Bad Request"){
+    if(response == "Bad Request" || response == "false"){
         this.connection.game.receiveWinner(false);
     }else{
         this.connection.game.receiveWinner(response);
@@ -70,7 +70,7 @@ Connection.prototype.receiveHasAvailabeCells= function(data){
         return;
     }
 
-    if(response == "Bad Request"){
+    if(response == "Bad Request" || response == "false"){
         this.connection.game.receiveHasAvailabeCells(false);
     }else{
         this.connection.game.receiveHasAvailabeCells(true);
@@ -80,6 +80,10 @@ Connection.prototype.receiveHasAvailabeCells= function(data){
 Connection.prototype.playerMakeMove = function(board, player, x,y,type){
     var request = 'playerMakeMove('+board+','+player+','+(x-1)+','+(y-1)+','+type+')';
     this.getPrologRequest(request, this.sendResponseToGame, null, this.port);
+};
+
+Connection.prototype.botMove= function(board, player,difficulty){
+    this.getPrologRequest('botMakeMove('+board+','+player+',' +difficulty+ ')', this.sendResponseToGame, null, this.port);
 };
 
 Connection.prototype.sendResponseToGame= function(data){

@@ -1,9 +1,9 @@
 /**
- * Class that handles PvP state machine
+ * Class that handles PvB state machine
  * @constructor
  * @param game {Spangles} - game
  */
-function Pvp(game){
+function Pvb(game){
     Object.call(this);
 
     this.game = game;
@@ -14,11 +14,11 @@ function Pvp(game){
 };
 
 /**
- * Stances that Pvp has the properties of a Object. 
+ * Stances that Pvb has the properties of a Object. 
  */
-Pvp.prototype = Object.create(Object.prototype);
+Pvb.prototype = Object.create(Object.prototype);
 
-Pvp.prototype.update= function(action){
+Pvb.prototype.update= function(action){
     switch(this.state){       
         case "Turn":
             switch(action){
@@ -76,14 +76,14 @@ Pvp.prototype.update= function(action){
     }  
 };
 
-Pvp.prototype.switchState= function(state){
+Pvb.prototype.switchState= function(state){
     switch(state){
         case "StartTurn":
             this.game.resetTimer();
             this.game.resetResults();
             if(this.currPlayer == 1){
                 this.currPlayer = 2;
-                console.log("Player 2 now playing");
+                console.log("Bot 2 now playing");
             }else{
                 this.currPlayer = 1;
                 console.log("Player 1 now playing");
@@ -92,9 +92,17 @@ Pvp.prototype.switchState= function(state){
             break;        
         case "Turn":
             this.state = state;
-            this.game.picking = true;
+            
+            if(this.currPlayer == 2){
+                this.game.picking = false;
+                this.game.botMakePlay(this.currPlayer);
+            }else{
+                this.game.picking = true;
+            }
+
             if(!this.game.timerActiv)
                 this.game.resumeTimer();
+                
             break;
         case "WaitResponse":
             this.state = state;

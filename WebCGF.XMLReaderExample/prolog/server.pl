@@ -132,22 +132,35 @@ parse_input(playerMakeMove(BOARD_RAW,PLAYER,Y,X,TYPE), RESULT):-
 
 parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), RESULT):- 
 	transformBoard(BOARD_RAW,BOARD),
-	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY).
+	nl,nl,nl,nl,
+	write('Request'),nl,
+	printBoardIndex(BOARD),nl,
+	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY),
+	write('Response'),nl, printBoardIndex(RESULT),
+	.
 
 parse_input(hasAvailableCells(BOARD_RAW), Res):- 
 	nl,nl,nl,nl,
 	write('Request'),nl,
 	transformBoard(BOARD_RAW,BOARD),
 	printBoardIndex(BOARD),nl,nl,nl,
-	hasAvailableCells(BOARD),
-	Res = 'true'.
+	(
+		(hasAvailableCells(BOARD),
+		Res = 'true')
+	;
+		(Res = 'false')
+	).
 
 parse_input(checkWinner(BOARD_RAW), Winner):- 
 	nl,nl,nl,nl,
 	write('Request'),nl,
 	transformBoard(BOARD_RAW,BOARD),
 	printBoardIndex(BOARD),nl,
-	checkWinner(BOARD, Winner).
+	(
+		(checkWinner(BOARD, Winner))
+	;
+		(Winner = 'false')
+	).
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
