@@ -136,7 +136,7 @@ parse_input(botMakeMove(BOARD_RAW, PLAYER, DIFFICULTY), RESULT):-
 	write('Request'),nl,
 	printBoardIndex(BOARD),nl,
 	botTurn(BOARD, RESULT, PLAYER, DIFFICULTY),
-	write('Response'),nl, printBoardIndex(RESULT),
+	write('Response'),nl, printBoardIndex(RESULT)
 	.
 
 parse_input(hasAvailableCells(BOARD_RAW), Res):- 
