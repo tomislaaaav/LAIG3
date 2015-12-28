@@ -3,7 +3,7 @@
  * @constructor
  * @param scene {CGFscene} - the scene
  */
-function ScoreBoard(scene) {
+function ScoreBoard(scene, title) {
     CGFappearance.call(this, scene);
 
     this.scene = scene;
@@ -11,15 +11,22 @@ function ScoreBoard(scene) {
     this.plane = new MyRectangle(this.scene, 0, 1, 1, 0);
     this.plane.scaleTexCoords(1, 1);
 
-    this.timeMinutes = "99";
-    this.timeSeconds = "59";
+    this.timeMinutes = "00";
+    this.timeSeconds = "00";
 
-    this.player1Points = "99";
-    this.player2Points = "99";
+    this.player1Points = "00";
+    this.player2Points = "00";
 
-    this.turn = "99";
+	if(title == null){
+		this.gameTitle = "SPANGLES";
+	}else{
+		this.gameTitle = title;
+	}
+    this.turn = "00";
 
 	this.time = null;
+
+	this.background = this.scene.nodes['scoreboard_background'];
 
     this.appearance = new CGFappearance(this);
   	this.appearance.setAmbient(1, 0, 0, 1);
@@ -30,7 +37,7 @@ function ScoreBoard(scene) {
 
   	this.textShader = new CGFshader(this.scene.gl, "scenes/myScene/shaders/font.vert", "scenes/myScene/shaders/font.frag");
   	this.textShader.setUniformsValues({'dims': [16, 16]});
-}
+};
 
 /**
  * Stances that MyMaterial has the properties of a CGFappearance.
@@ -51,81 +58,59 @@ ScoreBoard.prototype.updateTime= function(time){
 	var seconds_passed = (time-this.time)*1e-3;
 	
 	var minutes = Math.floor(seconds_passed / 60);
+	if(minutes > 100)
+		minutes = Math.floor(minutes/100);
 	var seconds = seconds_passed % 60;
-
-	this.time_seconds = seconds+"";
-	this.time_minutes = minutes + "";
+	
+	this.time_seconds = (seconds < 10) ? ("0"+seconds) : (seconds+"") ;
+	this.time_minutes = (minutes < 10) ? ("0"+minutes) : (minutes + "");
 
 };
 
-ScoreBoard.prototype.setPlayer1Points = function (points) {
-  this.player1Points = points;
+ScoreBoard.prototype.resetTimer= function(){
+	this.time = null;
 }
 
-ScoreBoard.prototype.setPlayer2Points = function (points) {
-  this.player2Points = +points;
+ScoreBoard.prototype.updateTurn=function(time){
+	this.turn = (time < 10)? ("0"+time) : (""+time);
 }
+
+ScoreBoard.prototype.setPlayer1Points = function (points) {
+  this.player1Points = ""+points;
+};
+
+ScoreBoard.prototype.setPlayer2Points = function (points) {
+  this.player2Points = ""+points;
+};
 
 ScoreBoard.prototype.display = function () {	
 	this.scene.pushMatrix();
+		this.scene.scale(0.5, 0.5, 0.5);		
 		this.scene.setActiveShaderSimple(this.textShader);
 		this.appearance.apply();
-		this.scene.scale(2, 2, 1);
-		//this.scene.rotate(Math.PI/2, 1, 0, 0);
-
-
-		// spangles
 		this.scene.pushMatrix();
-			this.scene.translate(15, 15, 0);
-			this.createSentence("SPANGLES");
-		this.scene.popMatrix	
-
-		// time
-		this.scene.pushMatrix();
-			  this.scene.translate(17, 13, 0);
-			  this.createSentence("TIME");
-		this.scene.popMatrix();
-
-		// time
-		this.scene.pushMatrix();
-			// scale for hours
-			this.scene.scale(2, 2, 1);
+			this.scene.translate(0,0,0.1);
+			this.scene.pushMatrix();
+				this.scene.translate(-4, 5, 0);
+				this.createSentence(this.gameTitle);
+			this.scene.popMatrix();	
 
 			this.scene.pushMatrix();
-			  this.scene.translate(7, 5.5, 0);
-			  this.createSentence(this.time_minutes + ":" + this.time_seconds);
-			this.scene.popMatrix();	
-		this.scene.popMatrix();
+				  this.scene.translate(-2, 2.5, 0);
+				  this.createSentence("TIME");
+			this.scene.popMatrix();
 
-		// 3ª div
-		this.scene.pushMatrix();
-			// jogador 1
-			this.scene.translate(5, 7, 0);
-			this.createSentence("PLAYER 1");
-
-			this.scene.translate(5, 0, 0);
-			// turn
-			this.createSentence("TURN");
-			this.scene.translate(5, 0, 0);
-			// jogador 2
-			this.createSentence("PLAYER 2");
-		this.scene.popMatrix();
-
-		// 4ª div
-		this.scene.pushMatrix();
-			// caixa do jogador 1
-			this.scene.translate(5, 3, 0);
-			this.scene.scale(4, 4, 4);
-			this.createSentence(this.player_1_points);
-
-			this.scene.translate(1.6, 0, 0);
-			this.createSentence(this.turn);
-
-			this.scene.translate(1.5, 0, 0);
-			this.createSentence(this.player_2_points);
+			this.displayTime();
+			this.displayThirdDivision();
 		this.scene.popMatrix();
 
 	  	this.scene.setActiveShaderSimple(this.scene.defaultShader);
+
+
+	  	this.scene.pushMatrix();
+			this.scene.scale(30,15,1);
+			this.background.display();
+		this.scene.popMatrix();
   	this.scene.popMatrix();
 };
 
@@ -144,7 +129,57 @@ ScoreBoard.prototype.createSentence = function (string) {
 		if (i + 1 != string.length)
 			this.scene.translate(1,0,0);
 	}
-}
+};
+
+ScoreBoard.prototype.displayTime= function(){
+	this.scene.pushMatrix();
+		this.scene.scale(2, 2, 1);
+		this.scene.translate(-2.37, 0, 0);
+		this.createSentence(this.timeMinutes + ":" + this.timeSeconds);
+	this.scene.popMatrix();
+};
+
+ScoreBoard.prototype.displayThirdDivision=function(){
+	this.scene.pushMatrix();
+		this.scene.translate(-13,-2,0);
+
+		// jogador 1
+		this.scene.pushMatrix();
+			this.scene.translate(0, 0, 0);
+			this.createSentence("PLAYER 1");
+	
+			this.displayFourthDivisionElement(this.player1Points);
+		this.scene.popMatrix();
+		
+
+		// turn
+		this.scene.pushMatrix();
+			this.scene.translate(11, 0, 0);
+			this.createSentence("TURN");
+			this.scene.translate(2.2,0,0);
+			this.displayFourthDivisionElement(this.turn);
+		this.scene.popMatrix();
+
+
+		// jogador 2
+		this.scene.pushMatrix();
+			this.scene.translate(19, 0, 0); 
+			this.createSentence("PLAYER 2");
+			this.displayFourthDivisionElement(this.player2Points);
+		this.scene.popMatrix();	
+
+	this.scene.popMatrix();
+};
+
+ScoreBoard.prototype.displayFourthDivisionElement= function(element){
+	var pointsSize = 4;
+	this.scene.pushMatrix();
+		this.scene.scale(pointsSize, pointsSize, 1);
+		this.scene.translate(-1.75, -1, 0);
+		this.createSentence(element);
+	this.scene.popMatrix();
+
+};
 
 ScoreBoard.prototype.getCoordArray = function(Char){
 
