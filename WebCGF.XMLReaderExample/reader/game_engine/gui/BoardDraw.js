@@ -21,7 +21,7 @@ function BoardDraw(scene, x,y){
     this.piece2= this.scene.nodes['player2'];
 
     this.tiles = this.createTiles(x,y);
-}
+};
 
 /**
  * Stances that BoardDraw has the properties of a CGFobject. 
@@ -68,7 +68,7 @@ BoardDraw.prototype.createTiles = function(x,y){
         tiles.push(row);
     }
     return tiles;
-}
+};
 
 /**
  * Draw the board
@@ -91,7 +91,7 @@ BoardDraw.prototype.display = function(){
         this.scene.popMatrix();
     
     this.scene.popMatrix();
-}
+};
 
 /**
  * Place the pieces in the border of the board
@@ -192,7 +192,7 @@ BoardDraw.invertCoordinates= function(board, coordinates){
 };
 
 BoardDraw.isPieceInverted= function(coordinates){
-    if(coordinates[2]%2 == 0){
+    if((coordinates[2]%2 == 0 && coordinates[0]%2 != 0) || (coordinates[2]%2 != 0 && coordinates[0]%2 == 0) ){
         return true;
     }else{
         return false;        
@@ -207,4 +207,12 @@ BoardDraw.playerOrientation= function(player){
             return Math.PI/2;
         
     }  
+};
+
+BoardDraw.prototype.getPosFromCoords= function(id){
+    var x = Math.ceil(id/this.y);
+    var y = id % this.y;
+    if(y == 0)
+        y = this.y;
+    return [x,y];
 };

@@ -5,8 +5,11 @@
  */
 function BoardState(dimensions, board){
     Object.call(this);
-
-    this.dimensions = Vector.fromArray(dimensions);
+    if(dimensions != null){
+        this.dimensions = Vector.fromArray(dimensions);
+    }else{
+        this.dimensions = BoardState.getDimensionsFromState(board);
+    }
     if(board != null)
         this.board = board;
     else
@@ -14,7 +17,7 @@ function BoardState(dimensions, board){
 };
 
 /**
- * Stances that BoardState has the properties of a CGFobject. 
+ * Stances that BoardState has the properties of a Object. 
  */
 BoardState.prototype = Object.create(Object.prototype);
 
@@ -30,7 +33,7 @@ BoardState.prototype.createEmptyBoard= function(x,y){
     for(var i = 0; i < x; i++){
         var row = [];
         for(var j = 0; j < y; j++){
-            var cell = [null,null];
+            var cell = [0,0];
             row.push(cell);
         }
         board.push(row);
@@ -40,7 +43,23 @@ BoardState.prototype.createEmptyBoard= function(x,y){
 };
 
 BoardState.prototype.addPiece= function(x,y,player){
-    this.board[x-1][y-1]=[null, player];
+    this.board[x-1][y-1]=[0, player];
+};
+
+/**
+ *
+ */
+BoardState.getDimensionsFromState= function(state){
+    var x = state.length;
+    var y = state[0].length;
+    for(i = 0; i < x; i++){
+        if(state[0].length != y){
+            console.error("Board y length different accross x");
+            return false;
+        }
+    }
+    
+    return new Vector(x,0,y);
 };
 
 BoardState.boardDifferences= function(oldBoard, newBoard){
@@ -69,3 +88,21 @@ BoardState.boardDifferences= function(oldBoard, newBoard){
     
     return differences;
 }
+
+/**
+ * Transform the response receive from the prolog server into an array
+ */
+BoardState.getStateFromResponse= function(response){
+    var jsonResponse = response.replace(/\|/g,",");
+    var array = JSON.parse(jsonResponse);
+    return array;
+};
+
+/**
+ * Get the JSON string of the current state to send to the prolog server 
+ */
+BoardState.prototype.getJSONString= function(){
+    var string = JSON.stringify(this.board);
+    //var jsonString = string.replace(/,/g,"|");
+    return string;
+};
