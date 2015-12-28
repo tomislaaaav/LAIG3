@@ -21,21 +21,23 @@ MyScene.prototype.constructor = MyScene;
  * Creates the axis on the object MyScene and enables all of the required functions to print the objects on the screen, such as the backface culling, enable textures, and the depth test.
  */
 MyScene.prototype.init = function (application) {
-    CGFscene.prototype.init.call(this, application);
+	CGFscene.prototype.init.call(this, application);
 
-    this.initCameras();
+	this.initCameras();
 	this.enableTextures(true);
-	
+
 	this.initLights();
 
 	this.enabledLights = [];
 
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    this.gl.clearDepth(100.0);
-    this.gl.enable(this.gl.DEPTH_TEST);
+	this.gl.clearDepth(100.0);
+	this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);
+	this.gl.depthFunc(this.gl.LEQUAL);
+	this.gl.enable(this.gl.BLEND);
+	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 	this.axis=new CGFaxis(this);
 
@@ -56,10 +58,10 @@ MyScene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.2, 0.2, 1.0);
     this.setDiffuse(0.2, 0.2, 0.2, 1.0);
     this.setSpecular(0.2, 0.2, 0.2, 1.0);
-    this.setShininess(10.0);	
+    this.setShininess(10.0);
 };
 
-// Handler called when the graph is finally loaded. 
+// Handler called when the graph is finally loaded.
 // As loading is asynchronous, this may be called already after the application has started the run loop
 
 /**
@@ -68,7 +70,7 @@ MyScene.prototype.setDefaultAppearance = function () {
  * Sets the background and ambient light.
  * Sets the textures, materials, leaves, nodes ad rootID that exist only on the graph.
  */
-MyScene.prototype.onGraphLoaded = function () 
+MyScene.prototype.onGraphLoaded = function ()
 {
 
     this.camera.near = this.graph.frustum[0];
@@ -76,10 +78,10 @@ MyScene.prototype.onGraphLoaded = function ()
 
     if (this.graph.reference >= 0)
 	   this.axis = new CGFaxis(this, this.graph.reference);
-	   
+
 	this.gl.clearColor(this.graph.backgroundLight[0],this.graph.backgroundLight[1],this.graph.backgroundLight[2],this.graph.backgroundLight[3]);
 	this.setGlobalAmbientLight(this.graph.ambientLight[0],this.graph.ambientLight[1],this.graph.ambientLight[2],this.graph.ambientLight[3]);
-	
+
     for (var i = 0; i < this.graph.lights.length; ++i) {
     	this.lights[i] = this.graph.lights[i];
     	this.lights[i].setVisible(true);
@@ -95,18 +97,12 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.rootID = this.graph.rootID;
 	console.log("Graph Loaded");
 
-	this.interface.onGraphLoaded();
-	console.log("Interface loaded");
+	this.scoreBoard = new ScoreBoard(this);
 
-	/*this.board = new Board(this, 5,5);
-	var boardState = new BoardState([5,0,5]);
-	boardState.addPiece(4,5,1);
-	this.board.newPlay(boardState);*/
-	
 	this.game = new Spangles(this);
 	
 	this.timer = 0;
-    this.setUpdatePeriod(100/6);
+  this.setUpdatePeriod(100/6);
 };
 
 /**
@@ -114,7 +110,7 @@ MyScene.prototype.onGraphLoaded = function ()
  */
 MyScene.prototype.display = function () {
     // ---- BEGIN Background, camera and axis setup
-    
+
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -132,27 +128,29 @@ MyScene.prototype.display = function () {
     this.setDefaultAppearance();
 
     console.log("Ended background, camera and axis setup")
-    
+
     // ---- END Background, camera and axis setup
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
     if (this.graph.loadedOk){
-		this.applyInitTransformations();
+			this.applyInitTransformations();
 
 		for(var i = 0; i < this.lights.length; i++){
 			this.lights[i].update();	
 		}
 		
 		this.game.display(this.timer);
-		//this.board.display(this.timer);
 		this.logPicking();
 		//this.nodes[this.rootID].display(null, null, this.timer);
-    }; 
-	
-	
 
+		this.pushMatrix();
+			this.translate(0,1,7);
+			this.rotate(-5*Math.PI/4, 0,1,0);
+			this.scoreBoard.display();
+		this.popMatrix();
+    }; 
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
@@ -161,7 +159,7 @@ MyScene.prototype.setInterface= function(newInterface) {
 
 MyScene.prototype.applyInitTransformations= function(){
 	this.initialTransformations['translation'].apply();
-	
+
 	var rotation = this.initialTransformations['rotation'];
 	rotation[0].apply();
 	rotation[1].apply();
@@ -192,6 +190,7 @@ MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0)
 		this.timer += (currTime - this.lastUpdate);
 	this.game.update(this.timer);
+	this.scoreBoard.updateTime(this.timer);
 }
 
 
@@ -202,7 +201,7 @@ MyScene.prototype.initLights = function () {
 		this.lights[0].setAmbient(0.1,0.1,0.1,1);
 		this.lights[0].setDiffuse(0.9,0.9,0.9,1);
 		this.lights[0].setSpecular(0,0,0,1);
-		this.lights[0].enable();		
+		this.lights[0].enable();
 		this.lights[0].update();
 	}
 };

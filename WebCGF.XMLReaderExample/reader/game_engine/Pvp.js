@@ -36,6 +36,7 @@ Pvp.prototype.update= function(action){
         case "WaitResponse":
             switch(action){
                 case "validPlay":
+                    this.game.updateScore(this.currPlayer, this.game.score[this.currPlayer-1]+1);
                     this.switchState("BoardCheck");
                     break;
                 case "fail":
@@ -106,6 +107,7 @@ Pvp.prototype.switchState= function(state){
             this.state = state;
             break;
         case "Finished":
+            this.game.scoreBoard.stopClock();
             this.state = state;
             this.game.board.startRewind();
             this.game.stopTimer();

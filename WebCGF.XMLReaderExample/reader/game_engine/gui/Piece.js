@@ -7,7 +7,7 @@
  * @param {number} player - player making the move
  */
 function Piece(scene, board, position, player, duration){
-    Object.call(this,scene);
+    Object.call(this);
 
     this.scene = scene;
     this.board = Vector.fromArray(board);
