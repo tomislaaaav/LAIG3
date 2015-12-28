@@ -3,19 +3,19 @@
  * @constructor
  * @param scene {CGFScene} - scene 
  */
-function Spangles(scene,time){
+function Spangles(scene){
     Object.call(this);
 
     this.scene = scene;
 
-    this.turnTime = time || 20;
+    this.turnTime = 20;
     this.picking = true;
     this.results = [];
     this.results['winner'] = null;
     this.results['emptyCells'] = null;
 
     this.connection = new Connection(this);
-    this.newGame(5,5,"bot");
+    this.newGame(5,5,"pvp");
 
 
 };
@@ -35,7 +35,8 @@ Spangles.prototype.display= function(time){
 };
 
 
-Spangles.prototype.newGame= function(x,y,mode, difficulty){
+Spangles.prototype.newGame= function(x,y,mode, time,difficulty){
+    this.turnTime = time || 20;
     this.resetTimer();
     this.stopTimer();
     switch(mode){

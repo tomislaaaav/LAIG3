@@ -98,14 +98,13 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.interface.onGraphLoaded();
 	console.log("Interface loaded");
 
-	this.board = new Board(this, 7,6);
-	var boardState = new BoardState([7,0,6]);
-	boardState.addPiece(3,2,1);
-	boardState.addPiece(3,1,1);
-	boardState.addPiece(2,2,2);
-	boardState.addPiece(2,1,2);
-	this.board.newPlay(boardState);
-
+	/*this.board = new Board(this, 5,5);
+	var boardState = new BoardState([5,0,5]);
+	boardState.addPiece(4,5,1);
+	this.board.newPlay(boardState);*/
+	
+	this.game = new Spangles(this);
+	
 	this.timer = 0;
     this.setUpdatePeriod(100/6);
 };
@@ -146,9 +145,10 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();	
 		}
 		
-		this.board.display(this.timer);
+		this.game.display(this.timer);
+		//this.board.display(this.timer);
 		this.logPicking();
-		this.nodes[this.rootID].display(null, null, this.timer);
+		//this.nodes[this.rootID].display(null, null, this.timer);
     }; 
 	
 	
@@ -191,6 +191,7 @@ MyScene.prototype.updateLight= function(lightID, state){
 MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0)
 		this.timer += (currTime - this.lastUpdate);
+	this.game.update(this.timer);
 }
 
 
@@ -214,6 +215,7 @@ MyScene.prototype.logPicking = function ()
                 var obj = this.pickResults[i][0];
                 if (obj){
                     var customId = this.pickResults[i][1];
+                    this.game.pickTile(customId);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                 }
             }
