@@ -15,8 +15,10 @@ function Spangles(scene){
     this.results['emptyCells'] = null;
 
     this.connection = new Connection(this);
+    this.scoreBoard = this.scene.scoreBoard;
     this.newGame(5,5,"pvp");
 
+    this.score =[0,0];
 
 };
 
@@ -52,6 +54,7 @@ Spangles.prototype.newGame= function(x,y,mode, time,difficulty){
             return false;
     }
     this.board = new Board(this.scene, x,y);
+    this.scoreBoard.resetBoard();
 };
 
 Spangles.prototype.resetTimer = function(){
@@ -73,11 +76,14 @@ Spangles.prototype.update= function(time){
     if(this.timerActiv == false)
         return;
 
+
     if(this.timeLastCount == null)
         this.timeLastCount = time;
     
     var timePassed = (time - this.timeLastCount)*1e-3; 
     this.time += timePassed;
+
+    this.scoreBoard.updateTurn(Math.floor(timePassed));
 
     if(timePassed >= this.turnTime){
         this.stateMachine.update("endTurn");
@@ -160,6 +166,26 @@ Spangles.prototype.resetResults= function(){
     this.results.winner = null;
     this.results.emptyCells = null;  
 };
+
+Spangles.prototype.updateScore= function(player,points){
+    this.score[player-1] = points;
+    switch(player){
+        case 1:
+            this.scoreBoard.setPlayer1Points(this.score[player-1]);
+            break;
+        case 2:
+            this.scoreBoard.setPlayer2Points(this.score[player-1]);        
+            break;
+        default:
+            connsole.error("Unidentified player. Trying to change score for player: "+player);
+            break;
+    }
+};
+
+Spangles.prototype.resetScores=function(){
+    this.scoreBoard.setPlayer1Points(0);
+    this.scoreBoard.setPlayer2Points(0);
+}
 
 function isGameFinished(results){
     if(results.winner || !results.emptyCells){

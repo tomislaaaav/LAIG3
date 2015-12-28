@@ -11,20 +11,15 @@ function ScoreBoard(scene, title) {
     this.plane = new MyRectangle(this.scene, 0, 1, 1, 0);
     this.plane.scaleTexCoords(1, 1);
 
-    this.timeMinutes = "00";
-    this.timeSeconds = "00";
+    
 
-    this.player1Points = "00";
-    this.player2Points = "00";
+    this.resetBoard();
 
 	if(title == null){
 		this.gameTitle = "SPANGLES";
 	}else{
 		this.gameTitle = title;
 	}
-    this.turn = "00";
-
-	this.time = null;
 
 	this.background = this.scene.nodes['scoreboard_background'];
 
@@ -51,6 +46,9 @@ ScoreBoard.prototype.constructor = ScoreBoard;
 
 
 ScoreBoard.prototype.updateTime= function(time){
+	if(!this.clockActiv){
+		return false;
+	}
 	if(this.time == null){
 		this.time = time;
 	}
@@ -60,27 +58,50 @@ ScoreBoard.prototype.updateTime= function(time){
 	var minutes = Math.floor(seconds_passed / 60);
 	if(minutes > 100)
 		minutes = Math.floor(minutes/100);
-	var seconds = seconds_passed % 60;
+	var seconds = Math.floor(seconds_passed % 60);
 	
-	this.time_seconds = (seconds < 10) ? ("0"+seconds) : (seconds+"") ;
-	this.time_minutes = (minutes < 10) ? ("0"+minutes) : (minutes + "");
+	this.timeSeconds = (seconds < 10) ? ("0"+seconds) : (seconds+"") ;
+	this.timeMinutes = (minutes < 10) ? ("0"+minutes) : (minutes + "");
 
 };
+
+ScoreBoard.prototype.resetBoard= function(){
+	this.resetClock();
+	this.timeMinutes = "00";
+    this.timeSeconds = "00";
+	this.player1Points = "00";
+	this.player2Points = "00";
+	this.turn = "00;"
+}
+
+ScoreBoard.prototype.stopClock= function(){
+    this.clockActiv = false;    
+}
+
+ScoreBoard.prototype.resetClock = function(){
+    this.clockActiv = true;
+    this.resetTimer();
+}
+
+ScoreBoard.prototype.resumeClock=function(){
+	this.clockActiv = true;
+}
 
 ScoreBoard.prototype.resetTimer= function(){
 	this.time = null;
 }
+
 
 ScoreBoard.prototype.updateTurn=function(time){
 	this.turn = (time < 10)? ("0"+time) : (""+time);
 }
 
 ScoreBoard.prototype.setPlayer1Points = function (points) {
-  this.player1Points = ""+points;
+  this.player1Points = (points < 10)? ("0"+points):(""+points);
 };
 
 ScoreBoard.prototype.setPlayer2Points = function (points) {
-  this.player2Points = ""+points;
+  this.player2Points = (points < 10)? ("0"+points):(""+points);
 };
 
 ScoreBoard.prototype.display = function () {	

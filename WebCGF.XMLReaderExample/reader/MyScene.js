@@ -21,21 +21,21 @@ MyScene.prototype.constructor = MyScene;
  * Creates the axis on the object MyScene and enables all of the required functions to print the objects on the screen, such as the backface culling, enable textures, and the depth test.
  */
 MyScene.prototype.init = function (application) {
-  CGFscene.prototype.init.call(this, application);
+	CGFscene.prototype.init.call(this, application);
 
-  this.initCameras();
+	this.initCameras();
 	this.enableTextures(true);
 
 	this.initLights();
 
 	this.enabledLights = [];
 
-  this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-  this.gl.clearDepth(100.0);
-  this.gl.enable(this.gl.DEPTH_TEST);
+	this.gl.clearDepth(100.0);
+	this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
-  this.gl.depthFunc(this.gl.LEQUAL);
+	this.gl.depthFunc(this.gl.LEQUAL);
 	this.gl.enable(this.gl.BLEND);
 	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
@@ -97,7 +97,7 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.rootID = this.graph.rootID;
 	console.log("Graph Loaded");
 
-	this.score_board = new ScoreBoard(this);
+	this.scoreBoard = new ScoreBoard(this);
 
 	this.game = new Spangles(this);
 	
@@ -144,11 +144,13 @@ MyScene.prototype.display = function () {
 		this.game.display(this.timer);
 		this.logPicking();
 		//this.nodes[this.rootID].display(null, null, this.timer);
-		this.score_board.display();
-    }; 
-	
-	
 
+		this.pushMatrix();
+			this.translate(0,1,7);
+			this.rotate(-5*Math.PI/4, 0,1,0);
+			this.scoreBoard.display();
+		this.popMatrix();
+    }; 
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
@@ -188,6 +190,7 @@ MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0)
 		this.timer += (currTime - this.lastUpdate);
 	this.game.update(this.timer);
+	this.scoreBoard.updateTime(this.timer);
 }
 
 
