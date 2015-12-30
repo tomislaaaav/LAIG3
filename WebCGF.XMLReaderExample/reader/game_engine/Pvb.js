@@ -11,6 +11,7 @@ function Pvb(game){
     this.currPlayer = 2;
     this.switchState("StartTurn");
     this.game.stopTimer();
+    this.playsHistory = [];
 };
 
 /**
@@ -28,8 +29,8 @@ Pvb.prototype.update= function(action){
                 case "sendRequest":
                     this.switchState("WaitResponse");
                     break;
-                case "sendRequest":
-                    console.log("Undo doesn't work against the bot");
+                case "undo":
+                    this.undoPlay();
                     break;
                 default:
                     console.error("Action not recognized " + action);
@@ -39,6 +40,7 @@ Pvb.prototype.update= function(action){
         case "WaitResponse":
             switch(action){
                 case "validPlay":
+                    this.playsHistory.push(this.currPlayer);
                     this.game.updateScore(this.currPlayer, this.game.score[this.currPlayer-1]+1);                
                     this.switchState("BoardCheck");
                     break;
@@ -84,6 +86,46 @@ Pvb.prototype.update= function(action){
             console.error("State not recognized "+this.state);
             break;
     }  
+};
+
+Pvb.prototype.undoPlay=function(){
+    if(this.currPlayer != 1){
+        console.log("Can't undo during the bots turn");
+        return false;
+    }
+    
+    var index = this.playsHistory.lastIndexOf(this.currPlayer);
+    if(index < 0){
+        var message = "Can't undo if you still haven't played";
+        console.log(message);
+        alert(message);
+        return false;
+    }
+
+    
+    var numberDeletedPlays = this.playsHistory.length - index;
+    for(var i = (index + numberDeletedPlays-1); i >= index ; i--){
+        if(!this.game.undoPlay()){
+            console.error("Can't undo play i="+i);
+        }
+    } 
+
+
+    var bot = Pvb.enemyPlayer(this.currPlayer);
+    var deletedBotPoints = this.game.score[bot -1] - (numberDeletedPlays -1);
+    this.game.updateScore(bot, deletedBotPoints);
+    this.game.updateScore(this.currPlayer, this.game.score[this.currPlayer-1]-1);
+
+    this.currPlayer = bot;
+    this.playsHistory.splice(index,numberDeletedPlays);
+    this.switchState("StartTurn");
+};
+
+Pvb.enemyPlayer= function(player){
+    if(player == 1)
+        return 2;
+    if(player == 2)
+        return 1;
 };
 
 Pvb.prototype.switchState= function(state){
