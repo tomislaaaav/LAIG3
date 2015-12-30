@@ -71,7 +71,7 @@ ScoreBoard.prototype.resetBoard= function(){
     this.timeSeconds = "00";
 	this.player1Points = "00";
 	this.player2Points = "00";
-	this.turn = "00;"
+	this.turn = "00";
 }
 
 ScoreBoard.prototype.stopClock= function(){
