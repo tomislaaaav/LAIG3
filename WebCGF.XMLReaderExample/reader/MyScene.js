@@ -40,7 +40,7 @@ MyScene.prototype.init = function (application) {
 	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 	this.axis=new CGFaxis(this);
-
+	this.initInterface();
 	this.setPickEnabled(true);
 };
 
@@ -103,6 +103,15 @@ MyScene.prototype.onGraphLoaded = function ()
 	
 	this.timer = 0;
   this.setUpdatePeriod(100/6);
+};
+
+MyScene.prototype.initInterface= function(){
+	this.turnDuration = Spangles.defaultTurnDuration();
+	this.botDifficulty = 1;
+	this.botDiffList = Spangles.getDifficultyList();
+
+	this.boardX = 5;
+	this.boardY = 5;
 };
 
 /**
@@ -221,4 +230,21 @@ MyScene.prototype.logPicking = function ()
             this.pickResults.splice(0,this.pickResults.length);
         }
     }
+};
+
+
+MyScene.prototype.NewGamePVP=function(){
+	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
+	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
+	this.game.newGame(x,y,"pvp", this.turnDuration);	
+};
+
+MyScene.prototype.NewGameBot = function(){
+	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
+	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
+	this.game.newGame(x, y, "bot", this.turnDuration, this.botDifficulty);	
+};
+
+MyScene.prototype.Undo= function(){
+	this.game.undo();	
 };

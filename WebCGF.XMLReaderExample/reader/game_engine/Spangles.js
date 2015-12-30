@@ -8,7 +8,7 @@ function Spangles(scene){
 
     this.scene = scene;
 
-    this.turnTime = 20;
+    this.turnTime = Spangles.defaultTurnDuration();
     this.picking = true;
     this.results = [];
     this.results['winner'] = null;
@@ -187,6 +187,26 @@ Spangles.prototype.resetScores=function(){
     this.scoreBoard.setPlayer2Points(0);
 }
 
+Spangles.prototype.undo= function(){
+    this.stateMachine.update("undo");
+}
+
+Spangles.prototype.undoPlay= function(){
+    if(!this.board.undoPlay()){
+        alert("You can't undo to an empty game");
+        return false;
+    }
+    return true;
+}
+
+Spangles.getDifficultyList= function(){
+    return [1,2];
+};
+
+Spangles.defaultTurnDuration= function(){
+    return 20;
+}
+
 function isGameFinished(results){
     if(results.winner || !results.emptyCells){
         return false;
@@ -202,3 +222,4 @@ function isVerificationComplete(results){
         return true;
     }
 };
+

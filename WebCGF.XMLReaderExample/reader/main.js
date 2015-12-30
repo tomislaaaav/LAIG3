@@ -16,7 +16,7 @@ function getUrlVars() {
 
 serialInclude(['../lib/CGF.js', 'MyScene.js', 'MySceneGraph.js', 'data/MyMaterial.js', 'data/MyNode.js', 'data/MyRotation.js', 'data/MyScale.js', 'data/MyTexture.js', 'data/MyTranslation.js', 'primitives/MyCylinder.js', 'primitives/MyRectangle.js', 'primitives/MySphere.js', 'primitives/MyTriangle.js', 'data/MyLightsInterface.js', 'data/MyLight.js', 'data/Animation.js', 'data/LinearAnimation.js','data/CircularAnimation.js', 'primitives/Plane.js','primitives/Patch.js','data/ComposedAnimation.js', 'primitives/Terrain.js',
  'game_engine/gui/BoardDraw.js','game_engine/gui/Piece.js', 'game_engine/gui/Tile.js', 'game_engine/gui/Number.js' , 'game_engine/gui/ScoreBoard.js',
- 'game_engine/Board.js','game_engine/Connection.js','game_engine/Spangles.js','game_engine/Pvp.js', 'game_engine/Pvb.js' ,
+ 'game_engine/Board.js','game_engine/Connection.js','game_engine/Spangles.js','game_engine/Pvp.js', 'game_engine/Pvb.js' ,'game_engine/GameInterface.js',
  'game_engine/models/BoardState.js' ,
  'dependencies/vector.js','primitives/Vehicle.js', 
 
@@ -29,7 +29,7 @@ main=function()
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myScene = new MyScene();
-    var myInterface = new MyLightsInterface(myScene);
+    var myInterface = new GameInterface(myScene);
 
     app.init();
 
