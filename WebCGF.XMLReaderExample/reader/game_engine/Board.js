@@ -203,7 +203,7 @@ Board.prototype.undoPlay= function(){
     
     var index = this.boardHistory.length - 1;
     this.switchBoards(this.state,this.boardHistory[index]);
-    this.boardHistory.splice(index,1);
     this.boardHistory.splice(index+1,1);
+    this.boardHistory.splice(index,1);
     return true;
 };
