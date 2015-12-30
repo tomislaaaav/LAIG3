@@ -168,9 +168,10 @@ Spangles.prototype.resetResults= function(){
 };
 
 Spangles.prototype.updateScore= function(player,points){
-    this.score[player-1] = points;
+    this.score[player-1] = (points < 0) ? 0 : points;
     switch(player){
         case 1:
+            
             this.scoreBoard.setPlayer1Points(this.score[player-1]);
             break;
         case 2:

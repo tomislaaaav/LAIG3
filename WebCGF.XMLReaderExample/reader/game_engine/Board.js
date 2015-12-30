@@ -199,7 +199,10 @@ Board.prototype.undoPlay= function(){
     if(this.boardHistory.length == 0){
         console.error("You can't undo to an empty game");
         return false;
-    }  
+    }
+    if(this.rewind){
+        console.log("Can't undo after the game has finished");
+    }
     
     var index = this.boardHistory.length - 1;
     this.switchBoards(this.state,this.boardHistory[index]);

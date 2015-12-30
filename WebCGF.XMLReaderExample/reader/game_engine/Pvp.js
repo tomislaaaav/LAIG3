@@ -74,6 +74,9 @@ Pvp.prototype.update= function(action){
                 case "continue":
                     this.switchState("StartTurn");
                     break;
+                case "undo":
+                    console.log("Undo doesn't work while waiting a response from server");
+                    break;
                 default:
                     console.error("Action not recognized" + action);
                     break;
@@ -89,8 +92,8 @@ Pvp.prototype.update= function(action){
 
 Pvp.prototype.undoPlay=function(){
     this.game.updateScore(this.previousPlayer(), this.game.score[this.previousPlayer()-1]-1);
-    this.playsHistory.splice(this.length-1,1);
     this.currPlayer = Pvp.enemyPlayer(this.previousPlayer());
+    this.playsHistory.splice(this.playsHistory.length-1,1);
     this.switchState("StartTurn");
 };
 
