@@ -28,6 +28,9 @@ Pvb.prototype.update= function(action){
                 case "sendRequest":
                     this.switchState("WaitResponse");
                     break;
+                case "sendRequest":
+                    console.log("Undo doesn't work against the bot");
+                    break;
                 default:
                     console.error("Action not recognized " + action);
                     break;                    
@@ -41,6 +44,9 @@ Pvb.prototype.update= function(action){
                     break;
                 case "fail":
                     this.switchState("Turn");
+                    break;
+                case "undo":
+                    console.log("Undo doesn't work while waiting a response from server");
                     break;
                 default:
                     console.error("Action not recognized" + action);
@@ -63,6 +69,9 @@ Pvb.prototype.update= function(action){
                     break;
                 case "continue":
                     this.switchState("StartTurn");
+                    break;
+                case "undo":
+                    console.log("Undo doesn't work while waiting a response from server");
                     break;
                 default:
                     console.error("Action not recognized" + action);
