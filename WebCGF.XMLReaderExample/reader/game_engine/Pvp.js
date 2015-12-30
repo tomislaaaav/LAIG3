@@ -11,6 +11,7 @@ function Pvp(game){
     this.currPlayer = 2;
     this.switchState("StartTurn");
     this.game.stopTimer();
+    this.playsHistory=[];
 };
 
 /**
@@ -28,6 +29,11 @@ Pvp.prototype.update= function(action){
                 case "sendRequest":
                     this.switchState("WaitResponse");
                     break;
+                case "undo":
+                    if(this.game.undoPlay()){
+                        this.undoPlay();
+                    }
+                    break;
                 default:
                     console.error("Action not recognized " + action);
                     break;                    
@@ -36,11 +42,15 @@ Pvp.prototype.update= function(action){
         case "WaitResponse":
             switch(action){
                 case "validPlay":
+                    this.playsHistory.push(this.currPlayer);
                     this.game.updateScore(this.currPlayer, this.game.score[this.currPlayer-1]+1);
                     this.switchState("BoardCheck");
                     break;
                 case "fail":
                     this.switchState("Turn");
+                    break;
+                case "undo":
+                    console.log("Undo doesn't work while waiting a response from server");
                     break;
                 default:
                     console.error("Action not recognized" + action);
@@ -64,6 +74,9 @@ Pvp.prototype.update= function(action){
                 case "continue":
                     this.switchState("StartTurn");
                     break;
+                case "undo":
+                    console.log("Undo doesn't work while waiting a response from server");
+                    break;
                 default:
                     console.error("Action not recognized" + action);
                     break;
@@ -75,6 +88,26 @@ Pvp.prototype.update= function(action){
             console.error("State not recognized "+this.state);
             break;
     }  
+};
+
+Pvp.prototype.undoPlay=function(){
+    this.game.updateScore(this.previousPlayer(), this.game.score[this.previousPlayer()-1]-1);
+    this.currPlayer = Pvp.enemyPlayer(this.previousPlayer());
+    this.playsHistory.splice(this.playsHistory.length-1,1);
+    this.switchState("StartTurn");
+};
+
+Pvp.enemyPlayer= function(player){
+    if(player == 1)
+        return 2;
+    if(player == 2)
+        return 1;
+};
+
+Pvp.prototype.previousPlayer=function(){
+    if(this.playsHistory.length <= 0)
+        return false;
+    return this.playsHistory[this.playsHistory.length -1];  
 };
 
 Pvp.prototype.switchState= function(state){
