@@ -42,6 +42,8 @@ MyScene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 	this.initInterface();
 	this.setPickEnabled(true);
+
+	this.currentLSX = 0;
 };
 
 /**
@@ -95,6 +97,31 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.leaves = this.graph.leaves;
 	this.nodes = this.graph.nodes;
 	this.rootID = this.graph.rootID;
+
+	this.textures1 = this.graph1.textures;
+	this.materials1 = this.graph1.materials;
+	this.leaves1 = this.graph1.leaves;
+	this.nodes1 = this.graph1.nodes;
+	this.rootID1 = this.graph1.rootID;
+
+	this.textures2 = this.graph2.textures;
+	this.materials2 = this.graph2.materials;
+	this.leaves2 = this.graph2.leaves;
+	this.nodes2 = this.graph2.nodes;
+	this.rootID2 = this.graph2.rootID;
+
+	this.textures3 = this.graph3.textures;
+	this.materials3 = this.graph3.materials;
+	this.leaves3 = this.graph3.leaves;
+	this.nodes3 = this.graph3.nodes;
+	this.rootID3 = this.graph3.rootID;
+
+	this.nodesArray = [this.nodes, this.nodes1, this.nodes2, this.nodes3];
+	this.texturesArray = [this.textures, this.textures1, this.textures2, this.textures3];
+	this.materialsArray = [this.materials, this.materials1, this.materials2, this.materials3];
+	this.leavesArray = [this.leaves, this.leaves1, this.leaves2, this.leaves3];
+	this.rootIDArray = [this.rootID, this.rootID1, this.rootID2, this.rootID3];
+
 	console.log("Graph Loaded");
 
 	this.scoreBoard = new ScoreBoard(this);
@@ -150,6 +177,19 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();
 		}
 
+		switch(this.currentLSX) {
+			case 0:
+			break;
+			case 1:
+			break;
+			case 2:
+			break;
+			case 3:
+			break;
+			default:
+			break;
+		}
+
 		this.game.display(this.timer);
 		this.logPicking();
 		//this.nodes[this.rootID].display(null, null, this.timer);
@@ -177,6 +217,21 @@ MyScene.prototype.applyInitTransformations= function(){
 	this.initialTransformations['scale'].apply();
 };
 
+MyScene.prototype.DefaultAmbient = function() {
+	this.currentLSX = 0;
+}
+
+MyScene.prototype.FirstAmbient = function() {
+	this.currentLSX = 1;
+}
+
+MyScene.prototype.SecondAmbient = function() {
+	this.currentLSX = 2;
+}
+
+MyScene.prototype.ThirdAmbient = function() {
+	this.currentLSX = 3;
+}
 
 MyScene.prototype.updateLight= function(lightID, state){
 	for (var i=0; i < this.lights.length; i++) {
