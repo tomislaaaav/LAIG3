@@ -71,6 +71,15 @@ MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
  	}
 
 
+ 	for(var i = 0; i < this.transformations.length; i++)
+ 	{
+ 		this.transformations[i].apply();
+ 	}
+
+	if(this.animation != null){
+		this.animation.apply(currTime);
+	}
+
   for(var i = 0; i < this.descendants.length; i++)
  	{
  		if (this.scene.nodesArray[this.scene.currentLSX][this.descendants[i]] == null)

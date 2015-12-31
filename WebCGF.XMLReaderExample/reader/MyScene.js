@@ -192,7 +192,7 @@ MyScene.prototype.display = function () {
 
 		this.game.display(this.timer);
 		this.logPicking();
-		//this.nodes[this.rootID].display(null, null, this.timer);
+		this.nodesArray[this.currentLSX][this.rootIDArray[this.currentLSX]].display(null, null, this.timer);
 
 		this.pushMatrix();
 			this.translate(0,1,7);
