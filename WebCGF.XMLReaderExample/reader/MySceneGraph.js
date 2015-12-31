@@ -4,10 +4,13 @@
  * @param {string} filename - The LSX file that's meant to be parsed.
  * @param scene - The scene
  */
-function MySceneGraph(filename, scene) {
+function MySceneGraph(filename, scene, id) {
     this.loadedOk = null ;
 
     // Establish bidirectional references between scene and graph
+
+    this.scene = scene;
+    this.id = id;
 
     switch(id) {
         case 0:
@@ -93,7 +96,8 @@ MySceneGraph.prototype.onXMLReady = function()
     this.loadedOk = true;
 
     // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-    this.scene.onGraphLoaded();
+    if (this.id == 3)
+        this.scene.onGraphLoaded();
 }
 ;
 

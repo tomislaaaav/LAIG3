@@ -100,7 +100,7 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.scoreBoard = new ScoreBoard(this);
 
 	this.game = new Spangles(this);
-	
+
 	this.timer = 0;
   this.setUpdatePeriod(100/6);
 };
@@ -143,13 +143,13 @@ MyScene.prototype.display = function () {
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
-    if (this.graph.loadedOk){
+    if (this.graph.loadedOk && this.graph1.loadedOk && this.graph2.loadedOk && this.graph3.loadedOk){
 			this.applyInitTransformations();
 
 		for(var i = 0; i < this.lights.length; i++){
-			this.lights[i].update();	
+			this.lights[i].update();
 		}
-		
+
 		this.game.display(this.timer);
 		this.logPicking();
 		//this.nodes[this.rootID].display(null, null, this.timer);
@@ -159,7 +159,7 @@ MyScene.prototype.display = function () {
 			this.rotate(-5*Math.PI/4, 0,1,0);
 			this.scoreBoard.display();
 		this.popMatrix();
-    }; 
+    };
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
@@ -236,15 +236,15 @@ MyScene.prototype.logPicking = function ()
 MyScene.prototype.NewGamePVP=function(){
 	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
 	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
-	this.game.newGame(x,y,"pvp", this.turnDuration);	
+	this.game.newGame(x,y,"pvp", this.turnDuration);
 };
 
 MyScene.prototype.NewGameBot = function(){
 	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
 	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
-	this.game.newGame(x, y, "bot", this.turnDuration, this.botDifficulty);	
+	this.game.newGame(x, y, "bot", this.turnDuration, this.botDifficulty);
 };
 
 MyScene.prototype.Undo= function(){
-	this.game.undo();	
+	this.game.undo();
 };

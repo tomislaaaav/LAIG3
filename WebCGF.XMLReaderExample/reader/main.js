@@ -47,7 +47,7 @@ main=function()
 	// Check console for loading errors
 	var myGraph = new MySceneGraph(filename, myScene, 0);
 
-  myGraph.loadSecondary(["Ambient 1", "Ambient 2", "Ambient 3"], myScene);
+  myGraph.loadSecondaryScenes(["Ambient 1", "Ambient 2", "Ambient 3"], myScene);
 
 	// start
     app.run();
