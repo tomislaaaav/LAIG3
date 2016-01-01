@@ -24,7 +24,7 @@ function BoardDraw(scene, x,y){
 };
 
 /**
- * Stances that BoardDraw has the properties of a CGFobject. 
+ * Stances that BoardDraw has the properties of a CGFobject.
  */
 BoardDraw.prototype = Object.create(Object.prototype);
 
@@ -45,7 +45,7 @@ BoardDraw.prototype.drawPlates = function(x,y){
             this.scene.translate(1,-1,0);
             this.scene.rotate(Math.PI,0,0,1);
             this.plate.display();
-        this.scene.popMatrix();  
+        this.scene.popMatrix();
     this.scene.popMatrix();
 }
 
@@ -56,7 +56,7 @@ BoardDraw.prototype.drawPlates = function(x,y){
  */
 BoardDraw.prototype.createTiles = function(x,y){
     board = [x,0,y];
-    
+
     var tiles = [];
 
     for(var i = 1; i <= x; i++){
@@ -89,8 +89,9 @@ BoardDraw.prototype.display = function(){
                     this.tiles[i][j].display();
                 }
         this.scene.popMatrix();
-    
+
     this.scene.popMatrix();
+    this.scene.clearPickRegistration();
 };
 
 /**
@@ -129,9 +130,9 @@ BoardDraw.prototype.boardBody= function(x,y){
 };
 
 BoardDraw.prototype.drawBorders= function(x,y){
-    
+
     this.scene.pushMatrix();
-        
+
         this.scene.translate(0,-1,0);
         this.scene.rotate(Math.PI/2,0,0,1);
         this.scene.scale(1,1,(y+1)/2);
@@ -139,8 +140,8 @@ BoardDraw.prototype.drawBorders= function(x,y){
 
         this.scene.pushMatrix();
             this.scene.translate(1,-x,0);
-            this.scene.rotate(-Math.PI,0,0,1);  
-            this.plate.display();  
+            this.scene.rotate(-Math.PI,0,0,1);
+            this.plate.display();
         this.scene.popMatrix();
     this.scene.popMatrix();
 
@@ -153,8 +154,8 @@ BoardDraw.prototype.drawBorders= function(x,y){
 
         this.scene.pushMatrix();
             this.scene.translate(1,-(y+1)/2,0);
-            this.scene.rotate(-Math.PI,0,0,1);  
-            this.plate.display();  
+            this.scene.rotate(-Math.PI,0,0,1);
+            this.plate.display();
         this.scene.popMatrix();
     this.scene.popMatrix();
 };
@@ -186,7 +187,7 @@ BoardDraw.realCoordinates= function(board,coordinates){
 };
 
 BoardDraw.invertCoordinates= function(board, coordinates){
-    var x = board[0] - coordinates[0] + 1; 
+    var x = board[0] - coordinates[0] + 1;
     var y = board[2] - coordinates[2] + 1;
     return [x,0,y];
 };
@@ -195,7 +196,7 @@ BoardDraw.isPieceInverted= function(coordinates){
     if((coordinates[2]%2 == 0 && coordinates[0]%2 != 0) || (coordinates[2]%2 != 0 && coordinates[0]%2 == 0) ){
         return true;
     }else{
-        return false;        
+        return false;
     }
 };
 
@@ -205,8 +206,8 @@ BoardDraw.playerOrientation= function(player){
             return -Math.PI/2;
         case 2:
             return Math.PI/2;
-        
-    }  
+
+    }
 };
 
 BoardDraw.prototype.getPosFromCoords= function(id){
