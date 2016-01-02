@@ -2,6 +2,7 @@
  * ScoreBoard
  * @constructor
  * @param scene {CGFscene} - the scene
+ * @param title {string} - game title
  */
 function ScoreBoard(scene, title) {
     CGFappearance.call(this, scene);
@@ -45,6 +46,11 @@ ScoreBoard.prototype = Object.create(CGFappearance.prototype);
 ScoreBoard.prototype.constructor = ScoreBoard;
 
 
+/**
+ * Update the scoreboar clock
+ * @param time {number} - Current global time
+ * @return - false if the clock is not activated. Else returns true.
+ */
 ScoreBoard.prototype.updateTime= function(time){
 	if(!this.clockActiv){
 		return false;
@@ -62,9 +68,12 @@ ScoreBoard.prototype.updateTime= function(time){
 	
 	this.timeSeconds = (seconds < 10) ? ("0"+seconds) : (seconds+"") ;
 	this.timeMinutes = (minutes < 10) ? ("0"+minutes) : (minutes + "");
-
+	return true;
 };
 
+/**
+ * Resets the all the board screens.
+ */
 ScoreBoard.prototype.resetBoard= function(){
 	this.resetClock();
 	this.timeMinutes = "00";
@@ -74,36 +83,64 @@ ScoreBoard.prototype.resetBoard= function(){
 	this.turn = "00";
 }
 
+/**
+ * Stops the board clock
+ */
 ScoreBoard.prototype.stopClock= function(){
     this.clockActiv = false;    
 }
 
+/**
+ * Resets the board clock and activates it
+ */
 ScoreBoard.prototype.resetClock = function(){
     this.clockActiv = true;
     this.resetTimer();
 }
 
+/**
+ * Activates the clock.
+ */
 ScoreBoard.prototype.resumeClock=function(){
 	this.clockActiv = true;
 }
 
+/**
+ * Resets the clock count.
+ */
 ScoreBoard.prototype.resetTimer= function(){
 	this.time = null;
 }
 
-
+/**
+ * Update the turn time.
+ * @param time {number} - number of seconds passed since the beggining of the turn.
+ */
 ScoreBoard.prototype.updateTurn=function(time){
 	this.turn = (time < 10)? ("0"+time) : (""+time);
 }
 
+/**
+ * Sets the number of points for the player 1.
+ * @param points {number} - number of points.
+ */
 ScoreBoard.prototype.setPlayer1Points = function (points) {
   this.player1Points = (points < 10)? ("0"+points):(""+points);
 };
 
+
+/**
+ * Sets the number of points for the player 2.
+ * @param points {number} - number of points.
+ */
 ScoreBoard.prototype.setPlayer2Points = function (points) {
   this.player2Points = (points < 10)? ("0"+points):(""+points);
 };
 
+
+/**
+ * Displays the board.
+ */
 ScoreBoard.prototype.display = function () {	
 	this.scene.pushMatrix();
 		this.scene.scale(0.5, 0.5, 0.5);		
@@ -135,6 +172,10 @@ ScoreBoard.prototype.display = function () {
   	this.scene.popMatrix();
 };
 
+/**
+ * Create a sentence using the shaders
+ * @param string {string} - sentence that is going to be created.
+ */
 ScoreBoard.prototype.createSentence = function (string) {
 	for(var i = 0; i < string.length;i++) {
 		var letter = string.charAt(i);
@@ -152,6 +193,9 @@ ScoreBoard.prototype.createSentence = function (string) {
 	}
 };
 
+/**
+ * Display the Game time 
+ */
 ScoreBoard.prototype.displayTime= function(){
 	this.scene.pushMatrix();
 		this.scene.scale(2, 2, 1);
@@ -160,6 +204,10 @@ ScoreBoard.prototype.displayTime= function(){
 	this.scene.popMatrix();
 };
 
+
+/**
+ * Display the bottom Division of the board which contains the points and the turn time.
+ */
 ScoreBoard.prototype.displayThirdDivision=function(){
 	this.scene.pushMatrix();
 		this.scene.translate(-14,-2,0);
@@ -192,6 +240,9 @@ ScoreBoard.prototype.displayThirdDivision=function(){
 	this.scene.popMatrix();
 };
 
+/**
+ * Display a screen of the third division.
+ */
 ScoreBoard.prototype.displayFourthDivisionElement= function(element){
 	var pointsSize = 4;
 	this.scene.pushMatrix();
@@ -202,6 +253,10 @@ ScoreBoard.prototype.displayFourthDivisionElement= function(element){
 
 };
 
+
+/**
+ * Transform a char into an array of coordinates to be used with the shader to show text.
+ */
 ScoreBoard.prototype.getCoordArray = function(Char){
 
 	switch(Char) {
