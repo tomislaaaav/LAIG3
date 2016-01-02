@@ -47,13 +47,16 @@ GameInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode) {
 		case 32:
-			this.scene.cameraHandler("Space");
+			this.scene.cameraController.inputHandler("Space");
 			break;
 		case 82:
-			this.scene.cameraHandler("R");
+			this.scene.cameraController.inputHandler("R");
 			break;
 		case 114:
-			this.scene.cameraHandler("R");
+			this.scene.cameraController.inputHandler("R");
+			break;
+		default:
+			console.log("Pressed keyCode: " + event.keyCode);
 			break;
 	}
 };

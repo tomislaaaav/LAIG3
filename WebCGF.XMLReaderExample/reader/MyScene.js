@@ -45,10 +45,20 @@ MyScene.prototype.init = function (application) {
 };
 
 /**
+ *
+ */
+MyScene.prototype.initTimer = function(){
+	this.timer = 0;
+  	this.setUpdatePeriod(100/6);
+};
+
+/**
  * Creates the camera.
  */
 MyScene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(40, 25, 40), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 20, 2.5), vec3.fromValues(0, 0, 2.5));
+
+	this.cameraController = new GameCamera(this);
 };
 
 /**
@@ -100,15 +110,8 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.scoreBoard = new ScoreBoard(this);
 
 	this.game = new Spangles(this);
+	this.initTimer();
 
-	this.timer = 0;
-  this.setUpdatePeriod(100/6);
-
-	this.rotateCamera = false;
-	this.cameraRotation = 0;
-	this.changeCamera = false;
-	this.changeCamera_1 = false;
-	this.cameraTranslate = vec4.fromValues(0, 0, 0, 0);
 };
 
 MyScene.prototype.initInterface= function(){
@@ -119,6 +122,8 @@ MyScene.prototype.initInterface= function(){
 	this.boardX = 5;
 	this.boardY = 5;
 };
+
+
 
 /**
  * Clears image, draws axis, updates the lights and displays all of the nodes.
@@ -166,56 +171,13 @@ MyScene.prototype.display = function () {
 			this.scoreBoard.display();
 		this.popMatrix();
 
-		this.animateCamera();
+		this.cameraController.animateCamera();
 
 		}
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
 	this.interface = newInterface;
-};
-/*
-MyScene.prototype.boardPerspectiveCamera = function () {
-	if (this.changeCamera && this.changeCamera_1 == false) {
-		if (this.cameraTranslate.x >= 36.774 && this.cameraTranslate.y >= 25.527 && this.cameraTranslate.z >= 182.232) {
-			this.changeCamera_1 = true;
-			this.cameraTranslate = null;
-		}
-		else {
-			this.camera.translate(this.cameraTranslate * this.time_elapsed/100000000);
-			this.cameraTranslate = this.cameraTranslate + this.cameraTranslate * this.time_elapsed/100000000;
-		}
-		this.camera.setTarget(vec4.fromValues(37.467, 17.761, 3.606, 0));
-	}
-
-	if (this.changeCamera_1 == true && this.changeCamera == false)  {
-			this.camera.setPosition(vec4.fromValues(10, 20, 10, 0));
-			this.camera.setTarget(vec4.fromValues(8, 3, 8, 0));
-			this.camera.direction = vec4.fromValues(0.004, -0.043, -0.999);
-			this.changeCamera_1 = false;
-	}
-}
-*/
-
-MyScene.prototype.animateCamera = function() {
-	if (this.rotateCamera) {
-			if (this.cameraRotation >= Math.PI/2) {
-					this.rotateCamera = false;
-					this.cameraRotation = 0;
-			}
-			else {
-					if (this.cameraRotation + this.time_elapsed / 1000 >= Math.PI/2)
-							this.camera.orbit(vec3.fromValues(0, 1, 0), Math.PI/2 - this.cameraRotation);
-					else
-							this.camera.orbit(vec3.fromValues(0, 1, 0), this.time_elapsed / 1000);
-					this.cameraRotation = this.cameraRotation + this.time_elapsed / 1000;
-			}
-	}
-}
-
-MyScene.prototype.cameraHandler = function(string) {
-		if (string == "Space")
-			this.rotateCamera = true;
 };
 
 MyScene.prototype.applyInitTransformations= function(){
@@ -249,7 +211,7 @@ MyScene.prototype.updateLight= function(lightID, state){
 
 MyScene.prototype.update = function(currTime) {
 	if (this.lastUpdate != 0) {
-		this.time_elapsed = currTime - this.lastUpdate;
+		this.timeElapsed = currTime - this.lastUpdate;
 		this.timer += (currTime - this.lastUpdate);
 	}
 	this.game.update(this.timer);
