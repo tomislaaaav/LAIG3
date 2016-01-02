@@ -112,7 +112,6 @@ Spangles.prototype.botMakePlay= function(player){
 
 Spangles.prototype.receiveBoard= function(response){
     var newBoardState = new BoardState(null,BoardState.getStateFromResponse(response));
-    this.currPrologState = response;
     this.board.newPlay(newBoardState);
     console.log("Valid play by player "+this.stateMachine.currPlayer);
     this.stateMachine.update("validPlay");

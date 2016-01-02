@@ -72,7 +72,8 @@ BoardState.getDimensionsFromState= function(state){
  * Get the differences between the state of two boards.
  * @param oldBoard {BoardState} - oldBoard.
  * @param newBoard {BoardState} - newBoard.
- * @return {array} - differences. Each element of the array is a difference. Each difference has the 3 elements. x - x coordinate on the board. y - y coordinate on the board. cell - new state of the position.  
+ * @return {array} - differences. Each element of the array is a difference. Each difference has the 3 elements. x - x coordinate on the board. y - y coordinate on the board. cell - new state of the position. 
+ * The cell element is an array[2]. The cell first element designates the position of the piece (1 - piece is normal, 2- the piece is inverted, 0- not designated). The second element is the player that has a piece in that position or 0 if the position is empty.  
  */
 BoardState.boardDifferences= function(oldBoard, newBoard){
     if(oldBoard.dimensions.x != newBoard.dimensions.x || oldBoard.dimensions.z != newBoard.dimensions.z){
@@ -102,7 +103,7 @@ BoardState.boardDifferences= function(oldBoard, newBoard){
 }
 
 /**
- * Transform the response receive from the prolog server into an array
+ * Transform the response received from the prolog server into an array
  * @param response {string} - response.
  * @return {array} - state.
  */
