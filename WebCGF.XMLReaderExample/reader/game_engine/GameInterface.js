@@ -44,3 +44,26 @@ GameInterface.prototype.init = function(application) {
 
 	return true;
 };
+
+GameInterface.prototype.processKeyboard = function(event) {
+	// call CGFinterface default code (omit if you want to override)
+	CGFinterface.prototype.processKeyboard.call(this,event);
+	// Check key codes e.g. here: http://www.asciitable.com/
+	// or use String.fromCharCode(event.keyCode) to compare chars
+
+	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
+	switch (event.keyCode) {
+		case 32:
+			this.scene.cameraController.inputHandler("Space");
+			break;
+		case 82:
+			this.scene.cameraController.inputHandler("R");
+			break;
+		case 114:
+			this.scene.cameraController.inputHandler("R");
+			break;
+		default:
+			console.log("Pressed keyCode: " + event.keyCode);
+			break;
+	}
+};

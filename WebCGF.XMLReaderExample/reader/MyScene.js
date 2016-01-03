@@ -59,10 +59,20 @@ MyScene.prototype.init = function (application) {
 };
 
 /**
+ *
+ */
+MyScene.prototype.initTimer = function(){
+	this.timer = 0;
+  	this.setUpdatePeriod(100/6);
+};
+
+/**
  * Creates the camera.
  */
 MyScene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(40, 25, 40), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 20, 2.5), vec3.fromValues(0, 0, 2.5));
+
+	this.cameraController = new GameCamera(this);
 };
 
 /**
@@ -144,9 +154,8 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.scoreBoard = new ScoreBoard(this);
 
 	this.game = new Spangles(this);
+	this.initTimer();
 
-	this.timer = 0;
-  this.setUpdatePeriod(100/6);
 };
 
 MyScene.prototype.initInterface= function(){
@@ -157,6 +166,8 @@ MyScene.prototype.initInterface= function(){
 	this.boardX = 5;
 	this.boardY = 5;
 };
+
+
 
 /**
  * Clears image, draws axis, updates the lights and displays all of the nodes.
@@ -204,12 +215,15 @@ MyScene.prototype.display = function () {
 			this.rotate(-5*Math.PI/4, 0,1,0);
 			this.scoreBoard.display();
 		this.popMatrix();
-    };
+
+		this.cameraController.animateCamera();
+
+		}
 };
 
 MyScene.prototype.setInterface= function(newInterface) {
 	this.interface = newInterface;
-}
+};
 
 MyScene.prototype.applyInitTransformations= function(){
 	this.initialTransformations['translation'].apply();
@@ -272,8 +286,10 @@ MyScene.prototype.updateLight= function(lightID, state){
 };
 
 MyScene.prototype.update = function(currTime) {
-	if (this.lastUpdate != 0)
+	if (this.lastUpdate != 0) {
+		this.timeElapsed = currTime - this.lastUpdate;
 		this.timer += (currTime - this.lastUpdate);
+	}
 	this.game.update(this.timer);
 	this.scoreBoard.updateTime(this.timer);
 }

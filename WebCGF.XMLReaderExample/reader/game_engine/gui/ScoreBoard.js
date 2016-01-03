@@ -117,8 +117,8 @@ ScoreBoard.prototype.display = function () {
 			this.scene.popMatrix();	
 
 			this.scene.pushMatrix();
-				  this.scene.translate(-2, 2.5, 0);
-				  this.createSentence("TIME");
+				  this.scene.translate(-4.2, 2.5, 0);
+				  this.createSentence("GAME TIME");
 			this.scene.popMatrix();
 
 			this.displayTime();
@@ -162,7 +162,7 @@ ScoreBoard.prototype.displayTime= function(){
 
 ScoreBoard.prototype.displayThirdDivision=function(){
 	this.scene.pushMatrix();
-		this.scene.translate(-13,-2,0);
+		this.scene.translate(-14,-2,0);
 
 		// jogador 1
 		this.scene.pushMatrix();
@@ -175,16 +175,16 @@ ScoreBoard.prototype.displayThirdDivision=function(){
 
 		// turn
 		this.scene.pushMatrix();
-			this.scene.translate(11, 0, 0);
-			this.createSentence("TURN");
-			this.scene.translate(2.2,0,0);
+			this.scene.translate(9.8, 0, 0);
+			this.createSentence("TURN TIME");
+			this.scene.translate(-0.5,0,0);
 			this.displayFourthDivisionElement(this.turn);
 		this.scene.popMatrix();
 
 
 		// jogador 2
 		this.scene.pushMatrix();
-			this.scene.translate(19, 0, 0); 
+			this.scene.translate(20, 0, 0); 
 			this.createSentence("PLAYER 2");
 			this.displayFourthDivisionElement(this.player2Points);
 		this.scene.popMatrix();	

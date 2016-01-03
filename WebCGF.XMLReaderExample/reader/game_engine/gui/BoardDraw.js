@@ -91,6 +91,7 @@ BoardDraw.prototype.display = function(){
         this.scene.popMatrix();
 
     this.scene.popMatrix();
+    this.scene.clearPickRegistration();
 };
 
 /**
