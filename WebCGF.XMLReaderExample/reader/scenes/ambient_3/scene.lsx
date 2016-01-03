@@ -1229,9 +1229,6 @@
 
 	    <!-- NOVO -->
 
-	    </NODE>
-
-
 			<NODE id="scoreboard_background">
 	   		<MATERIAL id="grey" />
 	    	<TEXTURE id="null" />

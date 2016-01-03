@@ -262,7 +262,7 @@
 	        <DESCENDANTS>
 	            <DESCENDANT id="mesa1" />
 
-							<!--<DESCENDANT id="cadeira1" />
+							<DESCENDANT id="cadeira1" />
 
 	            <DESCENDANT id="floor" />
 
@@ -274,7 +274,7 @@
 
 	            <DESCENDANT id="place_sconce1" />
 
-	            <DESCENDANT id="chandelier"/>-->
+	            <DESCENDANT id="chandelier"/>
 
 							<DESCENDANT id="scoreboard_background"/>
 
