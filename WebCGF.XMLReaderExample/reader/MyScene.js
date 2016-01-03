@@ -8,6 +8,19 @@ function MyScene(scene){
 };
 
 /**
+ * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+ * @param obj1
+ * @param obj2
+ * @returns obj3 a new object based on obj1 and obj2
+ */
+function merge_options(obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+}
+
+/**
  * Stances that MyScene has the properties of a CGFscene.
 */
 MyScene.prototype = Object.create(CGFscene.prototype);
@@ -22,6 +35,7 @@ MyScene.prototype.constructor = MyScene;
  */
 MyScene.prototype.init = function (application) {
 	CGFscene.prototype.init.call(this, application);
+	this.naturalScale = 2;
 
 	this.initCameras();
 	this.enableTextures(true);
@@ -42,6 +56,7 @@ MyScene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 	this.initInterface();
 	this.setPickEnabled(true);
+
 };
 
 /**
@@ -56,7 +71,7 @@ MyScene.prototype.initTimer = function(){
  * Creates the camera.
  */
 MyScene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 20, 2.5), vec3.fromValues(0, 0, 2.5));
+	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(18.2*this.naturalScale, 9.5*this.naturalScale, 8.5*this.naturalScale), vec3.fromValues(8.2*this.naturalScale, 5*this.naturalScale, 8.5*this.naturalScale));
 
 	this.cameraController = new GameCamera(this);
 };
@@ -100,11 +115,42 @@ MyScene.prototype.onGraphLoaded = function ()
     	this.enabledLights[this.lights[i].lightID] = this.lights[i].enabled;
     }
 	this.initialTransformations = this.graph.initialTransformations;
-	this.textures = this.graph.textures;
-	this.materials = this.graph.materials;
-	this.leaves = this.graph.leaves;
-	this.nodes = this.graph.nodes;
-	this.rootID = this.graph.rootID;
+
+	/* CARREGAR LSX */
+
+	this.textures0 = this.graph.textures;
+	this.materials0 = this.graph.materials;
+	this.leaves0 = this.graph.leaves;
+	this.nodes0 = this.graph.nodes;
+	this.rootID0 = this.graph.rootID;
+
+	this.textures1 = this.graph1.textures;
+	this.materials1 = this.graph1.materials;
+	this.leaves1 = this.graph1.leaves;
+	this.nodes1 = this.graph1.nodes;
+	this.rootID1 = this.graph1.rootID;
+
+	this.textures2 = this.graph2.textures;
+	this.materials2 = this.graph2.materials;
+	this.leaves2 = this.graph2.leaves;
+	this.nodes2 = this.graph2.nodes;
+	this.rootID2 = this.graph2.rootID;
+
+	this.textures3 = this.graph3.textures;
+	this.materials3 = this.graph3.materials;
+	this.leaves3 = this.graph3.leaves;
+	this.nodes3 = this.graph3.nodes;
+	this.rootID3 = this.graph3.rootID;
+
+	this.nodes = this.nodes0;
+	this.textures = this.textures0;
+	this.leaves = this.leaves0;
+	this.materials = this.materials0;
+	this.rootID = this.rootID0;
+	
+	this.FirstAmbient();
+	/* */
+
 	console.log("Graph Loaded");
 
 	this.scoreBoard = new ScoreBoard(this);
@@ -154,21 +200,29 @@ MyScene.prototype.display = function () {
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
-    if (this.graph.loadedOk){
+    if (this.graph.loadedOk && this.graph1.loadedOk && this.graph2.loadedOk && this.graph3.loadedOk){
 			this.applyInitTransformations();
 
 		for(var i = 0; i < this.lights.length; i++){
 			this.lights[i].update();
 		}
 
-		this.game.display(this.timer);
 		this.logPicking();
-		//this.nodes[this.rootID].display(null, null, this.timer);
 
 		this.pushMatrix();
-			this.translate(0,1,7);
-			this.rotate(-5*Math.PI/4, 0,1,0);
+			this.scale(this.naturalScale,this.naturalScale,this.naturalScale);
+			this.nodes[this.rootID].display(null, null, this.timer);
+		this.popMatrix();
+		//this.nodesArray[this.currentLSX][this.rootIDArray[this.currentLSX]].display(null, null, this.timer);
+
+		this.pushMatrix();
+			this.translate(8*this.naturalScale,3*this.naturalScale,0.03*this.naturalScale);
 			this.scoreBoard.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(8.25*this.naturalScale,3.8*this.naturalScale,8.25*this.naturalScale);
+			this.game.display(this.timer);
 		this.popMatrix();
 
 		this.cameraController.animateCamera();
@@ -191,6 +245,37 @@ MyScene.prototype.applyInitTransformations= function(){
 	this.initialTransformations['scale'].apply();
 };
 
+MyScene.prototype.DefaultAmbient = function() {
+	this.nodes = this.nodes0;
+	this.textures = this.textures0;
+	this.leaves = this.leaves0;
+	this.materials = this.materials0;
+	this.rootID = this.rootID0;
+}
+
+MyScene.prototype.FirstAmbient = function() {
+	this.nodes = merge_options(this.nodes1, this.nodes0);
+	this.textures = merge_options(this.textures1, this.textures0);
+	this.leaves = merge_options(this.leaves1, this.leaves0);
+	this.materials = merge_options(this.materials1, this.materials0);
+	this.rootID = this.rootID1;
+}
+
+MyScene.prototype.SecondAmbient = function() {
+	this.nodes = merge_options(this.nodes2, this.nodes0);
+	this.textures = merge_options(this.textures2, this.textures0);
+	this.leaves = merge_options(this.leaves2, this.leaves0);
+	this.materials = merge_options(this.materials2, this.materials0);
+	this.rootID = this.rootID2;
+}
+
+MyScene.prototype.ThirdAmbient = function() {
+	this.nodes = merge_options(this.nodes3, this.nodes0);
+	this.textures = merge_options(this.textures3, this.textures0);
+	this.leaves = merge_options(this.leaves3, this.leaves0);
+	this.materials = merge_options(this.materials3, this.materials0);
+	this.rootID = this.rootID3;
+}
 
 MyScene.prototype.updateLight= function(lightID, state){
 	for (var i=0; i < this.lights.length; i++) {

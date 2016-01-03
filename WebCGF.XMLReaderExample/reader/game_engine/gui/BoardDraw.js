@@ -110,7 +110,7 @@ BoardDraw.prototype.placePieces= function(x,y){
         this.scene.rotate(BoardDraw.playerOrientation(1),0,1,0);
         this.piece1.display();
     this.scene.popMatrix();
-}
+};
 
 
 /**
@@ -259,4 +259,21 @@ BoardDraw.prototype.getPosFromCoords= function(id){
     if(y == 0)
         y = this.y;
     return [x,y];
+};
+
+
+/**
+ * Get the width of the board.
+ * @return {number} - width.
+ */
+BoardDraw.prototype.getWidth=function(){
+    return (this.y + 1)/2;
+};
+
+/**
+ * Get the Length of the board.
+ * @return {number} - length.
+ */
+BoardDraw.prototype.getLength=function(){
+    return this.x+2;
 };

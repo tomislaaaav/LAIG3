@@ -47,11 +47,14 @@ Board.prototype.display = function(time){
     if(this.rewind == true){
         this.rewindGame(time);
     }
-
-    this.boardTable.display();
-    for(var i = 0; i < this.pieces.length; i++){
-        this.pieces[i].display(time);
-    }
+    
+    this.scene.pushMatrix();
+        this.scene.translate(-this.boardTable.getLength()/2,0,-this.boardTable.getWidth()/2);
+        this.boardTable.display();
+        for(var i = 0; i < this.pieces.length; i++){
+            this.pieces[i].display(time);
+        }
+    this.scene.popMatrix();
 }
 
 /**

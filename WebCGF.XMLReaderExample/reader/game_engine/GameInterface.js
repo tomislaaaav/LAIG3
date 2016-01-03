@@ -34,6 +34,12 @@ GameInterface.prototype.init = function(application) {
     group.add(this.scene, 'boardX', 5,15);
     group.add(this.scene, 'boardY', 5,15);
 
+    var ambients = this.gui.addFolder("Ambients");
+    ambients.open();
+
+    ambients.add(this.scene, 'FirstAmbient');
+    ambients.add(this.scene, 'SecondAmbient');
+    ambients.add(this.scene, 'ThirdAmbient');
 
 	return true;
 };
