@@ -15,10 +15,10 @@ function BoardDraw(scene, x,y){
 
     this.id = 1;
 
-    this.plate = this.scene.nodesArray[this.scene.currentLSX]['plate'];
-    this.mosaic= this.scene.nodesArray[this.scene.currentLSX]['plate_mosaic'];
-    this.piece1= this.scene.nodesArray[this.scene.currentLSX]['player1'];
-    this.piece2= this.scene.nodesArray[this.scene.currentLSX]['player2'];
+    this.plate = this.scene.nodes['plate'];
+    this.mosaic= this.scene.nodes['plate_mosaic'];
+    this.piece1= this.scene.nodes['player1'];
+    this.piece2= this.scene.nodes['player2'];
 
     this.tiles = this.createTiles(x,y);
 };

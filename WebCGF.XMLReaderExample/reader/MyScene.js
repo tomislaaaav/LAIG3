@@ -8,6 +8,19 @@ function MyScene(scene){
 };
 
 /**
+ * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+ * @param obj1
+ * @param obj2
+ * @returns obj3 a new object based on obj1 and obj2
+ */
+function merge_options(obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+}
+
+/**
  * Stances that MyScene has the properties of a CGFscene.
 */
 MyScene.prototype = Object.create(CGFscene.prototype);
@@ -43,7 +56,6 @@ MyScene.prototype.init = function (application) {
 	this.initInterface();
 	this.setPickEnabled(true);
 
-	this.currentLSX = 0;
 };
 
 /**
@@ -92,11 +104,14 @@ MyScene.prototype.onGraphLoaded = function ()
     	this.enabledLights[this.lights[i].lightID] = this.lights[i].enabled;
     }
 	this.initialTransformations = this.graph.initialTransformations;
-	this.textures = this.graph.textures;
-	this.materials = this.graph.materials;
-	this.leaves = this.graph.leaves;
-	this.nodes = this.graph.nodes;
-	this.rootID = this.graph.rootID;
+
+	/* CARREGAR LSX */
+
+	this.textures0 = this.graph.textures;
+	this.materials0 = this.graph.materials;
+	this.leaves0 = this.graph.leaves;
+	this.nodes0 = this.graph.nodes;
+	this.rootID0 = this.graph.rootID;
 
 	this.textures1 = this.graph1.textures;
 	this.materials1 = this.graph1.materials;
@@ -116,11 +131,13 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.nodes3 = this.graph3.nodes;
 	this.rootID3 = this.graph3.rootID;
 
-	this.nodesArray = [this.nodes, this.nodes1, this.nodes2, this.nodes3];
-	this.texturesArray = [this.textures, this.textures1, this.textures2, this.textures3];
-	this.materialsArray = [this.materials, this.materials1, this.materials2, this.materials3];
-	this.leavesArray = [this.leaves, this.leaves1, this.leaves2, this.leaves3];
-	this.rootIDArray = [this.rootID, this.rootID1, this.rootID2, this.rootID3];
+	this.nodes = this.nodes0;
+	this.textures = this.textures0;
+	this.leaves = this.leaves0;
+	this.materials = this.materials0;
+	this.rootID = this.rootID0;
+
+	/* */
 
 	console.log("Graph Loaded");
 
@@ -177,22 +194,10 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();
 		}
 
-		switch(this.currentLSX) {
-			case 0:
-			break;
-			case 1:
-			break;
-			case 2:
-			break;
-			case 3:
-			break;
-			default:
-			break;
-		}
-
 		this.game.display(this.timer);
 		this.logPicking();
-		this.nodesArray[this.currentLSX][this.rootIDArray[this.currentLSX]].display(null, null, this.timer);
+		this.nodes[this.rootID].display(null, null, this.timer);
+		//this.nodesArray[this.currentLSX][this.rootIDArray[this.currentLSX]].display(null, null, this.timer);
 
 		this.pushMatrix();
 			this.translate(0,1,7);
@@ -218,19 +223,35 @@ MyScene.prototype.applyInitTransformations= function(){
 };
 
 MyScene.prototype.DefaultAmbient = function() {
-	this.currentLSX = 0;
+	this.nodes = this.nodes0;
+	this.textures = this.textures0;
+	this.leaves = this.leaves0;
+	this.materials = this.materials0;
+	this.rootID = this.rootID0;
 }
 
 MyScene.prototype.FirstAmbient = function() {
-	this.currentLSX = 1;
+	this.nodes = merge_options(this.nodes1, this.nodes0);
+	this.textures = merge_options(this.textures1, this.textures0);
+	this.leaves = merge_options(this.leaves1, this.leaves0);
+	this.materials = merge_options(this.materials1, this.materials0);
+	this.rootID = this.rootID1;
 }
 
 MyScene.prototype.SecondAmbient = function() {
-	this.currentLSX = 2;
+	this.nodes = merge_options(this.nodes2, this.nodes0);
+	this.textures = merge_options(this.textures2, this.textures0);
+	this.leaves = merge_options(this.leaves2, this.leaves0);
+	this.materials = merge_options(this.materials2, this.materials0);
+	this.rootID = this.rootID2;
 }
 
 MyScene.prototype.ThirdAmbient = function() {
-	this.currentLSX = 3;
+	this.nodes = merge_options(this.nodes3, this.nodes0);
+	this.textures = merge_options(this.textures3, this.textures0);
+	this.leaves = merge_options(this.leaves3, this.leaves0);
+	this.materials = merge_options(this.materials3, this.materials0);
+	this.rootID = this.rootID3;
 }
 
 MyScene.prototype.updateLight= function(lightID, state){

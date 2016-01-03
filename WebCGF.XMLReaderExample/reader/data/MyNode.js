@@ -82,9 +82,9 @@ MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
 
   for(var i = 0; i < this.descendants.length; i++)
  	{
- 		if (this.scene.nodesArray[this.scene.currentLSX][this.descendants[i]] == null)
+ 		if (this.scene.nodes[this.descendants[i]] == null)
  		{
- 			if (this.scene.leavesArray[this.scene.currentLSX][this.descendants[i]] == null)
+ 			if (this.scene.leaves[this.descendants[i]] == null)
  			{
  				console.error("'DESCENDANT' id="+this.descendants[i]+" in 'NODE' id="+this.id+" isn't referenced as a 'NODE' or 'LEAF'.\n" );
  				return false;
@@ -92,15 +92,15 @@ MyNode.prototype.display = function(parentTexture, parentMaterial, currTime) {
  			if (currentMaterial != null) currentMaterial.apply();
  			if (currentTexture != null)
  				{
- 					this.scene.leavesArray[this.scene.currentLSX][this.descendants[i]].scaleTexCoords(currentTexture.s, currentTexture.t);
+ 					this.scene.leaves[this.descendants[i]].scaleTexCoords(currentTexture.s, currentTexture.t);
  					currentTexture.bind();
  				}
- 			this.scene.leavesArray[this.scene.currentLSX][this.descendants[i]].display();
+ 			this.scene.leaves[this.descendants[i]].display();
  			if (currentTexture != null) currentTexture.unbind();
 
  		}
  		else
- 			this.scene.nodesArray[this.scene.currentLSX][this.descendants[i]].display(currentTexture ,currentMaterial, currTime);
+ 			this.scene.nodes[this.descendants[i]].display(currentTexture ,currentMaterial, currTime);
  	}
  	this.scene.popMatrix();
 };
