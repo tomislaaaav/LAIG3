@@ -35,6 +35,7 @@ MyScene.prototype.constructor = MyScene;
  */
 MyScene.prototype.init = function (application) {
 	CGFscene.prototype.init.call(this, application);
+	this.naturalScale = 2;
 
 	this.initCameras();
 	this.enableTextures(true);
@@ -70,7 +71,7 @@ MyScene.prototype.initTimer = function(){
  * Creates the camera.
  */
 MyScene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 20, 2.5), vec3.fromValues(0, 0, 2.5));
+	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(18.2*this.naturalScale, 9.5*this.naturalScale, 8.5*this.naturalScale), vec3.fromValues(8.2*this.naturalScale, 5*this.naturalScale, 8.5*this.naturalScale));
 
 	this.cameraController = new GameCamera(this);
 };
@@ -146,7 +147,8 @@ MyScene.prototype.onGraphLoaded = function ()
 	this.leaves = this.leaves0;
 	this.materials = this.materials0;
 	this.rootID = this.rootID0;
-
+	
+	this.FirstAmbient();
 	/* */
 
 	console.log("Graph Loaded");
@@ -205,15 +207,22 @@ MyScene.prototype.display = function () {
 			this.lights[i].update();
 		}
 
-		this.game.display(this.timer);
 		this.logPicking();
-		this.nodes[this.rootID].display(null, null, this.timer);
+
+		this.pushMatrix();
+			this.scale(this.naturalScale,this.naturalScale,this.naturalScale);
+			this.nodes[this.rootID].display(null, null, this.timer);
+		this.popMatrix();
 		//this.nodesArray[this.currentLSX][this.rootIDArray[this.currentLSX]].display(null, null, this.timer);
 
 		this.pushMatrix();
-			this.translate(0,1,7);
-			this.rotate(-5*Math.PI/4, 0,1,0);
+			this.translate(8*this.naturalScale,3*this.naturalScale,0.03*this.naturalScale);
 			this.scoreBoard.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(8.25*this.naturalScale,3.8*this.naturalScale,8.25*this.naturalScale);
+			this.game.display(this.timer);
 		this.popMatrix();
 
 		this.cameraController.animateCamera();

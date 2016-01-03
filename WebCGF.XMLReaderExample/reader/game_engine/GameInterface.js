@@ -37,7 +37,6 @@ GameInterface.prototype.init = function(application) {
     var ambients = this.gui.addFolder("Ambients");
     ambients.open();
 
-    ambients.add(this.scene, 'DefaultAmbient');
     ambients.add(this.scene, 'FirstAmbient');
     ambients.add(this.scene, 'SecondAmbient');
     ambients.add(this.scene, 'ThirdAmbient');
