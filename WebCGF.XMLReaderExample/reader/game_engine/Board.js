@@ -2,8 +2,8 @@
  * Class responsible for all the Board logics and display. 
  * @constructor
  * @param scene {MyScene} - scene
- * @param {number} x - The height of the board
- * @param {number} y - The width of the board
+ * @param x {number} - The length of the board
+ * @param y {number}- The width of the board
  */
 function Board(scene, x,y,state){
     Object.call(this);

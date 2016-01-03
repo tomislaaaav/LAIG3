@@ -36,7 +36,15 @@ Spangles.prototype.display= function(time){
     this.board.display(time);  
 };
 
-
+/**
+ * Start a new game
+ * @param x {number} - The length of the board
+ * @param y {number}- The width of the board
+ * @param mode {string} - game mode. Can be either "pvp" or "bot"
+ * @param time {number} - duration of each turn. If null 20 seconds is the predefined duration.
+ * @param difficulty {number} - predefined bot difficulty. Can be either 1(easy) or 2(hard). If null 1 is predefined difficulty.
+ * @return {boolean} - false if the game mode isn't recognized, else returns true. 
+ */
 Spangles.prototype.newGame= function(x,y,mode, time,difficulty){
     this.turnTime = time || 20;
     this.resetTimer();
@@ -55,26 +63,41 @@ Spangles.prototype.newGame= function(x,y,mode, time,difficulty){
     }
     this.board = new Board(this.scene, x,y);
     this.scoreBoard.resetBoard();
+    return true;
 };
 
+/**
+ * Reset and activate the timer of the game
+ */
 Spangles.prototype.resetTimer = function(){
     this.timeLastCount = null;
     this.time = 0;
     this.timerActiv = true;
 };
 
+/**
+ * Resume the timer of the game
+ */
 Spangles.prototype.resumeTimer = function(){
     this.timeLastCount = null;
     this.timerActiv = true;
 };
 
+/**
+ * Stop the timer of the game
+ */
 Spangles.prototype.stopTimer= function(){
     this.timerActiv = false;
 };
 
+/**
+ * Update the game time count.
+ * @param time {number} - system time
+ * @return {boolean} - return false if the timer is not activated, else returns true.
+ */
 Spangles.prototype.update= function(time){
     if(this.timerActiv == false)
-        return;
+        return false;
 
 
     if(this.timeLastCount == null)
@@ -89,8 +112,15 @@ Spangles.prototype.update= function(time){
         this.stateMachine.update("endTurn");
         console.log("Player "+this.stateMachine.currPlayer+" missed his turn");
     }
+
+    return true;
 };
 
+/**
+ * Send a request to the server indicating that a player wants to make a move.
+ * @param {number} x - The x position where the piece will be placed 
+ * @param {number} y - The y position where the piece will be placed
+ */
 Spangles.prototype.PlayerMakePlay= function(x,y){
     var player = this.stateMachine.currPlayer;
     board = this.board.state.getJSONString();
@@ -102,6 +132,10 @@ Spangles.prototype.PlayerMakePlay= function(x,y){
     this.connection.playerMakeMove(board, player,x,y,type);
 };
 
+/**
+ * Send a request to the server asking for the bot to make move.
+ * @param player {number} - Bots player number.
+ */
 Spangles.prototype.botMakePlay= function(player){
     var difficulty = this. difficulty;
     board = this.board.state.getJSONString(); 
@@ -110,6 +144,10 @@ Spangles.prototype.botMakePlay= function(player){
     this.connection.botMove(board, player, difficulty);
 }
 
+/**
+ * Handle the reception of a new board state from the server and signal the state machine
+ * @param response {array} - new board state.  
+ */
 Spangles.prototype.receiveBoard= function(response){
     var newBoardState = new BoardState(null,BoardState.getStateFromResponse(response));
     this.board.newPlay(newBoardState);
@@ -117,11 +155,18 @@ Spangles.prototype.receiveBoard= function(response){
     this.stateMachine.update("validPlay");
 };
 
+/**
+ * Notifies the state machine that the previous request has failed.
+ */
 Spangles.prototype.failResponse= function(){
     console.log("Failed play by player "+this.stateMachine.currPlayer);
     this.stateMachine.update("fail");  
 };
 
+/**
+ * Notify the game that a tile as been picked. Sends request to the server to attempt to play on the selected tile.
+ * @param id {number} - id of the picked tile
+ */
 Spangles.prototype.pickTile= function(id){
     if(this.picking == false)
         return false;
@@ -130,6 +175,10 @@ Spangles.prototype.pickTile= function(id){
     this.PlayerMakePlay(position[0],position[1]);
 };
 
+/**
+ * Handle the result of the winner verification request made to the server.
+ * @param state {number} - Player that won the game. If no player has won, should be false.
+ */
 Spangles.prototype.receiveWinner= function(state){
     if(state != false){
         this.results.winner = true;
@@ -143,6 +192,10 @@ Spangles.prototype.receiveWinner= function(state){
     }      
 };
 
+/**
+ * Handle the result of the available cells verification request made to the server.
+ * @param state {boolean} - Should be true if there are available cell. False if there are no available cells.
+ */
 Spangles.prototype.receiveHasAvailabeCells= function(state){
     if(state){
         this.results.emptyCells = true;
@@ -155,17 +208,28 @@ Spangles.prototype.receiveHasAvailabeCells= function(state){
     } 
 };
 
+/**
+ * Makes a number of requests to the server verify if the current game has finished. 
+ */
 Spangles.prototype.startVerification= function(){
     var board = this.board.state.getJSONString();
     this.connection.verifyWinner(board);
     this.connection.hasAvailableCells(board);
 };
 
+/**
+ * Resets the result of the verification requests made to the server 
+ */
 Spangles.prototype.resetResults= function(){
     this.results.winner = null;
     this.results.emptyCells = null;  
 };
 
+/**
+ * Update the score of a player on the scoreBoard
+ * @param player {number} - player number.
+ * @param points {number} - number of points that the player has.
+ */
 Spangles.prototype.updateScore= function(player,points){
     this.score[player-1] = (points < 0) ? 0 : points;
     switch(player){
@@ -182,15 +246,24 @@ Spangles.prototype.updateScore= function(player,points){
     }
 };
 
+/**
+ * Resets the scores on the scoreBoard
+ */
 Spangles.prototype.resetScores=function(){
     this.scoreBoard.setPlayer1Points(0);
     this.scoreBoard.setPlayer2Points(0);
 }
 
+/**
+ * Signals the stateMachine that the Undo of a play has been requested.
+ */
 Spangles.prototype.undo= function(){
     this.stateMachine.update("undo");
 }
 
+/**
+ * Signals the board to undo a play.
+ */
 Spangles.prototype.undoPlay= function(){
     if(!this.board.undoPlay()){
         alert("You can't undo to an empty game");
@@ -199,14 +272,25 @@ Spangles.prototype.undoPlay= function(){
     return true;
 }
 
+/**
+ * Retrieve the difficulty list available for the bot.
+ */
 Spangles.getDifficultyList= function(){
     return [1,2];
 };
 
+/**
+ * Retrieve the default turn duration of the game.
+ */
 Spangles.defaultTurnDuration= function(){
     return 20;
 }
 
+/**
+ * Verify if the game has finished.
+ * @param results {array} - current state of the results verification
+ * @return {boolean} - True if the game has finished. If not, returns false.
+ */
 function isGameFinished(results){
     if(results.winner || !results.emptyCells){
         return false;
@@ -215,6 +299,11 @@ function isGameFinished(results){
     }
 };
 
+/**
+ * Verifies if the results verification is finished
+ * @param results {array} - current state of the results verification
+ * @return {boolean} - True if the verification has finished. If not, returns false.
+ */
 function isVerificationComplete(results){
     if(results.winner == null || results.emptyCells == null){
         return false;

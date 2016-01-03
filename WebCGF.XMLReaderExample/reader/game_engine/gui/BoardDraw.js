@@ -2,8 +2,8 @@
  * Creates a BoardDraw with the given coordinates.
  * @constructor
  * @param scene {CGFscene} - The scene
- * @param {number} x - The length of the board
- * @param {number} y - The width of the board
+ * @param x {number} - The length of the board
+ * @param y {number}- The width of the board
  */
 function BoardDraw(scene, x,y){
     Object.call(this);
