@@ -26,9 +26,9 @@ GameCamera.prototype.getViewAngle = function(view){
         case "Player1":
             return 0;            
         case "Player2":
-            return Math.PI;
+            return -Math.PI;
         case "Scoreboard":
-            return Math.PI/2;
+            return -Math.PI/2;
         default:
             console.error("There is no angle associated for view: "+view);
             return false;

@@ -18,7 +18,7 @@ serialInclude(['../lib/CGF.js', 'MyScene.js', 'MySceneGraph.js', 'data/MyMateria
  'game_engine/gui/BoardDraw.js','game_engine/gui/Piece.js', 'game_engine/gui/Tile.js', 'game_engine/gui/Number.js' , 'game_engine/gui/ScoreBoard.js',
  'game_engine/Board.js','game_engine/Connection.js','game_engine/Spangles.js','game_engine/Pvp.js', 'game_engine/Pvb.js' ,'game_engine/GameInterface.js', 'game_engine/GameCamera.js',
  'game_engine/models/BoardState.js' ,
- 'dependencies/vector.js','primitives/Vehicle.js', 
+ 'dependencies/vector.js','primitives/Vehicle.js',
 
 /**
  * Standard main function. Creates a CGFapplication and sets in it a scene and an interface.
@@ -45,7 +45,9 @@ main=function()
 
 	// create and load graph, and associate it to scene.
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+	var myGraph = new MySceneGraph(filename, myScene, 0);
+
+  myGraph.loadSecondaryScenes(["Ambient 1", "Ambient 2", "Ambient 3"], myScene);
 
 	// start
     app.run();
