@@ -262,8 +262,6 @@
 	        <DESCENDANTS>
 	            <DESCENDANT id="mesa1" />
 
-							<DESCENDANT id="cadeira1" />
-
 	            <DESCENDANT id="floor" />
 
 	            <DESCENDANT id="left wall" />

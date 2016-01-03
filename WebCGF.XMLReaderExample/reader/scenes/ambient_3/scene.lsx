@@ -263,8 +263,6 @@
 	            <DESCENDANT id="mesa1" />       <!-- "ss" is the identifier of a node or of leaf; -->
 	                                         <!-- may be repeatad as necessary. It can refer an -->
 	                                         <!-- identifier of another node or leaf, later defined in the lsx file. -->
-	            <DESCENDANT id="cadeira1" />
-
 	            <DESCENDANT id="floor" />
 
 	            <DESCENDANT id="left wall" />
