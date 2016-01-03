@@ -31,7 +31,7 @@ GameInterface.prototype.init = function(application) {
 
 	group.add(this.scene, 'botDifficulty', this.scene.botDiffList);
     group.add(this.scene, 'turnDuration', 5,30);
-    group.add(this.scene, 'boardX', 5,15);
+    group.add(this.scene, 'boardX', 5,8);
     group.add(this.scene, 'boardY', 5,15);
 
     var ambients = this.gui.addFolder("Ambients");
