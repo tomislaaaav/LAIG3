@@ -19,6 +19,10 @@ function Pvb(game){
  */
 Pvb.prototype = Object.create(Object.prototype);
 
+/**
+ * Update the state machine in response to a certain action.
+ * @param action {string} - action. Can be "endTurn","sendRequest","undo","validPlay","fail","won","full","continue"
+ */
 Pvb.prototype.update= function(action){
     switch(this.state){       
         case "Turn":
@@ -88,6 +92,10 @@ Pvb.prototype.update= function(action){
     }  
 };
 
+/**
+ * Handle the state of the game in order to undo a play. Returns to the last successful play made by the player 1, erasing all posterior plays made by the bot.
+ * @return - false if there are no successful plays made by the player 1 or if it's the bot turn.
+ */
 Pvb.prototype.undoPlay=function(){
     if(this.currPlayer != 1){
         console.log("Can't undo during the bots turn");
@@ -121,6 +129,11 @@ Pvb.prototype.undoPlay=function(){
     this.switchState("StartTurn");
 };
 
+/**
+ * Get the enemy player of the given player
+ * @param player {number} - player
+ * @return - enemy player
+ */
 Pvb.enemyPlayer= function(player){
     if(player == 1)
         return 2;
@@ -128,6 +141,11 @@ Pvb.enemyPlayer= function(player){
         return 1;
 };
 
+
+/**
+ * Switch to a certain state and activates all the events that happen when you switch to the given state.
+ * @param state {string} - new state. Can be "StartTurn", "Turn", "WaitResponse", "BoardCheck", "Finished".
+ */
 Pvb.prototype.switchState= function(state){
     switch(state){
         case "StartTurn":

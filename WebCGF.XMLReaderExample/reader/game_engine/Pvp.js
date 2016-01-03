@@ -19,6 +19,10 @@ function Pvp(game){
  */
 Pvp.prototype = Object.create(Object.prototype);
 
+/**
+ * Update the state machine in response to a certain action.
+ * @param action {string} - action. Can be "endTurn","sendRequest","undo","validPlay","fail","won","full","continue"
+ */
 Pvp.prototype.update= function(action){
     switch(this.state){       
         case "Turn":
@@ -90,6 +94,9 @@ Pvp.prototype.update= function(action){
     }  
 };
 
+/**
+ * Handle the state of the game in order to undo a play.
+ */
 Pvp.prototype.undoPlay=function(){
     this.game.updateScore(this.previousPlayer(), this.game.score[this.previousPlayer()-1]-1);
     this.currPlayer = Pvp.enemyPlayer(this.previousPlayer());
@@ -97,6 +104,11 @@ Pvp.prototype.undoPlay=function(){
     this.switchState("StartTurn");
 };
 
+/**
+ * Get the enemy player of the given player
+ * @param player {number} - player
+ * @return - enemy player
+ */
 Pvp.enemyPlayer= function(player){
     if(player == 1)
         return 2;
@@ -104,12 +116,21 @@ Pvp.enemyPlayer= function(player){
         return 1;
 };
 
+/**
+ * Get the last player who made a successful play
+ * @return - False if there are no successful plays in the game history. Else returns the last player who made a successful play 
+ */
 Pvp.prototype.previousPlayer=function(){
     if(this.playsHistory.length <= 0)
         return false;
     return this.playsHistory[this.playsHistory.length -1];  
 };
 
+
+/**
+ * Switch to a certain state and activates all the events that happen when you switch to the given state.
+ * @param state {string} - new state. Can be "StartTurn", "Turn", "WaitResponse", "BoardCheck", "Finished".
+ */
 Pvp.prototype.switchState= function(state){
     switch(state){
         case "StartTurn":

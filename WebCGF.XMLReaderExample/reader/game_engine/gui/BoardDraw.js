@@ -2,8 +2,8 @@
  * Creates a BoardDraw with the given coordinates.
  * @constructor
  * @param scene {CGFscene} - The scene
- * @param {number} x - The height of the board
- * @param {number} y - The width of the board
+ * @param x {number} - The length of the board
+ * @param y {number}- The width of the board
  */
 function BoardDraw(scene, x,y){
     Object.call(this);
@@ -51,7 +51,7 @@ BoardDraw.prototype.drawPlates = function(x,y){
 
 /**
  * Create the tiles for the board
- * @param {number} x - The height of the board
+ * @param {number} x - The length of the board
  * @param {number} y - The width of the board
  */
 BoardDraw.prototype.createTiles = function(x,y){
@@ -120,6 +120,11 @@ BoardDraw.prototype.setSize= function(size){
     this.size = size;
 };
 
+/**
+ * Draw the body of the board.
+ * @param {number} x - The length of the board
+ * @param {number} y - The width of the board
+ */
 BoardDraw.prototype.boardBody= function(x,y){
     x +=2;
     this.scene.pushMatrix();
@@ -129,6 +134,11 @@ BoardDraw.prototype.boardBody= function(x,y){
     this.scene.popMatrix();
 };
 
+/**
+ * Draw the borders of the board.
+ * @param {number} x - The length of the board
+ * @param {number} y - The width of the board
+ */
 BoardDraw.prototype.drawBorders= function(x,y){
 
     this.scene.pushMatrix();
@@ -160,6 +170,12 @@ BoardDraw.prototype.drawBorders= function(x,y){
     this.scene.popMatrix();
 };
 
+/**
+ * Get the initial position of a players piece in the board.
+ * @param board {array} - Array of length equal to 3. The first element is the length of the board and the third element the width of the board. The second element must be a 0
+ * @param player {number} - player
+ * @return {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ */
 BoardDraw.pieceInitPositions= function(board, player){
     switch(player){
         case 1:
@@ -180,18 +196,35 @@ BoardDraw.pieceInitPositions= function(board, player){
     }
 };
 
+/**
+ * Given the coordinates on the board returns the corresponding coordinates in the scene. 
+ * @param board {array} - Array of length equal to 3. The first element is the length of the board and the third element the width of the board. The second element must be a 0
+ * @param coordinates {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ * @return {array} - Array of length equal to 3. The first element is the x position of the piece in the scene. The third element is the z position of the piece in the scene. The second element is 0.
+ */
 BoardDraw.realCoordinates= function(board,coordinates){
     var x = coordinates[0];
     var y = (board[2] - coordinates[2]+1)*0.5;
     return [x,0,y];
 };
 
+/**
+ * Invert the given coordinates as if the board was beeing seen by the player on the other side table.
+ * @param board {array} - Array of length equal to 3. The first element is the length of the board and the third element the width of the board. The second element must be a 0
+ * @param coordinates {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ * @return {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ */
 BoardDraw.invertCoordinates= function(board, coordinates){
     var x = board[0] - coordinates[0] + 1;
     var y = board[2] - coordinates[2] + 1;
     return [x,0,y];
 };
 
+/**
+ * Returns if a piece is inverted(triangle pointing in the x direction). According to the view of the player 1.
+ * @param coordinates {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ * @return - true if the piece is inverted. False if not.
+ */
 BoardDraw.isPieceInverted= function(coordinates){
     if((coordinates[2]%2 == 0 && coordinates[0]%2 != 0) || (coordinates[2]%2 != 0 && coordinates[0]%2 == 0) ){
         return true;
@@ -200,6 +233,11 @@ BoardDraw.isPieceInverted= function(coordinates){
     }
 };
 
+/**
+ * Starting orientation fo the player piece.
+ * @param player {number} - player.
+ * @return - angle according to the Y axis.
+ */
 BoardDraw.playerOrientation= function(player){
     switch(player){
         case 1:
@@ -210,6 +248,11 @@ BoardDraw.playerOrientation= function(player){
     }
 };
 
+/**
+ * Get the position of the piece according to its id.
+ * @param id {number} - id.
+ * @return {array} - Array of length 2. The first element is the x position of the piece. The second element is the y position of the piece. 
+ */
 BoardDraw.prototype.getPosFromCoords= function(id){
     var x = Math.ceil(id/this.y);
     var y = id % this.y;

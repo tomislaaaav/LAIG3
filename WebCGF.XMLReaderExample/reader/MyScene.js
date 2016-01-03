@@ -316,6 +316,9 @@ MyScene.prototype.initLights = function () {
 	}
 };
 
+/**
+ * Handle the log picking
+ */
 MyScene.prototype.logPicking = function ()
  {
     if (this.pickMode == false) {
@@ -333,19 +336,27 @@ MyScene.prototype.logPicking = function ()
     }
 };
 
-
+/**
+ * Signal the game that a New PVP Game has been requested
+ */
 MyScene.prototype.NewGamePVP=function(){
 	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
 	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
 	this.game.newGame(x,y,"pvp", this.turnDuration);
 };
 
+/**
+ * Signal the game that a New Bot Game has been requested
+ */
 MyScene.prototype.NewGameBot = function(){
 	var x = (this.boardX > Math.floor(this.boardX) + 0.9) ? Math.ceil(this.boardX): Math.floor(this.boardX);
 	var y = (this.boardY > Math.floor(this.boardY)+0.9)? Math.ceil(this.boardY) : Math.floor(this.boardY);
 	this.game.newGame(x, y, "bot", this.turnDuration, this.botDifficulty);
 };
 
+/**
+ * Signal the game that an Undo of a play has been requested
+ */
 MyScene.prototype.Undo= function(){
 	this.game.undo();
 };

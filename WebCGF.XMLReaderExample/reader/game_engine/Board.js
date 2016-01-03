@@ -2,8 +2,8 @@
  * Class responsible for all the Board logics and display. 
  * @constructor
  * @param scene {MyScene} - scene
- * @param {number} x - The height of the board
- * @param {number} y - The width of the board
+ * @param x {number} - The length of the board
+ * @param y {number}- The width of the board
  */
 function Board(scene, x,y,state){
     Object.call(this);
@@ -57,6 +57,11 @@ Board.prototype.display = function(time){
     this.scene.popMatrix();
 }
 
+/**
+ * Set the animations speed.
+ * @param speed {string} - "slow", "normal", "fast" or "superfast".
+ * @return {boolean} - false if it doesn't recognize the given speed. Else true.
+ */
 Board.prototype.setSpeed= function(speed){
     switch(speed){
         case "slow":
@@ -75,6 +80,8 @@ Board.prototype.setSpeed= function(speed){
             console.erro("Selected speed doesn't exist");
             return false;
     }
+
+    return true;
 };
 
 /**
@@ -103,10 +110,22 @@ Board.prototype.play= function(player,x,y){
     return true;
 };
 
+/**
+ * Make a new play by giving the board a new state.
+ * Executes the Board.prototype.switchBoards but as the oldBoard uses the current state of the board.
+ * @param newBoard {BoardState} - new state of the board.
+ * @param {boolean} - true if successful, else returns false.
+ */
 Board.prototype.newPlay= function(newBoard){
     return this.switchBoards(this.state, newBoard);
 };
 
+/**
+ * Compare the two states and applies the differences. It then adds the oldBoard to the history and sets the newBoard as the current state.
+ * @param oldBoard {BoardState} - board state with which will compare the new state.
+ * @param newBoard {BoardState} - new state of the board.
+ * @result {boolean} - false if there is a problem applying the differences. Else returns true.
+ */
 Board.prototype.switchBoards= function(oldBoard, newBoard){
     var differences = BoardState.boardDifferences(oldBoard, newBoard);
     for(var i = 0; i < differences.length; i++){
@@ -137,6 +156,12 @@ Board.prototype.removeBoardPiece= function(x,y){
     return false;
 };
 
+/**
+ * Applies a difference in the board.
+ * If the given difference is an empty cell removes a piece from the board in that position. If the difference is a new cell adds a piece to that position.
+ * @param difference {array} - Each difference has the 3 elements. x - x coordinate on the board. y - y coordinate on the board. cell - new state of the position. See BoardState.prototype.boardDifferences for better understanding.
+ * @result {boolean} - true if the operation is successful, else returns false.
+ */
 Board.prototype.applyBoardDifference= function(difference){
     if(difference.cell[1] == null || difference.cell[1] == 0){
         return this.removeBoardPiece(difference.x, difference.y);
@@ -149,6 +174,7 @@ Board.prototype.applyBoardDifference= function(difference){
  * Starts the rewind state of the Board. The Board will start from the 
  * first element of the boardHistory and execute all the following states as if the game would be played again.
  * The animations speed increases from normal to fast.
+ * @result {boolean} - False if the history is empty. Else returns true.
  */
 Board.prototype.startRewind= function(){
     if(this.boardHistory[0] == null){
@@ -175,6 +201,8 @@ Board.prototype.stopRewind= function(){
 
 /**
  * Handles the exchange of states during the rewind state.
+ * @param time {number} - Current system time.
+ * @return {boolean} - returns false if it finished rewind, else returns true.
  */
 Board.prototype.rewindGame= function(time){
     if(this.rewindInitTime == null){
@@ -191,6 +219,7 @@ Board.prototype.rewindGame= function(time){
         this.newPlay(this.boardHistory[this.rewindIndex]);
         this.rewindIndex++;  
     }
+    return true;
 };
 
 

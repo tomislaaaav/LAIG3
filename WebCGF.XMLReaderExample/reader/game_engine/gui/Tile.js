@@ -26,7 +26,9 @@ Tile.prototype = Object.create(Object.prototype);
  */
 Tile.prototype.constructor = Tile;
 
-
+/**
+ * Display the tile
+ */
 Tile.prototype.display = function(){
     this.scene.pushMatrix();
         var position = BoardDraw.realCoordinates(this.board.toArray(),this.position.toArray());

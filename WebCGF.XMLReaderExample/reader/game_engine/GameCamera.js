@@ -2,8 +2,6 @@
  * GameCamera
  * @constructor
  */
-
-
 function GameCamera(scene) {
     Object.call(this);
 	this.scene = scene;
@@ -13,7 +11,9 @@ function GameCamera(scene) {
 GameCamera.prototype = Object.create(Object.prototype);
 GameCamera.prototype.constructor = GameCamera;
 
-
+/**
+ * init
+ */
 GameCamera.prototype.init = function() {
 	this.rotateCamera = false;
 	this.previousView = "Player1";
@@ -21,6 +21,11 @@ GameCamera.prototype.init = function() {
 	this.cameraRotation = 0;
 };
 
+/**
+ * Get the angle to the Y axis that corresponds to the view.
+ * @param view {string} - "Player1", "Player2", "Scoreboard".
+ * @return {number} - angle. Returns false if the given view doesn't have an associated angle.
+ */
 GameCamera.prototype.getViewAngle = function(view){
     switch(view){
         case "Player1":
@@ -35,6 +40,10 @@ GameCamera.prototype.getViewAngle = function(view){
     }
 };
 
+/**
+ * Get the current rotation being animated by the camera.
+ * @return {number} - angle
+ */
 GameCamera.prototype.getRotation=function(){
     prevViewAngle = this.getViewAngle(this.previousView);
     currAngle = this.getViewAngle(this.currentView);
@@ -42,6 +51,9 @@ GameCamera.prototype.getRotation=function(){
     return currAngle - prevViewAngle;
 };
 
+/**
+ * Rotate the camera.
+ */
 GameCamera.prototype.animateCamera = function() {
 	if (this.rotateCamera) {
 		var rotation = this.getRotation();
@@ -61,27 +73,38 @@ GameCamera.prototype.animateCamera = function() {
 	}
 };
 
+/**
+ * Set the currentView as the previous view and the given view as the current one.
+ * @param newView {string} - The new view. 
+ */
 GameCamera.prototype.switchViews= function(newView){
     this.previousView = this.currentView;
     this.currentView = newView;
 };
 
+/**
+ * Handle inputs received
+ * @param key {string} - pressed key.
+ */
 GameCamera.prototype.inputHandler = function(key) {
 	if(this.rotateCamera){
 		return false;
 	}
-
-	if (key == "Space"){
-		if(this.currentView == "Player1"){
-			this.switchViews("Player2");
-		}else{
-			this.switchViews("Player1");
-		}
-		this.rotateCamera = true;
-	}
-
-	if(key == "R"){
-		this.switchViews("Scoreboard");
-		this.rotateCamera = true;
+	
+	switch(key){
+		case "Space":
+			if(this.currentView == "Player1"){
+				this.switchViews("Player2");
+			}else{
+				this.switchViews("Player1");
+			}
+			this.rotateCamera = true;
+			break;
+		case "R":
+			this.switchViews("Scoreboard");
+			this.rotateCamera = true;
+			break;
+		default: 
+			break;
 	}
 };

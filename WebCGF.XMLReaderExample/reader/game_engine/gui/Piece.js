@@ -80,6 +80,9 @@ Piece.prototype.display = function(time){
     this.scene.popMatrix();
 };
 
+/**
+ * Set the piece in its original position.
+ */
 Piece.prototype.setInInitialPosition = function(){
     this.scene.translate(this.initPosition.x,this.initPosition.y, this.initPosition.z);
     if(this.player == 1)
@@ -89,7 +92,10 @@ Piece.prototype.setInInitialPosition = function(){
 };
 
 /**
- *
+ * Get the position of the piece in the scene according to the players view.
+ * @param board {array} - Array of length equal to 3. The first element is the length of the board and the third element the width of the board. The second element must be a 0
+ * @param coordinates {array} - Array of length equal to 3. The first element is the x position of the piece on the board. The third element is the z position of the piece on the board. The second element is 0.
+ * @return {vector} - position.
  */
 Piece.prototype.getPiecePosition= function(board,boardPiecePosition,player){
     if(player == 1){
@@ -102,6 +108,7 @@ Piece.prototype.getPiecePosition= function(board,boardPiecePosition,player){
 
 /**
  * Set the Piece scale size
+ * @param size {number} - size.
  */
 Piece.prototype.setSize= function(size){
     this.size = size;
@@ -144,8 +151,13 @@ Piece.prototype.createAnimation= function(){
     return animation;
 };
 
-
-
+/**
+ * Create the animation to lift the piece.
+ * @param height {number} - height that the piece will be lifted.
+ * @param id {string} - id of the animation.
+ * @param time {number} - duration of the animation.
+ * @return {LinearAnimation}
+ */
 Piece.prototype.liftPieceAnimation= function(height, id,time){
     var initPoint = [0,0,0];
     var finishPoint = [height,0,0];
@@ -154,6 +166,13 @@ Piece.prototype.liftPieceAnimation= function(height, id,time){
     animation.setRotation(false);
     return animation;
 }
+
+/**
+ * Create the animation that together with the translation will give the ilusion that piece is travelling in an elipse route.
+ * @param totalDistance {number} - distance that the piece will travel.
+ * @param time {number} - duration of the animation.
+ * @return {CircularAnimation} - animation.
+ */
 Piece.prototype.createCircularTranslation=function(totalDistance,time){
     var distance = 0.3*totalDistance;
     var radius = distance/2;
@@ -162,11 +181,22 @@ Piece.prototype.createCircularTranslation=function(totalDistance,time){
     return new CircularAnimation(this.scene, "circular_translation",center,radius, 90,-180,time);  
 };
 
+/**
+ * Create the animation the will negate the rotation of the circularTranslation.
+ * @param time {number} - duration of the animation.
+ * @return {CircularAnimation} - animation.
+ */
 Piece.prototype.createCircularRotation= function(time){
 
     return new CircularAnimation(this.scene, "circular_rotation", [0,0,0],0,-90,180,time);  
 };
 
+/**
+ * Create the animation that together with the CircularTranslation will give the ilusion that piece is travelling in an elipse route.
+ * @param totalDistance {number} - distance that the piece will travel.
+ * @param time {number} - duration of the animation.
+ * @return {LinearAnimation} - animation.
+ */
 Piece.prototype.createTranslation= function(totalDistance, time){
     distance = totalDistance*0.7;
     initPoint= [0,0,0];
@@ -176,6 +206,10 @@ Piece.prototype.createTranslation= function(totalDistance, time){
     return new LinearAnimation(this.scene, "piece_translation", controlPoints,time);
 };
 
+/**
+ * Get the height of the piece.
+ * @return {number} - height.
+ */
 Piece.getPieceHeight= function(){
     return 0.2;
 }
@@ -184,6 +218,9 @@ Piece.getPieceHeight= function(){
  * Creates an animation to rotate the piece if:
  * -the piece needs to be inverted and you are player 1
  * -the piece doesn't need to be inverted and you are player 2
+ * @param position {array} - Array of length equal to 3. The first element is the x position of the piece. The third element is the z position of the piece. The second element is 0.
+ * @param player {number} - player.
+ * @return {ComposedAnimation} - animation.
  */
 Piece.prototype.createAlignPieceAnimation= function(position, player){
     var animation = new ComposedAnimation();
@@ -202,7 +239,8 @@ Piece.prototype.createAlignPieceAnimation= function(position, player){
 
 
 /**
- *
+ * Change the duration of the main animation and generates a new animation.
+ * @param duration {number} - duration.
  */
 Piece.prototype.setDuration= function(duration){
     this.duration = duration;

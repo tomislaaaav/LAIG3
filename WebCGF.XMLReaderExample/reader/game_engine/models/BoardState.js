@@ -26,7 +26,11 @@ BoardState.prototype = Object.create(Object.prototype);
  */
 BoardState.prototype.constructor = BoardState;
 
-
+/**
+ * Create an empty board.
+ * @param {number} x - The length of the board
+ * @param {number} y - The width of the board
+ */
 BoardState.prototype.createEmptyBoard= function(x,y){
     var board=[];
 
@@ -47,7 +51,8 @@ BoardState.prototype.addPiece= function(x,y,player){
 };
 
 /**
- *
+ * Get the dimensions of the board according to the given a state.
+ * @param state {array[array]} - state 
  */
 BoardState.getDimensionsFromState= function(state){
     var x = state.length;
@@ -62,10 +67,18 @@ BoardState.getDimensionsFromState= function(state){
     return new Vector(x,0,y);
 };
 
+
+/** 
+ * Get the differences between the state of two boards.
+ * @param oldBoard {BoardState} - oldBoard.
+ * @param newBoard {BoardState} - newBoard.
+ * @return {array} - differences. Each element of the array is a difference. Each difference has the 3 elements. x - x coordinate on the board. y - y coordinate on the board. cell - new state of the position. 
+ * The cell element is an array[2]. The cell first element designates the position of the piece (1 - piece is normal, 2- the piece is inverted, 0- not designated). The second element is the player that has a piece in that position or 0 if the position is empty.  
+ */
 BoardState.boardDifferences= function(oldBoard, newBoard){
     if(oldBoard.dimensions.x != newBoard.dimensions.x || oldBoard.dimensions.z != newBoard.dimensions.z){
         console.error("Comparison between boards with different dimensions is not possible");
-        return;
+        return false;
     }
 
     var differences=[];
@@ -90,7 +103,9 @@ BoardState.boardDifferences= function(oldBoard, newBoard){
 }
 
 /**
- * Transform the response receive from the prolog server into an array
+ * Transform the response received from the prolog server into an array
+ * @param response {string} - response.
+ * @return {array} - state.
  */
 BoardState.getStateFromResponse= function(response){
     var jsonResponse = response.replace(/\|/g,",");
@@ -100,6 +115,7 @@ BoardState.getStateFromResponse= function(response){
 
 /**
  * Get the JSON string of the current state to send to the prolog server 
+ * @return {string} - board.
  */
 BoardState.prototype.getJSONString= function(){
     var string = JSON.stringify(this.board);
