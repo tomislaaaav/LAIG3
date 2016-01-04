@@ -60,31 +60,6 @@
 	        <amplif_factor s="1" t="1" />
 	    </TEXTURE>
 
-	    <TEXTURE id="wallpaper">
-	        <file path="textures/desktop_wallpaper.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="keyboard">
-	        <file path="textures/keyboard.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="mouse">
-	        <file path="textures/mouse.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="front_tower">
-	        <file path="textures/tower_front.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="left_tower">
-	        <file path="textures/side_tower.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
 	    <TEXTURE id="chao">
 	        <file path="textures/floor_v2.jpg" />
 	        <amplif_factor s="1" t="1" />
@@ -92,16 +67,6 @@
 
 	    <TEXTURE id="front_wall">
 	        <file path="textures/wall_v2.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="back_tower">
-	        <file path="textures/tower_back.jpg" />
-	        <amplif_factor s="1" t="1" />
-	    </TEXTURE>
-
-	    <TEXTURE id="upper_tower">
-	        <file path="textures/tower_up.jpg" />
 	        <amplif_factor s="1" t="1" />
 	    </TEXTURE>
 
@@ -243,10 +208,10 @@
 
 	<NODES>
 
-	    <ROOT id="gaming_room_2" />     <!-- identifier of root node of the scene graph; this node     -->
+	    <ROOT id="gaming_room_1" />     <!-- identifier of root node of the scene graph; this node     -->
 	                         <!--   must be defined in one of the following NODE declarations -->
 
-	    <NODE id="gaming_room_2">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    <NODE id="gaming_room_1">       <!--   defines one intermediate node; may be repeated as necessary -->
 
 	        <!-- next two lines are mandatory -->
 	        <MATERIAL id="default" />      <!-- declared material superimposes the material received from parent node -->
@@ -260,9 +225,8 @@
 
 	        <!-- declaring descendents, ate least one node or one leaf must be present -->
 	        <DESCENDANTS>
-	            <DESCENDANT id="mesa1" />       <!-- "ss" is the identifier of a node or of leaf; -->
-	                                         <!-- may be repeatad as necessary. It can refer an -->
-	                                         <!-- identifier of another node or leaf, later defined in the lsx file. -->
+	            <DESCENDANT id="mesa1" />
+
 	            <DESCENDANT id="floor" />
 
 	            <DESCENDANT id="left wall" />
@@ -668,7 +632,7 @@
 	    	<!-- next two lines are mandatory -->
 	        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
 	                                  <!-- id="null" maintains material from parent node        -->
-	        <TEXTURE id="mouse" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -696,7 +660,7 @@
 	        <!-- next two lines are mandatory -->
 	        <MATERIAL id="default" />      <!-- declared material superimposes the material received from parent node -->
 	                                  <!-- id="null" maintains material from parent node        -->
-	        <TEXTURE id="front_tower" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -719,7 +683,7 @@
 	        <!-- next two lines are mandatory -->
 	        <MATERIAL id="default" />      <!-- declared material superimposes the material received from parent node -->
 	                                  <!-- id="null" maintains material from parent node        -->
-	        <TEXTURE id="back_tower" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -765,7 +729,7 @@
 	        <!-- next two lines are mandatory -->
 	        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
 	                                  <!-- id="null" maintains material from parent node        -->
-	        <TEXTURE id="left_tower" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -813,7 +777,7 @@
 	        <!-- next two lines are mandatory -->
 	        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
 	                                  <!-- id="null" maintains material from parent node        -->
-	        <TEXTURE id="upper_tower" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
 	                                  <!-- id="null" maintains texture from parent node       -->
 	                                  <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -1224,6 +1188,8 @@
 	    	</DESCENDANTS>
 
 	    </NODE>
+
+			<!-- NOVO -->
 
 
 	</NODES>
